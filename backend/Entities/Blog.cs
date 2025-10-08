@@ -1,9 +1,16 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace backend.Entities;
 
 public class Blog
 {
+    [Key]
     public int Id { get; set; }
+
+    [Required]
     public required string Title { get; set; }
+
+    [Required]
     public required string Content { get; set; }
     public int? MediaId { get; set; }
     public DateTime DatePosted { get; set; }
