@@ -45,5 +45,3 @@ START PLAN:
 
 TO BE DONE:
  - EMAIL VERIFICATION FOR ADMIN ACCOUNT (to be sent an email and also verifiy the format of email)
- - PASSWORD HASHING ADMIN
- - LOG IN/LOG OUT ADMIN
