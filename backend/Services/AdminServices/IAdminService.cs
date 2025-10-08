@@ -1,4 +1,5 @@
 using backend.DTOs;
+using backend.DTOs.AdminDtos;
 
 namespace backend.Services.AdminServices;
 
@@ -7,7 +8,7 @@ public interface IAdminService
     //ADMIN - CRUD template
 
     //Create admin
-    ReadAdminDto CreateAdmin(CreateAdminDto dto);
+    CreateAdminResult CreateAdmin(CreateAdminDto dto);
 
     //Read admin/s 
     ReadAdminDto? ReadAdmin(int id);

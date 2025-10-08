@@ -37,7 +37,13 @@
 
 START PLAN:
 - ADMIN:
+    - CRUD admins
     - CRUD blogs
     - CRUD EVENTS
     - Read available data about users enrolled in the workshop, and events
-    - CRUD admins
+    
+
+TO BE DONE:
+ - EMAIL VERIFICATION FOR ADMIN ACCOUNT (to be sent an email and also verifiy the format of email)
+ - PASSWORD HASHING ADMIN
+ - LOG IN/LOG OUT ADMIN

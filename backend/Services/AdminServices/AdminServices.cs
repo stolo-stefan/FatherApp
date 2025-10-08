@@ -13,17 +13,27 @@ public class AdminServices : IAdminService
     public AdminServices(EntityContext db) => dbContext = db;
 
     //Create admin
-    public ReadAdminDto? CreateAdmin(CreateAdminDto dto)
+    public CreateAdminResult CreateAdmin(CreateAdminDto dto)
     {
         var newUser = AdminConverters.CreateDtoToUserEntity(dto, dbContext);
         if (newUser == null)
-            return null;
+            return new CreateAdminResult(
+                false,
+                "Admin with same email already exists",
+                null
+            );
+
         newUser.Role = "admin";
+        newUser.AdminPassword = BCrypt.Net.BCrypt.HashPassword(dto.AdminPassword);
 
         dbContext.Users.Add(newUser);
         dbContext.SaveChanges();
 
-        return AdminConverters.EntityToReadDto(newUser);
+        return new CreateAdminResult(
+            true,
+            "Created successfully",
+            newUser
+        );
     }
 
     //Read admin/s

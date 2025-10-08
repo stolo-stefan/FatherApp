@@ -16,9 +16,9 @@ public class User
     [MaxLength(255)]
     public string Email { get; set; } = null!;
 
-    public string FirstName { get; set; } = "";
+    public string? FirstName { get; set; }
 
-    public string LastName { get; set; } = "";
+    public string? LastName { get; set; }
 
     [MinLength(8)]
     public string? AdminPassword { get; set; }
