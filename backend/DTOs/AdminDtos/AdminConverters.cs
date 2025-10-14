@@ -6,7 +6,7 @@ namespace backend.DTOs.AdminDtos;
 
 public class AdminConverters
 {
-    public static User CreateDtoToUserEntity(CreateAdminDto dto, EntityContext dbContext)
+    public static User? CreateDtoToUserEntity(CreateAdminDto dto, EntityContext dbContext)
     {
         var normalized = dto.Email.Trim().ToLowerInvariant();
         var exists = dbContext.Users.AsNoTracking()

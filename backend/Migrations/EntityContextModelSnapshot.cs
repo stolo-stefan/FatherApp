@@ -40,9 +40,6 @@ namespace backend.Migrations
                     b.Property<bool>("IsVisible")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("MediaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -78,6 +75,44 @@ namespace backend.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("backend.Entities.Media", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OriginalFileName")
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("SizeBytes")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StorageProvider")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("Medias");
+                });
+
             modelBuilder.Entity("backend.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -98,14 +133,12 @@ namespace backend.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsNewsLetterSub")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Role")
@@ -115,6 +148,22 @@ namespace backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("backend.Entities.Media", b =>
+                {
+                    b.HasOne("backend.Entities.Blog", "Blog")
+                        .WithMany("Media")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+                });
+
+            modelBuilder.Entity("backend.Entities.Blog", b =>
+                {
+                    b.Navigation("Media");
                 });
 #pragma warning restore 612, 618
         }
