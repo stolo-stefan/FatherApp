@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services.AdminServices;
 
-public class AdminServices : IAdminService
+public class AdminService : IAdminService
 {
 
     private readonly EntityContext dbContext;
-    public AdminServices(EntityContext db) => dbContext = db;
+    public AdminService(EntityContext db) => dbContext = db;
 
     //Create admin
     public CreateAdminResult CreateAdmin(CreateAdminDto dto)
