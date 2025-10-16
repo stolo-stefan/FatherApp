@@ -2,6 +2,7 @@ using System;
 using backend.Services.AdminServices;
 using backend.Services.BlogServices;
 using backend.Services.MediaServices;
+using backend.Services.NormalUserServices;
 using backend.Services.StorageServices;
 using Microsoft.AspNetCore.Http.Features;
 
@@ -29,6 +30,7 @@ public static class AppServiceExtensions
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IBlogService, BlogService>();
         services.AddScoped<IMediaService, MediaService>();
+        services.AddScoped<INormalUserService, NormalUserService>();
 
         return services;
     }

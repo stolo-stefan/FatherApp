@@ -11,7 +11,7 @@ public static class AdminEndpoints
         var adminGroup = app.MapGroup("/api/admin").WithTags("Admin").RequireAuthorization("AdminOnly");
 
         //Create admin
-        adminGroup.MapPost("/create", (CreateAdminDto dto, IAdminService service) =>
+        adminGroup.MapPost("/create", async (CreateAdminDto dto, IAdminService service) =>
         {
             if (string.IsNullOrWhiteSpace(dto.Email))
                 return Results.BadRequest(
@@ -41,8 +41,9 @@ public static class AdminEndpoints
                         message = "AdminPassword is required."
                     }
                 );
-            var created = service.CreateAdmin(dto);
-            
+
+            var created = await service.CreateAdminAsync(dto);
+
             if (created.Entity is null)
                 return Results.Conflict(
                     new
@@ -50,15 +51,16 @@ public static class AdminEndpoints
                         message = created.Message
                     }
                 );
+
             var readAdminDto = AdminConverters.EntityToReadDto(created.Entity);
 
             return Results.Created($"/api/admin/read/{created.Entity.Id}", readAdminDto);
         });
 
         //Read admin/s
-        adminGroup.MapGet("/read/{id:int}", (int id, IAdminService service) =>
+        adminGroup.MapGet("/read/{id:int}", async (int id, IAdminService service) =>
         {
-            var adminDto = service.ReadAdmin(id);
+            var adminDto = await service.ReadAdminAsync(id);
             if (adminDto is null)
                 return Results.NotFound(
                     new
@@ -68,18 +70,18 @@ public static class AdminEndpoints
                 );
             return Results.Ok(adminDto);
         });
-        adminGroup.MapGet("/read", (IAdminService service) =>
+        adminGroup.MapGet("/read", async (IAdminService service) =>
         {
-            List<ReadAdminDto> admins = service.ReadAdmins();
+            var admins = await service.ReadAdminsAsync();
             if (admins.Count == 0)
                 return Results.NoContent();
             return Results.Ok(admins);
         });
 
         //Update admin email and names
-        adminGroup.MapPut("/update/{id:int}", (int id, UpdateAdminDto dto, IAdminService service) =>
+        adminGroup.MapPut("/update/{id:int}", async (int id, UpdateAdminDto dto, IAdminService service) =>
         {
-            if (service.UpdateAdmin(id, dto) == false)
+            if (await service.UpdateAdminAsync(id, dto) == false)
                 return Results.NotFound(
                     new
                     {
@@ -90,9 +92,9 @@ public static class AdminEndpoints
         });
 
         //Delete admin
-        adminGroup.MapDelete("/delete/{id:int}", (int id, IAdminService service) =>
+        adminGroup.MapDelete("/delete/{id:int}", async (int id, IAdminService service) =>
         {
-            var ok = service.DeleteAdmin(id);
+            var ok = await service.DeleteAdminAsync(id);
             return ok ? Results.NoContent() : Results.NotFound(new { message = "Invalid id or already deleted." });
         });
 

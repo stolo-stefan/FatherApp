@@ -13,9 +13,9 @@ public class AdminService : IAdminService
     public AdminService(EntityContext db) => dbContext = db;
 
     //Create admin
-    public CreateAdminResult CreateAdmin(CreateAdminDto dto)
+    public async Task<CreateAdminResult> CreateAdminAsync(CreateAdminDto dto)
     {
-        var newUser = AdminConverters.CreateDtoToUserEntity(dto, dbContext);
+        var newUser = await AdminConverters.CreateDtoToUserEntityAsync(dto, dbContext);
         if (newUser == null)
             return new CreateAdminResult(
                 false,
@@ -26,8 +26,8 @@ public class AdminService : IAdminService
         newUser.Role = "admin";
         newUser.AdminPassword = BCrypt.Net.BCrypt.HashPassword(dto.AdminPassword);
 
-        dbContext.Users.Add(newUser);
-        dbContext.SaveChanges();
+        await dbContext.Users.AddAsync(newUser);
+        await dbContext.SaveChangesAsync();
 
         return new CreateAdminResult(
             true,
@@ -37,26 +37,29 @@ public class AdminService : IAdminService
     }
 
     //Read admin/s
-    public ReadAdminDto? ReadAdmin(int id)
+    public async Task<ReadAdminDto?> ReadAdminAsync(int id)
     {
-        var foundUser = dbContext.Users.AsNoTracking().FirstOrDefault(u => u.Id == id && u.Role == "admin");
+        var foundUser = await dbContext.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == id && u.Role == "admin");
 
         return foundUser is null ? null : AdminConverters.EntityToReadDto(foundUser);
     }
-    public List<ReadAdminDto> ReadAdmins()
+    public async Task<List<ReadAdminDto>> ReadAdminsAsync()
     {
-        return dbContext.Users
-        .AsNoTracking()
-        .Where(u => u.Role == "admin")
-        .Select(u => AdminConverters.EntityToReadDto(u))
-        .ToList();
+        return await dbContext.Users
+            .AsNoTracking()
+            .Where(u => u.Role == "admin")
+            .Select(u => AdminConverters.EntityToReadDto(u))
+            .ToListAsync();
     }
 
     //Update admin
-    public bool UpdateAdmin(int id, UpdateAdminDto dto)
+    public async Task<bool> UpdateAdminAsync(int id, UpdateAdminDto dto)
     {
-        var foundAdmin = dbContext.Users.Find(id);
-        if (foundAdmin is null || !IsAdmin(foundAdmin)) return false;
+        var foundAdmin = await dbContext.Users.FindAsync(id);
+        if (foundAdmin is null || !IsAdmin(foundAdmin))
+            return false;
 
         if (!string.IsNullOrWhiteSpace(dto.Email))
             foundAdmin.Email = dto.Email;
@@ -65,8 +68,7 @@ public class AdminService : IAdminService
         if (!string.IsNullOrWhiteSpace(dto.LastName))
             foundAdmin.LastName = dto.LastName;
 
-        dbContext.SaveChanges();
-
+        await dbContext.SaveChangesAsync();
         return true;
     }
     // public bool UpdateAdminPassword(int id, UpdateAdminPasswordDto dto)
@@ -84,14 +86,14 @@ public class AdminService : IAdminService
     // }
 
     //Delete admin
-    public bool DeleteAdmin(int id)
+    public async Task<bool> DeleteAdminAsync(int id)
     {
-        var foundAdmin = dbContext.Users.Find(id);
-        if (foundAdmin is null || !IsAdmin(foundAdmin)) return false;
+        var foundAdmin = await dbContext.Users.FindAsync(id);
+        if (foundAdmin is null || !IsAdmin(foundAdmin))
+            return false;
 
         dbContext.Users.Remove(foundAdmin);
-        dbContext.SaveChanges();
-
+        await dbContext.SaveChangesAsync();
         return true;
     }
     
