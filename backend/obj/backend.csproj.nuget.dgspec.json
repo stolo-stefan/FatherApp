@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\STOLO\\Desktop\\c#\\fatherApp\\FatherApp\\backend\\backend.csproj": {}
+    "C:\\Users\\STOLO\\Desktop\\cShart\\fatherApp\\FatherApp\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\STOLO\\Desktop\\c#\\fatherApp\\FatherApp\\backend\\backend.csproj": {
+    "C:\\Users\\STOLO\\Desktop\\cShart\\fatherApp\\FatherApp\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\STOLO\\Desktop\\c#\\fatherApp\\FatherApp\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\STOLO\\Desktop\\cShart\\fatherApp\\FatherApp\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\STOLO\\Desktop\\c#\\fatherApp\\FatherApp\\backend\\backend.csproj",
+        "projectPath": "C:\\Users\\STOLO\\Desktop\\cShart\\fatherApp\\FatherApp\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\STOLO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\STOLO\\Desktop\\c#\\fatherApp\\FatherApp\\backend\\obj\\",
+        "outputPath": "C:\\Users\\STOLO\\Desktop\\cShart\\fatherApp\\FatherApp\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
