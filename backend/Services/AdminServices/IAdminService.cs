@@ -8,16 +8,16 @@ public interface IAdminService
     //ADMIN - CRUD template
 
     //Create admin
-    CreateAdminResult CreateAdmin(CreateAdminDto dto);
+    Task<CreateAdminResult> CreateAdminAsync(CreateAdminDto dto);
 
     //Read admin/s 
-    ReadAdminDto? ReadAdmin(int id);
-    List<ReadAdminDto> ReadAdmins();
+    Task<ReadAdminDto?> ReadAdminAsync(int id);
+    Task<List<ReadAdminDto>> ReadAdminsAsync();
 
     //Update admin
-    bool UpdateAdmin(int id, UpdateAdminDto dto);
+    Task<bool> UpdateAdminAsync(int id, UpdateAdminDto dto);
     //bool UpdateAdminPassword(int id, UpdateAdminPasswordDto dto);
 
     //Delete admin
-    bool DeleteAdmin(int id);
+    Task<bool> DeleteAdminAsync(int id);
 }

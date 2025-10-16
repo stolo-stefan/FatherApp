@@ -37,11 +37,23 @@
 
 START PLAN:
 - ADMIN:
-    - CRUD admins
-    - CRUD blogs
+    - CRUD admins xxx
+    - CRUD blogs xxx
     - CRUD EVENTS
     - Read available data about users enrolled in the workshop, and events
     
 
 TO BE DONE:
  - EMAIL VERIFICATION FOR ADMIN ACCOUNT (to be sent an email and also verifiy the format of email)
+ - (DONE) Storage => upload, view, delete items in storage
+ - Storage va fi pe un local volume pe railway iar in mysql doar avem linkuri catre locurile in fisiere pentru media
+ 
+ - Useri vor completa un form
+ - normal user endpoints: sign up for newsletter with email
+ - Pe baza formului (
+    USER-INFO
+    email, 
+    nume, 
+    prenume
+    ++++
+    Chestionar-INFO) => vor primi un email (SendGrid + IHostedService)

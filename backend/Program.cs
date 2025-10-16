@@ -29,5 +29,6 @@ app.MapAdminEndPoints();
 app.MapAdminAuthEndpoints();
 app.MapBlogEndpoints();
 app.MapMediaEndpoints();
+app.MapNormalUserEndPoints();
 
 app.Run();
