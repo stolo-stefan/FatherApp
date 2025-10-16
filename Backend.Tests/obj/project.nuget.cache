@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xxWnS17kHCM=",
+  "dgSpecHash": "FidXVYpNCEY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\STOLO\\Desktop\\c#\\fatherApp\\FatherApp\\Backend.Tests\\Backend.Tests.csproj",
+  "projectFilePath": "C:\\Users\\STOLO\\Desktop\\cShart\\fatherApp\\FatherApp\\Backend.Tests\\Backend.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\STOLO\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\STOLO\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
