@@ -6,16 +6,17 @@ public interface IBlogService
 {
     //CRUD
     //Create blog
-    CreateBlogResult CreateBlog(CreateBlogDto dto);
+    Task<CreateBlogResult> CreateBlog(CreateBlogDto dto);
 
     //Read blog/s
-    ReadDetailedBlogDto? ReadBlog(int id);
-    List<ReadSummaryBlogDto> ReadVisibleBlogs();
-    List<ReadSummaryBlogDto> ReadAllBlogs();
+    Task<BlogDetailDto?> ReadDetailedBlog(int id);
+    Task<ReadSummaryBlogDto?> ReadSummaryBlog(int id);
+    Task<List<ReadSummaryBlogDto>> ReadVisibleBlogs();
+    Task<List<ReadSummaryBlogDto>> ReadAllBlogs();
 
     //Update blog
-    bool UpdateBlog(int id, UpdateBlogDto dto);
+    Task<bool> UpdateBlog(int id, UpdateBlogDto dto);
 
     //Delete blog
-    bool DeleteBlog(int id);
+    Task<bool> DeleteBlog(int id);
 }

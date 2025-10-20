@@ -1,5 +1,6 @@
 using backend.Data;
 using backend.DTOs.BlogDtos;
+using backend.DTOs.MediaDtos;
 using backend.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,20 +14,20 @@ public class BlogService : IBlogService
     {
         _db = db;
     }
-    public CreateBlogResult CreateBlog(CreateBlogDto dto)
+    public async Task<CreateBlogResult> CreateBlog(CreateBlogDto dto)
     {
         try
         {
 
             Blog? blog = BlogConverter.CreateDtoToBlogEntity(dto);
             if (blog == null)
-                return new CreateBlogResult(false, "Title and content fields are mandatory", null);
+                return new CreateBlogResult(false, "Title, content and summary fields are mandatory", null);
             
             // IMPORTANT: Media should be uploaded via /media endpoints after blog exists.
             // Ignore dto.Media here to keep transactions clean.
 
-            _db.Blogs.Add(blog);
-            _db.SaveChanges();
+            await _db.Blogs.AddAsync(blog);
+            await _db.SaveChangesAsync();
 
             return new CreateBlogResult(true, "Blog created.", blog);
         }
@@ -36,50 +37,72 @@ public class BlogService : IBlogService
         }
     }
 
-    public bool DeleteBlog(int id)
+    public async Task<bool> DeleteBlog(int id)
     {
-        var blog = _db.Blogs.Find(id);
+        var blog = await _db.Blogs.FindAsync(id);
         if (blog is null) return false;
 
         _db.Blogs.Remove(blog); // Cascade to Media (per model config)
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         return true;
     }
 
-    public ReadDetailedBlogDto? ReadBlog(int id)
+    public async Task<BlogDetailDto?> ReadDetailedBlog(int id)
     {
-        var blog = _db.Blogs.Include(b => b.Media).FirstOrDefault(b => b.Id == id);
-        if (blog is null) return null;
+        var blog = await _db.Blogs
+            .AsNoTracking()
+            .Include(b => b.Media)
+            .FirstOrDefaultAsync(b => b.Id == id);
 
-        return new ReadDetailedBlogDto(
-            blog.Id,
-            blog.Title,
-            blog.Content,
-            blog.Media,
-            blog.DatePosted
-        );
+        return blog is null ? null
+            : new BlogDetailDto(
+                blog.Id,
+                blog.Title,
+                blog.Content,
+                blog.DatePosted,
+                blog.IsVisible,
+                blog.Media.Select(m => new MediaDto(m.Id, m.Url, m.Kind)).ToList()
+            );
     }
 
-    public List<ReadSummaryBlogDto> ReadVisibleBlogs()
+    public async Task<ReadSummaryBlogDto?> ReadSummaryBlog(int id)
     {
-        return _db.Blogs
+        var blog = await _db.Blogs
+            .AsNoTracking()
+            .Include(b => b.Media)
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+        return blog is null ? null
+            : new ReadSummaryBlogDto(
+                blog.Id,
+                blog.Title,
+                blog.Content,
+                blog.DatePosted,
+                blog.Summary,
+                blog.IsVisible
+            );
+    }
+
+    public async Task<List<ReadSummaryBlogDto>> ReadVisibleBlogs()
+    {
+        return await _db.Blogs
             .Where(b => b.IsVisible)
             .OrderByDescending(b => b.DatePosted)
-            .Select(b => new ReadSummaryBlogDto(b.Id, b.Title, b.Content))
-            .ToList();
+            .Select(b => new ReadSummaryBlogDto(b.Id, b.Title, b.Content, b.DatePosted, b.Summary, b.IsVisible))
+            .ToListAsync();
     }
 
-    public List<ReadSummaryBlogDto> ReadAllBlogs()
+    public async Task<List<ReadSummaryBlogDto>> ReadAllBlogs()
     {
-        return _db.Blogs
+        return await _db.Blogs
             .OrderByDescending(b => b.DatePosted)
-            .Select(b => new ReadSummaryBlogDto(b.Id, b.Title, b.Content))
-            .ToList();
+            .Select(b => new ReadSummaryBlogDto(b.Id, b.Title, b.Content, b.DatePosted, b.Summary, b.IsVisible))
+            .ToListAsync();
     }
 
-    public bool UpdateBlog(int id, UpdateBlogDto dto)
+    public async Task<bool> UpdateBlog(int id, UpdateBlogDto dto)
     {
-        var blog = _db.Blogs.Find(id);
+        var blog = await _db.Blogs.FindAsync(id);
         if (blog is null) return false;
 
         if (dto.Title is not null)
@@ -88,10 +111,13 @@ public class BlogService : IBlogService
         if (dto.Content is not null)
             blog.Content = dto.Content;
 
+        if (dto.Summary is not null)
+            blog.Summary = dto.Summary;
+
         if (dto.IsVisible.HasValue)
             blog.IsVisible = dto.IsVisible.Value;
 
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         return true;
     }
 }
