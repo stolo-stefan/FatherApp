@@ -126,6 +126,21 @@ body {
 }
 
 :root {
+  /* === Aspiring Managers Custom Colors === */
+
+  /* Brand / Theme Core */
+  --am-primary-teal: #2B6A70;          /* Primary teal – used for CTAs, buttons */
+  --am-accent-green: #89b80a;          /* Accent lime green – highlight color */
+  --am-text-dark: #2A3A4E;             /* Main heading / text color */
+  --am-bg-light: #F9F9F6;              /* Page background */
+  --am-gray-light: #E6E6E6;            /* Light gray for cards, sections */
+  --am-navbar-dark: #333333;           /* Navbar / sidebar background */
+  --am-border-gray: #DADADA;           /* Borders and dividers */
+
+  /* Utility aliases for convenience */
+  --am-text-muted: #555555;
+  --am-white: #FFFFFF;
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

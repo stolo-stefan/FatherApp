@@ -40,6 +40,10 @@ namespace backend.Migrations
                     b.Property<bool>("IsVisible")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext");

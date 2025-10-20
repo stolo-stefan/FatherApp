@@ -16,6 +16,7 @@ public class BlogConverter
         {
             Title = dto.Title,
             Content = dto.Content,
+            Summary = dto.Summary,
             DatePosted = DateTime.UtcNow,
             IsVisible = false
         };

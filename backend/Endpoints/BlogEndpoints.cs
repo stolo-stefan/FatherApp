@@ -8,49 +8,55 @@ public static class BlogEndpoints
 {
     public static RouteGroupBuilder MapBlogEndpoints(this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("/api/blogs");
+        var group = routes.MapGroup("/api/blogs").RequireAuthorization("AdminOnly");
 
         // Create blog
-        group.MapPost("/", (IBlogService svc, CreateBlogDto dto) =>
+        group.MapPost("/", async (IBlogService svc, CreateBlogDto dto) =>
         {
-            var res = svc.CreateBlog(dto);
+            var res = await svc.CreateBlog(dto);
             return res.Success
                 ? Results.Created($"/blogs/{res.Entity!.Id}", res.Entity)
                 : Results.BadRequest(res.Message);
         });
 
         // Get one (detailed, includes Media)
-        group.MapGet("/{id:int}", (IBlogService svc, int id) =>
+        group.MapGet("/detailed/{id:int}", async (IBlogService svc, int id) =>
         {
-            var blog = svc.ReadBlog(id);
-            return blog is null ? Results.NotFound() : Results.Ok(blog);
+            var dto = await svc.ReadDetailedBlog(id);
+            return dto is null ? Results.NotFound() : Results.Ok(dto);
+        });
+
+        group.MapGet("/summary/{id:int}", async (IBlogService svc, int id) =>
+        {
+            var dto = await svc.ReadSummaryBlog(id);
+            return dto is null ? Results.NotFound() : Results.Ok(dto);
         });
 
         // List visible blogs (summaries)
-        group.MapGet("/visible", (IBlogService svc) =>
+        group.MapGet("/visible", async (IBlogService svc) =>
         {
-            var list = svc.ReadVisibleBlogs();
+            var list = await svc.ReadVisibleBlogs();
             return Results.Ok(list);
         });
 
         // List non-visible blogs (summaries)
-        group.MapGet("/non-visible", (IBlogService svc) =>
+        group.MapGet("/all", async (IBlogService svc) =>
         {
-            var list = svc.ReadAllBlogs();
+            var list = await svc.ReadAllBlogs();
             return Results.Ok(list);
         });
 
         // Update blog (supports nullable fields for partial updates)
-        group.MapPut("/{id:int}", (IBlogService svc, int id, UpdateBlogDto dto) =>
+        group.MapPut("/{id:int}", async (IBlogService svc, int id, UpdateBlogDto dto) =>
         {
-            var ok = svc.UpdateBlog(id, dto);
+            var ok = await svc.UpdateBlog(id, dto);
             return ok ? Results.Ok("Updated.") : Results.NotFound();
         });
 
         // Delete blog (cascade deletes Media)
-        group.MapDelete("/{id:int}", (IBlogService svc, int id) =>
+        group.MapDelete("/{id:int}", async (IBlogService svc, int id) =>
         {
-            var ok = svc.DeleteBlog(id);
+            var ok = await svc.DeleteBlog(id);
             return ok ? Results.NoContent() : Results.NotFound();
         });
 

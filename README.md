@@ -57,3 +57,9 @@ TO BE DONE:
     prenume
     ++++
     Chestionar-INFO) => vor primi un email (SendGrid + IHostedService)
+
+ - CRUD EVENTS
+
+ 8) Deployment tip (SPA routes)
+
+    If deploying to Vercel/Netlify, configure a rewrite so refreshing /admin serves index.html (or set “SPA mode” in host).
