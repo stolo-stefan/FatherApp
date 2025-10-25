@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getBlogDetailed, setBlogNonVisible, setBlogVisible, type BlogDetailDto } from "@/services/blog";
+import { getBlogDetailed, setBlogVisible, type BlogDetailDto } from "@/services/blog";//setBlogNonVisible
 import { mediaUrl } from "@/lib/url";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 
@@ -39,17 +39,17 @@ export default function AdminBlogPreviewPage() {
     return () => { alive = false; };
   }, [blogId]);
 
-  async function saveInvisible() {
-    try {
-      setSaving("invisible");
-      await setBlogNonVisible(blogId);
-      navigate("/admin/blogs");
-    } catch {
-      setErr("Failed to save as invisible.");
-    } finally {
-      setSaving(null);
-    }
-  }
+  // async function saveInvisible() {
+  //   try {
+  //     setSaving("invisible");
+  //     await setBlogNonVisible(blogId);
+  //     navigate("/admin/blogs");
+  //   } catch {
+  //     setErr("Failed to save as invisible.");
+  //   } finally {
+  //     setSaving(null);
+  //   }
+  // }
 
   async function saveAndPost() {
     try {

@@ -2,7 +2,7 @@ import SiteHeader from "@/components/layout/SiteHeader"
 import SiteFooter from "@/components/layout/SiteFooter"
 import Hero from "@/components/home/Hero"
 import KpiCards from "@/components/home/KpiCards"
-import FeaturedWorkshops from "@/components/home/FeaturedWorkshops"
+//import FeaturedWorkshops from "@/components/home/FeaturedWorkshops"
 import BlogTeasers from "@/components/home/BlogTeasers"
 import NewsletterSection from "@/components/home/NewsLetterSection"
 
