@@ -120,4 +120,29 @@ public class BlogService : IBlogService
         await _db.SaveChangesAsync();
         return true;
     }
+
+    public async Task<(bool, bool)> UpdateBlogToVisible(int id)
+    {
+        var blog = await _db.Blogs.FindAsync(id);
+        if (blog is null) return (false, false);
+
+        if (blog.IsVisible) return (true, false);
+
+        blog.IsVisible = true;
+        await _db.SaveChangesAsync();
+        return (true, true);
+    }
+    
+    public async Task<(bool, bool)> UpdateBlogToNonVisible(int id)
+    {
+        var blog = await _db.Blogs.FindAsync(id);
+        if (blog is null) return (false, false);
+
+        if (!blog.IsVisible) return (true, false);
+
+        blog.IsVisible = false;
+        await _db.SaveChangesAsync();
+        return (true, true);
+    }
+
 }

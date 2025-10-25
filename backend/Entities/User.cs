@@ -27,4 +27,5 @@ public class User
 
     [Required]
     public bool IsNewsLetterSub { get; set; } = false;
+    public bool WelcomeEmailSent { get; set; }
 }

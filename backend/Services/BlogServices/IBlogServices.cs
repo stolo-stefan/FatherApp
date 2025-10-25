@@ -17,6 +17,10 @@ public interface IBlogService
     //Update blog
     Task<bool> UpdateBlog(int id, UpdateBlogDto dto);
 
+    //Set blog visibility
+    Task<(bool, bool)> UpdateBlogToVisible(int id);
+    Task<(bool, bool)> UpdateBlogToNonVisible(int id);
+
     //Delete blog
     Task<bool> DeleteBlog(int id);
 }

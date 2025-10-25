@@ -272,3 +272,6 @@ C:\Users\STOLO\Desktop\cShart\fatherApp\FatherApp\backend\obj\Debug\net9.0\refin
 C:\Users\STOLO\Desktop\cShart\fatherApp\FatherApp\backend\obj\Debug\net9.0\backend.pdb
 C:\Users\STOLO\Desktop\cShart\fatherApp\FatherApp\backend\obj\Debug\net9.0\backend.genruntimeconfig.cache
 C:\Users\STOLO\Desktop\cShart\fatherApp\FatherApp\backend\obj\Debug\net9.0\ref\backend.dll
+C:\Users\STOLO\Desktop\cShart\fatherApp\FatherApp\backend\bin\Debug\net9.0\BouncyCastle.Cryptography.dll
+C:\Users\STOLO\Desktop\cShart\fatherApp\FatherApp\backend\bin\Debug\net9.0\MailKit.dll
+C:\Users\STOLO\Desktop\cShart\fatherApp\FatherApp\backend\bin\Debug\net9.0\MimeKit.dll
