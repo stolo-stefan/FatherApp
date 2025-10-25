@@ -24,6 +24,22 @@ export default function AdminBlogsPage() {
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [visibility, setVisibility] = useState<VisibilityFilter>("all");
 
+  async function refresh() {
+    try {
+      setLoading(true);
+      const data = await listBlogs();
+      setBlogs(data);
+    } catch {
+      setError("Failed to load blogs.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
   useEffect(() => {
     (async () => {
       try {
@@ -183,12 +199,11 @@ export default function AdminBlogsPage() {
                         </td>
                         <td className="py-3 px-3">
                         <BlogActionsMenu
-                            onView={() => navigate(`/blogs/${b.id}`)}
+                            blogId={b.id}
+                            onView={() => navigate(`/admin/blogs/${b.id}/preview`)}
                             onEdit={() => navigate(`/admin/blogs/${b.id}/edit`)}
-                            onDelete={() => alert(`Delete blog #${b.id}`)}
-                            onSetVisibility={(visible) =>
-                            console.log(`Set blog ${b.id} visibility to`, visible)
-                            }
+                            onDelete={() => refresh()}
+                            onSetVisibility={() =>refresh()}
                         />
                         </td>
                     </tr>

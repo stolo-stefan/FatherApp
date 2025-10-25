@@ -17,9 +17,9 @@ export default function HomePage() {
         </section>
         <NewsletterSection />
         
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {/* <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <FeaturedWorkshops />
-        </section>
+        </section> */}
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <BlogTeasers />
         </section>

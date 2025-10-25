@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using backend.Data;
 using backend.DTOs.AuthDtos;
+using backend.Services.Email;
 using backend.Services.JwtTokenServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,8 @@ public static class ServiceCollectionExtensions_AuthAndDb
 
         // Token service
         services.AddSingleton<IJwtTokenService, JwtTokenService>();
+
+        
 
         return services;
     }

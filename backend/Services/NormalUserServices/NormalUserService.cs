@@ -1,5 +1,6 @@
 using System;
 using backend.Data;
+using backend.DTOs.BlogDtos;
 using backend.DTOs.NormalUserDtos;
 using backend.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,24 @@ public class NormalUserService : INormalUserService
 
         await dbContext.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<List<ReadSummaryBlogDto>> ReadBlogSummaries()
+    {
+        var blogs = await dbContext.Blogs
+        .Where(b => b.IsVisible)
+        .OrderByDescending(b => b.DatePosted)
+        .Select(b => new ReadSummaryBlogDto(
+            b.Id,
+            b.Title,
+            b.Content,
+            b.DatePosted,
+            b.Summary,
+            b.IsVisible
+        ))
+        .ToListAsync();
+
+        return blogs;
     }
 }
 

@@ -1,17 +1,22 @@
+import { deleteBlog, setBlogNonVisible, setBlogVisible } from "@/services/blog";
 import { useEffect, useRef, useState } from "react";
 
 interface BlogActionsMenuProps {
-  onView?: () => void;
-  onEdit?: () => void;
-  onDelete?: () => void;
-  onSetVisibility?: (visible: boolean) => void;
+    onView?: () => void;
+    onEdit?: () => void;
+    onDelete?: () => void;
+    onSetVisibility?: (visible: boolean) => void;
+    onVisibilityChange?: (visible: boolean) => void; 
+    blogId: number; 
 }
 
+
 export default function BlogActionsMenu({
+    blogId,
     onView,
     onEdit,
     onDelete,
-    onSetVisibility,
+    onVisibilityChange,
 }: BlogActionsMenuProps) {
     const [open, setOpen] = useState(false);
     const [subOpen, setSubOpen] = useState(false);
@@ -28,6 +33,36 @@ export default function BlogActionsMenu({
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+    
+    async function handleSetVisibility(visible: boolean) {
+        try {
+        if (visible) 
+            await setBlogVisible(blogId);
+        else 
+            await setBlogNonVisible(blogId);
+            onVisibilityChange?.(visible);
+        } catch (err) {
+            console.error("Failed to update visibility:", err);
+            alert("Failed to update visibility.");
+        } finally {
+            setOpen(false);
+            setSubOpen(false);
+        }
+    }
+    async function handleDelete() {
+        const confirmDelete = confirm("Are you sure you want to delete this blog?");
+        if (!confirmDelete) return;
+
+        try {
+            await deleteBlog(blogId);
+            onDelete?.(); // optional callback to refresh table
+        } catch (err) {
+            console.error("Failed to delete blog:", err);
+            alert("Failed to delete blog. It may not exist.");
+        } finally {
+            setOpen(false);
+        }
+    }
 
     return (
         <div ref={ref} className="relative inline-block text-left">
@@ -63,25 +98,21 @@ export default function BlogActionsMenu({
                         <li>
                         <button
                             onClick={() => {
-                            onSetVisibility?.(true);
-                            setOpen(false);
-                            setSubOpen(false);
+                                handleSetVisibility(true)
                             }}
                             className="block w-full text-left px-4 py-2 hover:bg-[var(--am-accent-green)] hover:text-[var(--am-white)]"
                         >
-                            Yes
+                            Visible
                         </button>
                         </li>
                         <li>
                         <button
                             onClick={() => {
-                            onSetVisibility?.(false);
-                            setOpen(false);
-                            setSubOpen(false);
+                                handleSetVisibility(false)
                             }}
                             className="block w-full text-left px-4 py-2 hover:bg-[var(--am-primary-teal)] hover:text-[var(--am-white)]"
                         >
-                            No
+                            Non-visible
                         </button>
                         </li>
                     </ul>
@@ -115,10 +146,7 @@ export default function BlogActionsMenu({
 
                 <li>
                 <button
-                    onClick={() => {
-                    onDelete?.();
-                    setOpen(false);
-                    }}
+                    onClick={() => handleDelete()}
                     className="block w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 transition"
                 >
                     Delete
