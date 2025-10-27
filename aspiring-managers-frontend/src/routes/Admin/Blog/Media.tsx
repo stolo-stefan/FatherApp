@@ -188,13 +188,13 @@ export default function AdminBlogMediaPage() {
                             {/* Media preview */}
                             {isImageKind(m.kind) || m.contentType?.startsWith("image/") ? (
                             <img
-                                src={mediaUrl(m.url)}
+                                src={mediaUrl(m.viewUrl)}
                                 alt={m.originalFileName ?? `Media ${m.id}`}
                                 className="block w-full h-auto max-h-[250px] object-contain bg-[var(--am-bg-light)]"
                             />
                             ) : isVideoKind(m.kind) || m.contentType?.startsWith("video/") ? (
                             <video
-                                src={mediaUrl(m.url)}
+                                src={mediaUrl(m.viewUrl)}
                                 className="block w-full h-auto max-h-[250px] object-contain bg-[var(--am-bg-light)]"
                                 controls
                             />

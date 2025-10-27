@@ -24,7 +24,7 @@ public static class AppServiceExtensions
         });
 
         // Storage: local volume on Railway
-        services.AddSingleton<IStorageServices, StorageService>();
+        //services.AddSingleton<IStorageServices, StorageService>();
 
         // Domain services
         services.AddScoped<IAdminService, AdminService>();

@@ -81,14 +81,14 @@ export default function BlogReadPage() {
                         >
                         {isVideo(m.kind) ? (
                             <video
-                            src={mediaUrl(m.url)}
+                            src={mediaUrl(m.viewUrl)}
                             className="block w-full aspect-video"
                             // keep controls off in the thumbnail so clicks open the zoom
                             muted
                             />
                         ) : (
                             <img
-                            src={mediaUrl(m.url)}
+                            src={mediaUrl(m.viewUrl)}
                             alt={blog.title}
                             className="block w-full h-auto"
                             loading="lazy"
@@ -104,14 +104,14 @@ export default function BlogReadPage() {
                         <div className="flex items-center justify-center max-h-[85vh]">
                         {isVideo(m.kind) ? (
                             <video
-                            src={mediaUrl(m.url)}
+                            src={mediaUrl(m.viewUrl)}
                             controls
                             autoPlay={false}
                             className="max-h-[85vh] w-auto rounded-lg shadow-lg"
                             />
                         ) : (
                             <img
-                            src={mediaUrl(m.url)}
+                            src={mediaUrl(m.viewUrl)}
                             alt={blog.title}
                             className="max-h-[85vh] w-auto rounded-lg shadow-lg cursor-zoom-out"
                             />

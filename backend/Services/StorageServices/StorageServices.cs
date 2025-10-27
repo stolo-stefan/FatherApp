@@ -2,7 +2,7 @@ using backend.DTOs.MediaDtos;
 
 namespace backend.Services.StorageServices;
 
-public class StorageService : IStorageServices
+public class StorageService// : IStorageServices
 {
     private readonly IWebHostEnvironment _env;
 
@@ -59,5 +59,26 @@ public class StorageService : IStorageServices
         // => /uploads/<folder>/<file>
         var relativeUrl = $"/uploads/{safeFolder}/{unique}".Replace("\\", "/");
         return relativeUrl;
+    }
+    public Task<int> DeletePrefixAsync(string folderPrefix, CancellationToken ct = default)
+    {
+        var webRoot = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+        // our local structure is wwwroot/uploads/<prefix>...
+        var safePrefix = folderPrefix.Replace("..", string.Empty)
+                                    .Trim().TrimStart('/').TrimEnd('/');
+        var dir = Path.Combine(webRoot, "uploads", safePrefix);
+
+        if (Directory.Exists(dir))
+        {
+            Directory.Delete(dir, recursive: true);
+            // we don't know exact file count without walking; returning -1 is fine
+            return Task.FromResult(-1);
+        }
+        return Task.FromResult(0);
+    }
+
+    public Uri GetReadUri(string path, TimeSpan? ttl = null)
+    {
+        throw new NotImplementedException();
     }
 }
