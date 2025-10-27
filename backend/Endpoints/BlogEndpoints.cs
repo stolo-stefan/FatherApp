@@ -5,12 +5,14 @@ using backend.DTOs.BlogDtos;
 using backend.Entities;
 using backend.Services.BlogServices;
 using backend.Services.Email;
+using backend.Services.StorageServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Endpoints;
 
 public static class BlogEndpoints
 {
+    //link d ela vercel env variable
     static string BuildNewPostHtml(Blog blog) => $@"
         <div style='font-family:sans-serif; line-height:1.5'>
         <h2>New blog: {WebUtility.HtmlEncode(blog.Title)}</h2>
@@ -110,9 +112,11 @@ public static class BlogEndpoints
         }).RequireAuthorization("AdminOnly");
 
         // Delete blog (cascade deletes Media)
-        group.MapDelete("/{id:int}", async (IBlogService svc, int id) =>
+        group.MapDelete("/{id:int}", async (IStorageServices storage, IBlogService svc, int id, CancellationToken ct) =>
         {
             var ok = await svc.DeleteBlog(id);
+            var prefix = $"blogs/{id}";
+            var removed = await storage.DeletePrefixAsync(prefix, ct);
             return ok ? Results.NoContent() : Results.NotFound();
         }).RequireAuthorization("AdminOnly");
 

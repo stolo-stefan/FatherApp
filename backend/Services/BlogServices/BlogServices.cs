@@ -2,6 +2,7 @@ using backend.Data;
 using backend.DTOs.BlogDtos;
 using backend.DTOs.MediaDtos;
 using backend.Entities;
+using backend.Services.StorageServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services.BlogServices;
@@ -9,10 +10,12 @@ namespace backend.Services.BlogServices;
 public class BlogService : IBlogService
 {
     private readonly EntityContext _db;
+    private readonly IStorageServices _storage;
 
-    public BlogService(EntityContext db)
+    public BlogService(EntityContext db, IStorageServices storage)
     {
         _db = db;
+        _storage = storage;
     }
     public async Task<CreateBlogResult> CreateBlog(CreateBlogDto dto)
     {
@@ -50,19 +53,29 @@ public class BlogService : IBlogService
     public async Task<BlogDetailDto?> ReadDetailedBlog(int id)
     {
         var blog = await _db.Blogs
-            .AsNoTracking()
-            .Include(b => b.Media)
-            .FirstOrDefaultAsync(b => b.Id == id);
+        .Include(b => b.Media)
+        .AsNoTracking()
+        .FirstOrDefaultAsync(b => b.Id == id);
 
-        return blog is null ? null
-            : new BlogDetailDto(
-                blog.Id,
-                blog.Title,
-                blog.Content,
-                blog.DatePosted,
-                blog.IsVisible,
-                blog.Media.Select(m => new MediaDto(m.Id, m.Url, m.Kind)).ToList()
-            );
+        if (blog is null) return null;
+
+        var mediaDtos = blog.Media
+            .OrderBy(m => m.Id)
+            .Select(m => new ReadMediaDto(
+                m.Id,
+                m.Url,                         // path stored in DB
+                m.Kind,
+                _storage.GetReadUri(m.Url).ToString(), // SAS for browser
+                m.OriginalFileName,
+                m.ContentType,
+                m.SizeBytes
+            ))
+            .ToList();
+
+        return new BlogDetailDto(
+            blog.Id, blog.Title, blog.Content,
+            blog.DatePosted, blog.IsVisible, mediaDtos
+        );
     }
 
     public async Task<ReadSummaryBlogDto?> ReadSummaryBlog(int id)

@@ -2,10 +2,13 @@ using backend.Endpoints;
 using backend.Services;
 using backend.Services.Email;
 using backend.Services.Infrastructure;
+using backend.Services.StorageServices;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Infra: DB + JWT + auth policies
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -57,10 +60,20 @@ builder.Services.AddCors(opt =>
     );
 });
 
+var blobConn   = builder.Configuration.GetConnectionString("AzureBlob") ?? throw new InvalidOperationException("ConnectionStrings:AzureBlob is missing.");
+var container  = builder.Configuration.GetValue<string>("Storage:Container") ?? "media";
+var useSas     = builder.Configuration.GetValue<bool>("Storage:UseSasLinks", true);
+var sasHours   = builder.Configuration.GetValue<int?>("Storage:SasTtlHours") ?? 6;
+
+builder.Services.AddSingleton<IStorageServices>(
+    _ => new AzureBlobStorageServices(blobConn, container, useSasLinks: useSas, sasTtl: TimeSpan.FromHours(sasHours))
+);
+
 var app = builder.Build();
 
-var smtp = app.Services.GetRequiredService<IOptions<SmtpSettings>>().Value;
-Console.WriteLine($"[SMTP] Host={smtp.Host} Port={smtp.Port} UseSsl={smtp.UseSsl} From={smtp.FromEmail} Username={smtp.Username} PwdLen={smtp.Password?.Length ?? 0}");
+var storage = app.Services.GetRequiredService<IStorageServices>();
+Console.WriteLine($"[Storage DI] Using: {storage.GetType().FullName}");
+
 
 
 app.UseHttpLogging();

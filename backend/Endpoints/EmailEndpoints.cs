@@ -13,7 +13,7 @@ public static class EmailEndpoints
             NewsLetterSignUpDto dto,
             EntityContext db,
             IEmailSender email,
-        CancellationToken ct) =>
+            CancellationToken ct) =>
         {
             if (string.IsNullOrWhiteSpace(dto.Email))
                 return Results.BadRequest("Email required.");

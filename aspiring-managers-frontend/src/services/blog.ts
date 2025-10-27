@@ -29,6 +29,10 @@ export interface MediaDto {
     id: number;
     url: string;
     kind: MediaKind;
+    path: string;
+    viewUrl: string;
+    originalFileName?: string | null;
+    contentType?: string | null;
 }
 
 export function normalizeContent(raw: string) {

@@ -29,8 +29,26 @@ public class MediaService : IMediaService
         return true;
     }
 
-    public Task<List<Media>> ListByBlogAsync(int blogId, CancellationToken ct = default)
-        => _db.Medias.Where(m => m.BlogId == blogId).ToListAsync(ct);
+    public async Task<List<ReadMediaDto>> ListByBlogAsync(int blogId, CancellationToken ct = default)
+    {
+        var media = await _db.Medias
+        .AsNoTracking()
+        .Where(m => m.BlogId == blogId)
+        .OrderBy(m => m.Id)
+        .ToListAsync(ct);
+
+        return media.Select(m =>
+            new ReadMediaDto(
+                m.Id,
+                m.Url,                                // path-only stored in DB
+                m.Kind,                               // enum
+                _storage.GetReadUri(m.Url).ToString(),// SAS link for <img>/<video>
+                m.OriginalFileName,
+                m.ContentType,
+                m.SizeBytes
+            )
+        ).ToList();
+    }
 
     public async Task<IReadOnlyList<Media>> UploadAsync(int blogId, IFormFileCollection files, CancellationToken ct = default)
     {
@@ -66,7 +84,7 @@ public class MediaService : IMediaService
                 OriginalFileName = f.FileName,
                 SizeBytes = f.Length,
                 ContentType = f.ContentType,
-                StorageProvider = "Local",
+                StorageProvider = "AzureBlob",
                 Kind = kind
             };
 

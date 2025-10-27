@@ -11,6 +11,8 @@ export interface ReadMediaDto {
     contentType?: string | null;
     storageProvider: string;
     kind: MediaKind;
+    path: string;     // stored blob path (no SAS)
+    viewUrl: string;
 }
 
 // GET /api/blogs/{blogId}/media

@@ -1,18 +1,19 @@
 using System;
 using backend.DTOs.MediaDtos;
 using backend.Services.MediaServices;
+using backend.Services.StorageServices;
 
 namespace backend.Endpoints;
 
 public static class MediaEndpoints
 {
         public static RouteGroupBuilder MapMediaEndpoints(this IEndpointRouteBuilder routes)
-    {
+        {
         // Group: /blogs/{blogId}/media
         var group = routes.MapGroup("/api/blogs/{blogId:int}/media");
 
         // Upload one or multiple files to a blog
-        group.MapPost("/", async (int blogId, HttpRequest req, IMediaService mediaSvc, CancellationToken ct) =>
+        group.MapPost("/", async (int blogId, HttpRequest req, IMediaService mediaSvc, IStorageServices storage, CancellationToken ct) =>
         {
             if (!req.HasFormContentType)
                 return Results.BadRequest("multipart/form-data required.");
@@ -23,10 +24,18 @@ public static class MediaEndpoints
 
             try
             {
+                // Save files → returns List<Media> (entity)
                 var saved = await mediaSvc.UploadAsync(blogId, form.Files, ct);
+
+                // Project to ReadMediaDto with SAS URL for each new file
                 var dto = saved.Select(m => new ReadMediaDto(
-                    m.Id, m.BlogId, m.Url, m.OriginalFileName, m.SizeBytes,
-                    m.ContentType, m.StorageProvider, m.Kind
+                    m.Id,
+                    m.Url,                               // stored blob path
+                    m.Kind,                              // enum
+                    storage.GetReadUri(m.Url).ToString(),// temporary SAS link
+                    m.OriginalFileName,
+                    m.ContentType,
+                    m.SizeBytes
                 )).ToList();
 
                 return Results.Created($"/blogs/{blogId}/media", dto);

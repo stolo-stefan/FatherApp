@@ -1,37 +1,109 @@
-# Build and publish folders
+###########################
+# .NET / C# build outputs #
+###########################
 bin/
 obj/
-
-# User-specific files
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
-# IDE settings
-.vs/
-.idea/
+# Compiled binaries and runtime outputs
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.dbmdl
+*.dbproj.schemaview
 
-# Logs
+# Publish directories
+publish/
+out/
+dist/
+
+###########################
+# Entity Framework / Tools #
+###########################
+# EF migration design-time files
+*.ide/
+*.vscode/
+# optional: keep Migrations/ if you commit them intentionally
+# !backend/Migrations/
+
+###########################
+# Configuration / Secrets  #
+###########################
+# Do NOT commit local settings or secrets
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+secrets.json
+.env
+.env.*
+.envrc
+
+# User Secrets (for local dev)
+**/secrets.json
+**/Properties/launchSettings.json
+
+###########################
+# Logs / Temp / Caches     #
+###########################
 *.log
 logs/
-
-# ASP.NET generated files# Build artifacts
-bin/
-obj/
-backend/bin/
-backend/obj/
-
-# User/IDE settings
-.vs/
-.idea/
-
-# OS-specific
-*.log
+temp/
+tmp/
+*.tmp
+*.bak
+*.swp
 *.DS_Store
 Thumbs.db
 
-# ASP.NET generated
+###########################
+# Uploaded media (local)   #
+###########################
+# Azure-hosted blobs are remote — only local dev uploads need ignoring
 wwwroot/uploads/
+wwwroot/media/
+wwwroot/files/
+wwwroot/blogs/
+wwwroot/storage/
+# ignore all local Azurite files
+__azurite_db*__.json
+__blobstorage__/
+__queuestorage__/
 
-backend/wwwroot/uploads/
+###########################
+# IDE / Editor folders     #
+###########################
+.vscode/
+.idea/
+*.ncrunchsolution
+*.ncrunchproject
+_ReSharper.*
+*.DotSettings.user
+*.vs/
+.vsconfig
+
+###########################
+# OS files                 #
+###########################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+###########################
+# Node / Frontend (if in same repo)
+###########################
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vite/
+dist/
+coverage/
+.env.local
+.env.development
+.env.production

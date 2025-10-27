@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getBlogDetailed, setBlogVisible, type BlogDetailDto } from "@/services/blog";//setBlogNonVisible
-import { mediaUrl } from "@/lib/url";
+import { hasSrc, mediaUrl } from "@/lib/url";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 
 function isImageKind(k: 0 | 1 | "Image" | "Video") {
@@ -99,32 +99,47 @@ export default function AdminBlogPreviewPage() {
             {blog.media.length === 0 ? (
               <div className="text-sm text-[var(--am-text-muted)]">No media attached.</div>
             ) : (
-              blog.media.map((m) =>
-                isImageKind(m.kind) ? (
+              blog.media.map((m) => {
+                // Prefer the SAS url; fall back to path (older rows) through mediaUrl()
+                const rawSrc = hasSrc(m.viewUrl) ? m.viewUrl : m.path;
+                const src = hasSrc(rawSrc) ? mediaUrl(rawSrc) : null;
+
+                if (!src) return null; // never render empty src
+
+                return isImageKind(m.kind) ? (
                   <button
                     key={m.id}
                     type="button"
-                    onClick={() => setZoomSrc(mediaUrl(m.url))}
+                    onClick={() => setZoomSrc(src)}
                     title="Click to zoom"
                     className="shrink-0 rounded-lg border border-[var(--am-border-gray)] overflow-hidden bg-[var(--am-bg-light)]"
                   >
                     <div className="w-40 h-40 flex items-center justify-center bg-[var(--am-bg-light)]">
                       <img
-                        src={mediaUrl(m.url)}
-                        alt={`Media ${m.id}`}
+                        src={src}
+                        alt={m.originalFileName ?? `Media ${m.id}`}
                         className="max-w-full max-h-full object-contain block"
+                        loading="lazy"
                       />
                     </div>
                   </button>
                 ) : (
                   <div
                     key={m.id}
-                    className="w-40 h-40 shrink-0 rounded-lg border border-[var(--am-border-gray)] overflow-hidden bg-[var(--am-bg-light)] flex items-center justify-center text-xs text-[var(--am-text-muted)]"
+                    className="w-40 h-40 shrink-0 rounded-lg border border-[var(--am-border-gray)] overflow-hidden bg-[var(--am-bg-light)] flex items-center justify-center"
                   >
-                    Video
+                    {/* If you start returning SAS for videos too, use <video> */}
+                    <video
+                      controls
+                      preload="metadata"
+                      className="w-full h-full object-contain"
+                    >
+                      <source src={src} type={m.contentType ?? "video/mp4"} />
+                      Your browser does not support the video tag.
+                    </video>
                   </div>
-                )
-              )
+                );
+              })
             )}
           </div>
         </div>
