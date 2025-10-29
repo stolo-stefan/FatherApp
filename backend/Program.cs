@@ -58,7 +58,7 @@ builder.Services.AddCors(opt =>
             )
             .AllowAnyHeader()
             .AllowAnyMethod()   // includes OPTIONS
-            .AllowCredentials() // only if you use cookies/auth
+            //.AllowCredentials() // only if you use cookies/auth
     );
 });
 
