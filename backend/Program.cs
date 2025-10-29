@@ -54,7 +54,7 @@ builder.Services.AddCors(opt =>
         policy.WithOrigins(
                 "http://localhost:5173",   // Vite dev
                 "http://127.0.0.1:5173",
-                "https://your-frontend-domain.com" // add prod later
+                "https://father-app-three.vercel.app" // add prod later
             )
             .AllowAnyHeader()
             .AllowAnyMethod()   // includes OPTIONS
