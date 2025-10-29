@@ -1,0 +1,5 @@
+[build]
+builder = "railway/dotnet"
+buildCommand = "dotnet publish -c Release -o out"
+startCommand = "dotnet out/backend.dll"
+rootDir = "backend"

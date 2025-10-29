@@ -80,7 +80,7 @@ app.UseHttpLogging();
 app.UseCors("Frontend");
 
 // Static files if you serve media from wwwroot/uploads
-app.UseStaticFiles();
+//app.UseStaticFiles();
 
 // Auth pipeline
 app.UseAuthentication();
