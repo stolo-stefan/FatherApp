@@ -90,7 +90,7 @@ Console.WriteLine($"[Storage DI] Using: {storage.GetType().FullName}");
 
 
 app.UseHttpLogging();
-app.UseCors("spa");
+app.UseCors("Frontend");
 
 // Static files if you serve media from wwwroot/uploads
 //app.UseStaticFiles();
