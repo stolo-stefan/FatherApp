@@ -24,6 +24,11 @@ public static class ServiceCollectionExtensions_AuthAndDb
         jwt = jwt with { Key = config["Jwt:Key"] ?? "" };
         services.AddSingleton(jwt);
 
+        if (string.IsNullOrWhiteSpace(jwt.Key) || jwt.Key.Length < 16)
+        throw new InvalidOperationException(
+            "Jwt:Key is missing or too short. Please set Jwt__Key in Railway env vars (at least 16 characters).");
+
+
         // --- JWT Auth ---
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
