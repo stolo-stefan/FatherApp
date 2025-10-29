@@ -5,6 +5,8 @@ using backend.Services.Infrastructure;
 using backend.Services.StorageServices;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.Options;
+using backend.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +72,17 @@ builder.Services.AddSingleton<IStorageServices>(
 );
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<EntityContext>();
+
+    var pending = await db.Database.GetPendingMigrationsAsync();
+    if (pending.Any())
+        await db.Database.MigrateAsync();
+    else
+        await db.Database.EnsureCreatedAsync(); // ok if you have no migrations yet
+}
 
 var storage = app.Services.GetRequiredService<IStorageServices>();
 Console.WriteLine($"[Storage DI] Using: {storage.GetType().FullName}");
