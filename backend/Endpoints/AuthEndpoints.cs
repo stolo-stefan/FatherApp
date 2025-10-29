@@ -15,7 +15,7 @@ public static class AuthEndpoints
         var auth = app.MapGroup("/api/admin/auth").WithTags("AdminAuth");
 
         // LOGIN (no auth)
-        auth.MapPost("/login", async (LogInRequestDto req, EntityContext db, IJwtTokenService jwt) =>
+        auth.MapPost("/login", async (LogInRequestDto req, EntityContext db, IJwtTokenService tokens, ILogger<Program> log) =>
         {
             if (string.IsNullOrWhiteSpace(req.Email) || string.IsNullOrWhiteSpace(req.Password))
                 return Results.BadRequest(new { message = "Email and Password are required." });
@@ -32,8 +32,16 @@ public static class AuthEndpoints
             if (!BCrypt.Net.BCrypt.Verify(req.Password, user.AdminPassword))
                 return Results.Unauthorized();
 
-            var (token, expiresAt) = jwt.CreateToken(user, DateTime.UtcNow);
-            return Results.Ok(new LogInResponseDto(token, expiresAt ));
+            try
+            {
+                var (token, exp) = tokens.CreateToken(user, DateTime.UtcNow);
+                return Results.Ok(new { token, exp });
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex, "Login token generation failed for {Email}", req.Email);
+                return Results.Problem("Login failed during token creation."); // 500 with message
+            }
         });
 
         // LOGOUT (authenticated) — client-side: just drop the token.
