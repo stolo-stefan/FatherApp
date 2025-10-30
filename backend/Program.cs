@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.Options;
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
+using backend.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,7 +83,30 @@ using (var scope = app.Services.CreateScope())
 
     var pending = await db.Database.GetPendingMigrationsAsync();
     if (pending.Any())
+    {
         await db.Database.MigrateAsync();
+        var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+        var email = config["AdminSeed:Email"];       // set via env/secrets
+        var pwd   = config["AdminSeed:Password"];    // plain -> will be hashed
+
+        if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(pwd))
+        {
+            var norm = email.Trim().ToLowerInvariant();
+
+            var exists = await db.Users.AnyAsync(u => u.Email.ToLower() == norm && u.Role.ToLower() == "admin");
+            if (!exists)
+            {
+                var hash = BCrypt.Net.BCrypt.HashPassword(pwd);
+                db.Users.Add(new User
+                {
+                    Email = email.Trim(),
+                    Role = "admin",
+                    AdminPassword = hash, 
+                });
+                await db.SaveChangesAsync();
+            }
+        }
+    }
     else
         await db.Database.EnsureCreatedAsync(); // ok if you have no migrations yet
 }
