@@ -12,7 +12,7 @@ public static class AuthEndpoints
 {
     public static IEndpointRouteBuilder MapAdminAuthEndpoints(this IEndpointRouteBuilder app)
     {
-        var auth = app.MapGroup("/api/admin/auth").WithTags("AdminAuth");
+        var auth = app.MapGroup("/api/admin/auth").WithTags("AdminAuth").RequireCors("Frontend");
 
         // LOGIN (no auth)
         auth.MapPost("/login", async (LogInRequestDto req, EntityContext db, IJwtTokenService tokens, ILogger<Program> log) =>
