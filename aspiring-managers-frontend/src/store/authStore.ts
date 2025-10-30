@@ -1,14 +1,13 @@
+// authStore.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type User = { id: string; email: string; role: string } | null;
-
 type AuthState = {
   token: string | null;
-  expiresAt: string | null; // ISO from backend
+  expiresAt: string | null; // epoch ms as string
   user: User;
-  isAuthenticated: boolean;
-  login: (token: string, expiresAt: string) => void;
+  login: (token: string, expMs: string) => void;
   setUser: (u: User) => void;
   logout: () => void;
   isExpired: () => boolean;
@@ -20,17 +19,14 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       expiresAt: null,
       user: null,
-      isAuthenticated: false,
-      login: (token, expiresAt) =>
-        set({ token, expiresAt, isAuthenticated: true }),
+      login: (token, expMs) => set({ token, expiresAt: expMs }),
       setUser: (u) => set({ user: u }),
-      logout: () => set({ token: null, expiresAt: null, user: null, isAuthenticated: false }),
+      logout: () => set({ token: null, expiresAt: null, user: null }),
       isExpired: () => {
-        const exp = get().expiresAt;
-        if (!exp) return true;
-        return new Date(exp).getTime() <= Date.now();
+        const exp = Number(get().expiresAt ?? 0);
+        return !exp || exp <= Date.now();
       },
     }),
-    { name: "am-auth" }
+    { name: "am-auth", partialize: (s) => ({ token: s.token, expiresAt: s.expiresAt, user: s.user }) }
   )
 );

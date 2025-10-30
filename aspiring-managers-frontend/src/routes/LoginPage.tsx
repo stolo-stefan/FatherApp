@@ -8,13 +8,13 @@ export default function LoginPage() {
     const [err, setErr] = useState<string | null>(null);
     const navigate = useNavigate();
     const location = useLocation();
-    const from = (location.state as any)?.from?.pathname || "/admin";
 
     async function onSubmit(e: FormEvent) {
         e.preventDefault();
         setErr(null);
         try {
             await loginAdmin(email, password);
+            const from = (location.state as any)?.from?.pathname ?? "/admin";
             navigate(from, { replace: true });
         } catch (e: any) {
             setErr(e?.response?.status === 401 ? "Invalid credentials" : "Login failed");
