@@ -50,15 +50,18 @@ builder.Services.AddHttpLogging(o =>
 
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy("Frontend", policy =>
-        policy.WithOrigins(
-                "http://localhost:5173",   // Vite dev
-                "http://127.0.0.1:5173",
-                "https://father-app-three.vercel.app" // add prod later
-            )
-            .AllowAnyHeader()
-            .AllowAnyMethod()   // includes OPTIONS
-            //.AllowCredentials() // only if you use cookies/auth
+    opt.AddPolicy("Frontend", p =>
+        p.SetIsOriginAllowed(origin =>
+        {
+            var host = new Uri(origin).Host;
+            return host == "father-app-three.vercel.app"
+                || host.EndsWith(".vercel.app") // previews (optional)
+                || host == "localhost"
+                || host == "127.0.0.1";
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+    // .AllowCredentials()   // enable only if you use cookies
     );
 });
 
@@ -87,7 +90,7 @@ using (var scope = app.Services.CreateScope())
 var storage = app.Services.GetRequiredService<IStorageServices>();
 Console.WriteLine($"[Storage DI] Using: {storage.GetType().FullName}");
 
-
+app.UseRouting(); 
 app.UseCors("Frontend");
 app.UseHttpLogging();
 
