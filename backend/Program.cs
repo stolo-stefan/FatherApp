@@ -88,9 +88,9 @@ var storage = app.Services.GetRequiredService<IStorageServices>();
 Console.WriteLine($"[Storage DI] Using: {storage.GetType().FullName}");
 
 
-
-app.UseHttpLogging();
 app.UseCors("Frontend");
+app.UseHttpLogging();
+
 
 // Static files if you serve media from wwwroot/uploads
 //app.UseStaticFiles();
