@@ -58,7 +58,9 @@ builder.Services.AddCors(opt =>
             return host == "father-app-three.vercel.app"
                 || host.EndsWith(".vercel.app") // previews (optional)
                 || host == "localhost"
-                || host == "127.0.0.1";
+                || host == "127.0.0.1"
+                || host == "www.aspiringmanagers.ro";
+        
         })
         .AllowAnyHeader()
         .AllowAnyMethod()
