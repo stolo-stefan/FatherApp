@@ -8,9 +8,6 @@ public class User
     [Key]
     public int Id { get; set; }
 
-    [ForeignKey("Course")]
-    public int? EnrolledCourseId { get; set; } = 0;
-
     [Required]
     [EmailAddress]
     [MaxLength(255)]
@@ -29,4 +26,5 @@ public class User
     [Required]
     public bool IsNewsLetterSub { get; set; } = false;
     public bool WelcomeEmailSent { get; set; }
+    public List<EnrollmentList> Enrollments { get; set; } = new();
 }

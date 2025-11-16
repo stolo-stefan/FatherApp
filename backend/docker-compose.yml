@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:8.0
+    container_name: am-mysql
+    environment:
+      # Use your DB name and root credentials from your secrets
+      MYSQL_DATABASE: Aspiring_managers
+      MYSQL_ROOT_PASSWORD: root
+      # Allow root connections from other containers (needed when backend connects from its own container)
+      MYSQL_ROOT_HOST: '%'
+    # Expose to host on 3308 so you can use Workbench/DBeaver without port conflicts
+    ports:
+      - "3308:3306"   # host:container
+    command:
+      [
+        "--default-authentication-plugin=mysql_native_password",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci"
+      ]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: am-azurite
+    command: "azurite --blobHost 0.0.0.0 --location /data"
+    ports:
+      - "10000:10000"
+    volumes:
+      - azurite_data:/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: am-backend
+    depends_on:
+      db:
+        condition: service_healthy
+      azurite:
+        condition: service_started
+    env_file:
+      - ./.env.local
+    environment:
+      PORT: 8080
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - dp_keys:/root/.aspnet/DataProtection-Keys
+
+volumes:
+  mysql_data:
+  azurite_data:
+  dp_keys:

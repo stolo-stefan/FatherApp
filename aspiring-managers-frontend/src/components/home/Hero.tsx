@@ -22,7 +22,7 @@ export default function Hero() {
             Practical frameworks, live workshops, and a course built for
             aspiring managers at the start of their career.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3 justify-center">
+          {/* <div className="mt-6 flex flex-wrap gap-3 justify-center">
             <Button className="bg-[#3C6E71] hover:bg-[#284B63] text-white" asChild>
               <Link to="/workshops">
                 View Upcoming Workshops
@@ -32,7 +32,7 @@ export default function Hero() {
             <Button variant="secondary" className="bg-[#D9D9D9] text-[#353535]" asChild>
               <Link to="/products">Browse Products</Link>
             </Button>
-          </div>
+          </div> */}
         </div>
 
         <div aria-hidden="true" className="rounded-xl border bg-[#D9D9D9]/40 h-64 md:h-72 lg:h-80 w-full" />

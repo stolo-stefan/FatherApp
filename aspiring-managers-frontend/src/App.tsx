@@ -11,6 +11,10 @@ import AdminBlogMediaPage from "./routes/Admin/Blog/Media";
 import AdminBlogPreviewPage from "./routes/Admin/Blog/BlogPreview";
 import BlogReadPage from "./routes/NormalUser/BlogReadPage";
 import NotFoundPage from "./routes/NormalUser/NotFoundPage";
+import AdminCoursesPage from "./routes/Admin/Course/MainCoursesPage";
+import AdminCreateCoursePage from "./routes/Admin/Course/CreateNewCoursePage";
+import AdminCourseEnrolledPage from "./routes/Admin/Course/AdminCourseEnrolledPage";
+import FreeCourseEnrollPage from "./routes/NormalUser/Enrollment/FreeCourseEnrollPage";
 
 
 export default function App() {
@@ -20,6 +24,7 @@ export default function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/blog/:id" element={<BlogReadPage />} />
+      <Route path="/courses/:id/enroll-free" element={<FreeCourseEnrollPage  />} />
       <Route path="*" element={<NotFoundPage />} />
 
       {/* admin (protected) */}
@@ -63,6 +68,27 @@ export default function App() {
           </ProtectedRoute>
       }
       />
+      <Route 
+        path="/admin/courses"
+        element = {
+        <ProtectedRoute>
+          <AdminCoursesPage />
+        </ProtectedRoute>
+        }/>
+      <Route 
+        path="/admin/courses/new"
+        element = {
+        <ProtectedRoute>
+          <AdminCreateCoursePage />
+        </ProtectedRoute>
+        }/>
+        <Route 
+          path="/admin/courses/:courseId/enrolled"
+          element = {
+          <ProtectedRoute>
+            <AdminCourseEnrolledPage />
+          </ProtectedRoute>
+        }/>
     </Routes>
   );
 }

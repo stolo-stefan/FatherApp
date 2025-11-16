@@ -20,4 +20,13 @@ public interface IAdminService
 
     //Delete admin
     Task<bool> DeleteAdminAsync(int id);
+
+    //Enrolled Users - crud
+    //no creation
+    Task<List<EnrolledSummaryPerCourseDto>> ReadEnrolledInCourse(int courseId);
+    Task<EnrolledUserDto> ReadEnrolledUserAsync(int courseId, int userId);
+
+    //Update payment status and other
+    Task<bool> UpdatePaymentStatus(EnrolledPaymentUpdate dto, CancellationToken ct = default);
+    //Delete users
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
 using backend.Entities;
+using backend.Services.GetResponse;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"
 builder.Services.AddSingleton<IEmailSender, MailKitEmailSender>();
 builder.Services.AddSingleton<IEmailQueue, ChannelEmailQueue>();
 builder.Services.AddHostedService(sp => (ChannelEmailQueue)sp.GetRequiredService<IEmailQueue>());
+builder.Services.AddHttpClient<IGetResponseClient, GetResponseClient>();
 
 
 
@@ -143,6 +145,8 @@ app.MapAdminAuthEndpoints();
 app.MapBlogEndpoints();
 app.MapMediaEndpoints();
 app.MapNormalUserEndPoints();
+app.MapAdminCourseEndpoints();
+app.MapCourseEnrollment();
 
 app.MapGet("/ping", (ILogger<Program> logger) =>
 {

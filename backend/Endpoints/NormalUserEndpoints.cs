@@ -70,6 +70,37 @@ public static class NormalUserEndpoints
             return Results.Ok(blogs);
         });
 
+        //Get a course
+        group.MapGet("/courses/{id:int}", async (int id, ICourseService svc) =>
+        {
+            var dto = await svc.ReadCourse(id);
+            return dto is null ? Results.NotFound() : Results.Ok(dto);
+        });
+        
+        group.MapGet("/courses/latest", async (ICourseService svc) =>
+        {
+            var dto = await svc.ReadMostRecentCourse();
+
+            if (dto is null)
+            {
+                // 200 OK with a friendly message, not 404
+                return Results.Ok(new
+                {
+                    hasCourse = false,
+                    message   = "Sorry, there is no course posted yet."
+                });
+            }
+
+            return Results.Ok(new
+            {
+                hasCourse = true,
+                course    = dto
+            });
+        });
+
+
         return group;
+
+        
     }
 }

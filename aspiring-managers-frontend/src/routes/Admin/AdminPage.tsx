@@ -46,14 +46,14 @@ export default function AdminDashboardPage() {
             </div>
           </button>
 
-          {/* Events */}
+          {/* Courses */}
           <button
-            onClick={() => navigate("/admin/events")}
+            onClick={() => navigate("/admin/courses")}
             className="rounded-2xl bg-white border border-[#E6E6E6] px-6 py-4 text-left shadow-sm
                       hover:border-[#A4DE02] hover:shadow-md transition-all"
           >
             <div className="text-sm font-semibold opacity-70 mb-1">Manage</div>
-            <div className="text-lg font-bold">Events</div>
+            <div className="text-lg font-bold">Courses</div>
             <div className="mt-3 inline-block bg-[#A4DE02] text-[#2A3A4E] px-3 py-1 rounded-full text-xs font-semibold">
               Schedule & Edit
             </div>

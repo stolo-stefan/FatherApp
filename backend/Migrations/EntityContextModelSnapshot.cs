@@ -22,6 +22,43 @@ namespace backend.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("EnrollmentList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EnrolledAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FormAnswersJson")
+                        .HasColumnType("json");
+
+                    b.Property<int>("PaymentChoice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId", "CourseId")
+                        .IsUnique();
+
+                    b.ToTable("EnrollmentLists");
+                });
+
             modelBuilder.Entity("backend.Entities.Blog", b =>
                 {
                     b.Property<int>("Id")
@@ -61,11 +98,25 @@ namespace backend.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AvailableSlots")
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("EarlierDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsFree")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("NrOfSeats")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("PriceInCents")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
@@ -134,9 +185,6 @@ namespace backend.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("EnrolledCourseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("longtext");
 
@@ -158,6 +206,25 @@ namespace backend.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EnrollmentList", b =>
+                {
+                    b.HasOne("backend.Entities.Course", "Course")
+                        .WithMany("Enrollments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Entities.User", "User")
+                        .WithMany("Enrollments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("backend.Entities.Media", b =>
                 {
                     b.HasOne("backend.Entities.Blog", "Blog")
@@ -172,6 +239,16 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Entities.Blog", b =>
                 {
                     b.Navigation("Media");
+                });
+
+            modelBuilder.Entity("backend.Entities.Course", b =>
+                {
+                    b.Navigation("Enrollments");
+                });
+
+            modelBuilder.Entity("backend.Entities.User", b =>
+                {
+                    b.Navigation("Enrollments");
                 });
 #pragma warning restore 612, 618
         }

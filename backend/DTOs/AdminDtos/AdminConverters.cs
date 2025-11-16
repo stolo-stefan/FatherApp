@@ -36,4 +36,14 @@ public class AdminConverters
         );
         return readAdminDto;
     }
+
+    public static EnrolledSummaryPerCourseDto EnrolledEntityToSummaryDto(User user, EnrollmentList e)
+    {
+        EnrolledSummaryPerCourseDto enrolledSummaryDto = new(
+            Email: user.Email,
+            Id: user.Id,
+            Status: e.Status
+        );
+        return enrolledSummaryDto;
+    }
 }

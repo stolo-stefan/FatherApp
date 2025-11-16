@@ -1,6 +1,7 @@
 using System;
 using backend.Services.AdminServices;
 using backend.Services.BlogServices;
+using backend.Services.CourseServices;
 using backend.Services.MediaServices;
 using backend.Services.NormalUserServices;
 using backend.Services.StorageServices;
@@ -31,6 +32,9 @@ public static class AppServiceExtensions
         services.AddScoped<IBlogService, BlogService>();
         services.AddScoped<IMediaService, MediaService>();
         services.AddScoped<INormalUserService, NormalUserService>();
+        services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<ICourseEnrollmentService, CourseEnrollmentService>();
+
 
         return services;
     }

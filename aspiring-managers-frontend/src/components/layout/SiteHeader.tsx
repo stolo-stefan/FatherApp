@@ -11,9 +11,10 @@ import { Link } from "react-router-dom"
 
 const nav = [
   { to: "/", label: "Home" },
-  { to: "/workshops-events", label: "Workshops & Events" },
-  { to: "/products", label: "Products" },
+  //{ to: "/workshops-events", label: "Workshops & Events" },
+  //{ to: "/products", label: "Products" },
   { to: "/blog", label: "Blog" },
+  { to :"/courses", label: "Courses & Webinars"}
 ]
 
 export default function SiteHeader() {
@@ -42,14 +43,14 @@ export default function SiteHeader() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <Button
             className="bg-[#3C6E71] hover:bg-[#284B63] text-white"
             asChild
           >
             <Link to="/enroll">Enroll</Link>
           </Button>
-        </div>
+        </div> */}
 
         {/* Mobile */}
         <div className="ml-auto md:hidden">

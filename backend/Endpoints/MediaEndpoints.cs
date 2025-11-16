@@ -10,7 +10,7 @@ public static class MediaEndpoints
         public static RouteGroupBuilder MapMediaEndpoints(this IEndpointRouteBuilder routes)
         {
         // Group: /blogs/{blogId}/media
-        var group = routes.MapGroup("/api/blogs/{blogId:int}/media");
+        var group = routes.MapGroup("/api/blogs/{blogId:int}/media").RequireAuthorization("AdminOnly");
 
         // Upload one or multiple files to a blog
         group.MapPost("/", async (int blogId, HttpRequest req, IMediaService mediaSvc, IStorageServices storage, CancellationToken ct) =>

@@ -28,7 +28,7 @@ dist/
 # EF migration design-time files
 *.ide/
 *.vscode/
-# optional: keep Migrations/ if you commit them intentionally
+# Keep migrations committed for schema tracking (comment out next line if not)
 # !backend/Migrations/
 
 ###########################
@@ -39,13 +39,34 @@ appsettings.Development.json
 appsettings.Local.json
 appsettings.*.local.json
 secrets.json
+
+# Environment variable files
 .env
 .env.*
-.envrc
+!.env.example        # Keep a sample env file for teammates
 
 # User Secrets (for local dev)
 **/secrets.json
 **/Properties/launchSettings.json
+
+###########################
+# Docker / Containers      #
+###########################
+# Ignore local Docker volumes, cache, and data
+**/azurite_data/
+**/.azurite
+**/mysql_data/
+**/dp_keys/
+**/DataProtection-Keys/
+**/logs/
+
+# Docker Compose override files (optional)
+docker-compose.override.yml
+
+# Build cache and intermediate layers
+**/.docker
+**/.dockerignore
+.dockerignore
 
 ###########################
 # Logs / Temp / Caches     #
@@ -69,6 +90,7 @@ wwwroot/media/
 wwwroot/files/
 wwwroot/blogs/
 wwwroot/storage/
+
 # ignore all local Azurite files
 __azurite_db*__.json
 __blobstorage__/
@@ -104,6 +126,22 @@ yarn-error.log*
 .vite/
 dist/
 coverage/
+
+# Frontend environment files
 .env.local
 .env.development
 .env.production
+
+###########################
+# Miscellaneous            #
+###########################
+# Backup or temporary files
+*.orig
+*.rej
+*.bak
+*.tmp
+*.swp
+
+# JetBrains Rider / VS temporary metadata
+.idea/
+*.iml

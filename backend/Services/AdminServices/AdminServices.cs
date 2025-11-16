@@ -10,7 +10,12 @@ public class AdminService : IAdminService
 {
 
     private readonly EntityContext dbContext;
-    public AdminService(EntityContext db) => dbContext = db;
+    private readonly IEmailSender _email;
+    public AdminService(EntityContext db, IEmailSender email)
+    {
+        dbContext = db;
+        _email = email;
+    }
 
     //Create admin
     public async Task<CreateAdminResult> CreateAdminAsync(CreateAdminDto dto)
@@ -96,7 +101,99 @@ public class AdminService : IAdminService
         await dbContext.SaveChangesAsync();
         return true;
     }
-    
+
+    public async Task<EnrolledUserDto?> ReadEnrolledUserAsync(int courseId, int userId)
+    {
+        var enrollment = await dbContext.EnrollmentLists
+        .Include(e => e.User)
+        .FirstOrDefaultAsync(e => e.UserId == userId && e.CourseId == courseId);
+
+        if (enrollment is null) return null;
+
+        var form = enrollment.FormAnswers ?? new Dictionary<string, object?>();
+
+        form.TryGetValue("phoneNumber", out var phone);
+        form.TryGetValue("participationChoice", out var participation);
+        form.TryGetValue("courseSource", out var source);
+
+        return new(
+            FirstName: enrollment.User.FirstName ?? "",
+            LastName: enrollment.User.LastName ?? "",
+            Email: enrollment.User.Email ?? "",
+            PhoneNumber: phone?.ToString() ?? "",
+            ParticipationChoice: participation?.ToString() ?? "",
+            CourseSource: source?.ToString() ?? "",
+            Status: enrollment.Status,
+            PaymentChoice: enrollment.PaymentChoice
+        );
+    }
+    public async Task<List<EnrolledSummaryPerCourseDto>> ReadEnrolledInCourse(int courseId)
+    {
+        var enrolledList = await dbContext.EnrollmentLists
+            .AsNoTracking()
+            .Where(e => e.CourseId == courseId)
+            .Select(e => AdminConverters.EnrolledEntityToSummaryDto(e.User, e))
+            .ToListAsync();
+        return enrolledList;
+    }
+    public async Task<bool> UpdatePaymentStatus(EnrolledPaymentUpdate dto, CancellationToken ct = default)
+    {
+    // Load enrollment + navigations for email content
+    var enrollment = await dbContext.EnrollmentLists
+        .Include(e => e.User)
+        .Include(e => e.Course)
+        .FirstOrDefaultAsync(e => e.UserId == dto.UserId && e.CourseId == dto.CourseId, ct);
+
+    if (enrollment is null) return false;
+
+    // Allow only known statuses; tweak if you use more
+    var allowed = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    {
+        "pending", "enrolled", "cancelled"
+    };
+    if (!allowed.Contains(dto.Status)) return false;
+
+    // No change → nothing to do
+    if (string.Equals(enrollment.Status, dto.Status, StringComparison.OrdinalIgnoreCase))
+        return true;
+
+    // Update status
+    var wasPending = enrollment.Status.Equals("pending", StringComparison.OrdinalIgnoreCase);
+    enrollment.Status = dto.Status.ToLowerInvariant();
+
+    // If marking as enrolled, you may want to stamp the moment it became active
+    if (enrollment.Status == "enrolled" && wasPending)
+    {
+        enrollment.EnrolledAt = DateTime.UtcNow; // optional: set/refresh activation time
+    }
+
+    await dbContext.SaveChangesAsync(ct);
+
+    // Send email only when transitioning to enrolled
+    if (enrollment.Status == "enrolled")
+    {
+        var user = enrollment.User;
+        var course = enrollment.Course;
+
+        var subject = $"Confirmare inscriere — {course.Title}";
+        var body = $@"
+Salut {user.FirstName ?? "acolo"},
+
+Plata a fost confirmata. Statusul tau este acum: ENROLLED.
+
+Curs: {course.Title}
+Data de start: {course.StartDate:yyyy-MM-dd}
+
+Ne vedem la curs!
+Echipa Aspiring Managers
+";
+
+        await _email.SendAsync(user.Email, subject, body, ct);
+    }
+
+    return true;
+}
+
     private static bool IsAdmin(User u)
         => string.Equals(u.Role, "admin", StringComparison.OrdinalIgnoreCase);
 }
