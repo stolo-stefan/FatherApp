@@ -81,7 +81,7 @@ export async function deleteCourse(id: number): Promise<boolean> {
 }
 
 export async function readCourse(id: number): Promise<ReadCourseDto> {
-  const { data } = await http.get<ReadCourseDto>(`/courses/${id}`);
+  const { data } = await http.get<ReadCourseDto>(`user/courses/${id}`);
   return data;
 }
 
