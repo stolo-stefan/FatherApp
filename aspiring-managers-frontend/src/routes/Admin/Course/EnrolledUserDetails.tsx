@@ -1,12 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { readUserDetails, type EnrolledUserDto } from "@/services/course";
-
-type Props = {
-  courseId: number;
-  userId: number | null;
-  open: boolean;
-  onClose: () => void;
-};
 
 function paymentChoiceLabel(n?: number) {
   switch (n) {
