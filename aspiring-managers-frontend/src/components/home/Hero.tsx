@@ -1,7 +1,3 @@
-// src/components/home/Hero.tsx
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import { Link } from "react-router-dom"
 
 export default function Hero() {
   return (

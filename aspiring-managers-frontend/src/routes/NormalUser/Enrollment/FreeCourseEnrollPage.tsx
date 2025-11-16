@@ -4,7 +4,6 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useParams } from "react-router-dom";
 import { readCourse, type ReadCourseDto } from "@/services/course";
 import { enrollFreeCourse } from "@/services/enrollment";
-import SiteFooter from "@/components/layout/SiteFooter";
 import SiteHeader from "@/components/layout/SiteHeader";
 
 type EnrollForm = {
