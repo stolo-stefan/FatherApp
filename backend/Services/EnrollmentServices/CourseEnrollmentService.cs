@@ -123,19 +123,6 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         _ = Task.Run(async () =>
         {
             Console.WriteLine("DEBUG: Task.Run started");
-            try
-            {
-                try
-            {
-                // Use CancellationToken.None so it still runs even if the HTTP request is aborted
-                await SendEnrollmentEmailAsync(user, course, CancellationToken.None);
-            }
-            catch (Exception ex)
-            {
-                // TODO: inject ILogger<CourseEnrollmentService> and log this instead of Console
-                Console.WriteLine($"[Email] Failed to send enrollment email to {user.Email}: {ex}");
-            }
-
             if (isNewUser)
             {
                 try
@@ -151,6 +138,20 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
                     Console.WriteLine($"[GetResponse] Failed to add contact {user.Email}: {ex}");
                 }
             }
+            try
+            {
+                try
+            {
+                // Use CancellationToken.None so it still runs even if the HTTP request is aborted
+                await SendEnrollmentEmailAsync(user, course, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                // TODO: inject ILogger<CourseEnrollmentService> and log this instead of Console
+                Console.WriteLine($"[Email] Failed to send enrollment email to {user.Email}: {ex}");
+            }
+
+            
 
             }
             catch (Exception ex)
