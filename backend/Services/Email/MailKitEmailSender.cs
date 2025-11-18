@@ -23,6 +23,8 @@ public sealed class MailKitEmailSender : IEmailSender
 
             using var smtp = new SmtpClient();
 
+            smtp.Timeout = 5000;
+
             if (_s.UseSsl)
                 await smtp.ConnectAsync(_s.Host, _s.Port, SecureSocketOptions.SslOnConnect, ct);
             else

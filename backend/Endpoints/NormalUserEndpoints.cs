@@ -2,6 +2,7 @@ using System;
 using backend.Data;
 using backend.DTOs.BlogDtos;
 using backend.DTOs.NormalUserDtos;
+using backend.Services.Email;
 using backend.Services.NormalUserServices;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,7 @@ public static class NormalUserEndpoints
             INormalUserService service,
             EntityContext db,
             IEmailSender email,
+            IEmailQueue emailQueue,
             ILoggerFactory loggerFactory,
             CancellationToken ct) =>
         {
@@ -42,35 +44,49 @@ public static class NormalUserEndpoints
                 return Results.Ok();
 
             // 4) Send welcome email only once
+            // if (!user.WelcomeEmailSent)
+            // {
+            //     _ = Task.Run(async () =>
+            //     {
+            //         try
+            //         {
+            //             const string subject = "Welcome to Aspiring Managers";
+            //             var html = """
+            //             <div style='font-family:sans-serif'>
+            //                 <h2>Welcome to Aspiring Managers!</h2>
+            //                 <p>Thanks for subscribing. You’ll get new posts and updates from us.</p>
+            //             </div>
+            //             """;
+
+            //             var ok = await email.SendAsync(user.Email, subject, html, CancellationToken.None);
+
+            //             if (ok)
+            //             {
+            //                 user.WelcomeEmailSent = true;
+            //                 await db.SaveChangesAsync();
+            //             }
+            //         }
+            //         catch (Exception ex)
+            //         {
+            //             logger.LogError(ex, "Failed to send newsletter welcome email to {Email}", user.Email);
+            //         }
+            //     });
+            // }
             if (!user.WelcomeEmailSent)
             {
-                _ = Task.Run(async () =>
-                {
-                    try
-                    {
-                        const string subject = "Welcome to Aspiring Managers";
-                        var html = """
-                        <div style='font-family:sans-serif'>
-                            <h2>Welcome to Aspiring Managers!</h2>
-                            <p>Thanks for subscribing. You’ll get new posts and updates from us.</p>
-                        </div>
-                        """;
+                const string subject = "Welcome to Aspiring Managers";
+                var html = """
+                    <div style='font-family:sans-serif'>
+                        <h2>Welcome to Aspiring Managers!</h2>
+                        <p>Thanks for subscribing. You’ll get new posts and updates from us.</p>
+                    </div>
+                    """;
 
-                        var ok = await email.SendAsync(user.Email, subject, html, CancellationToken.None);
+                emailQueue.Enqueue(user.Email, subject, html);
 
-                        if (ok)
-                        {
-                            user.WelcomeEmailSent = true;
-                            await db.SaveChangesAsync();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError(ex, "Failed to send newsletter welcome email to {Email}", user.Email);
-                    }
-                });
+                user.WelcomeEmailSent = true;
+                await db.SaveChangesAsync(ct);
             }
-
 
             return Results.Ok();
         });

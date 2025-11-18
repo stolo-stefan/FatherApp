@@ -9,11 +9,13 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
 {
     private readonly EntityContext _db;
     private readonly IEmailSender _email;
+    private readonly IEmailQueue _emailQueue;
 
-    public CourseEnrollmentService(EntityContext db, IEmailSender email)
+    public CourseEnrollmentService(EntityContext db, IEmailSender email, IEmailQueue emailQueue)
     {
         _db = db;
         _email = email;
+        _emailQueue = emailQueue;
     }
 
     private static string NormalizeOptional(string? value)
@@ -140,19 +142,25 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
             }
             try
             {
+                // try
+                // {
+                //     // Use CancellationToken.None so it still runs even if the HTTP request is aborted
+                //     await SendEnrollmentEmailAsync(user, course, CancellationToken.None);
+                // }
+                // catch (Exception ex)
+                // {
+                //     // TODO: inject ILogger<CourseEnrollmentService> and log this instead of Console
+                //     Console.WriteLine($"[Email] Failed to send enrollment email to {user.Email}: {ex}");
+                // }
                 try
-            {
-                // Use CancellationToken.None so it still runs even if the HTTP request is aborted
-                await SendEnrollmentEmailAsync(user, course, CancellationToken.None);
-            }
-            catch (Exception ex)
-            {
-                // TODO: inject ILogger<CourseEnrollmentService> and log this instead of Console
-                Console.WriteLine($"[Email] Failed to send enrollment email to {user.Email}: {ex}");
-            }
-
-            
-
+                {
+                    Console.WriteLine("[EmailQueue] Queuing enrollment email for " + user.Email);
+                    QueueEnrollmentEmail(user, course);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[EmailQueue] Failed for {user.Email}: {ex}");
+                }
             }
             catch (Exception ex)
             {
@@ -316,4 +324,22 @@ Echipa Aspiring Managers
 ";
         await _email.SendAsync(user.Email, subject, body, ct);
     }
+
+
+    private void QueueEnrollmentEmail(User user, Course course)
+    {
+        const string subjectTemplate = "You are enrolled in {0}";
+        var subject = string.Format(subjectTemplate, course.Title);
+
+        var html = $"""
+            <div style='font-family:sans-serif'>
+                <h2>Welcome, {user.FirstName}!</h2>
+                <p>You have been successfully enrolled in <strong>{course.Title}</strong>.</p>
+                <p>We will send you more details soon.</p>
+            </div>
+            """;
+
+        _emailQueue.Enqueue(user.Email, subject, html);
+    }
 }
+
