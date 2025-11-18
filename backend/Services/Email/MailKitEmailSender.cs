@@ -15,6 +15,8 @@ public sealed class MailKitEmailSender : IEmailSender
     {
         try
         {
+            Console.WriteLine($"[Email] Preparing message for {to}");
+
             var msg = new MimeMessage();
             msg.From.Add(new MailboxAddress(_s.FromName, _s.FromEmail));
             msg.To.Add(MailboxAddress.Parse(to));
@@ -23,22 +25,33 @@ public sealed class MailKitEmailSender : IEmailSender
 
             using var smtp = new SmtpClient();
 
-            smtp.Timeout = 5000;
+            smtp.Timeout = 5000; // 5 seconds fail-fast
+
+            Console.WriteLine($"[Email] Connecting to SMTP {_s.Host}:{_s.Port}, UseSsl={_s.UseSsl}");
 
             if (_s.UseSsl)
                 await smtp.ConnectAsync(_s.Host, _s.Port, SecureSocketOptions.SslOnConnect, ct);
             else
                 await smtp.ConnectAsync(_s.Host, _s.Port, SecureSocketOptions.StartTls, ct);
 
+            Console.WriteLine("[Email] Connected, authenticating...");
+
             await smtp.AuthenticateAsync(_s.Username, _s.Password, ct);
+
+            Console.WriteLine("[Email] Authenticated, sending...");
+
             await smtp.SendAsync(msg, ct);
+
+            Console.WriteLine("[Email] Sent, disconnecting...");
+
             await smtp.DisconnectAsync(true, ct);
+
+            Console.WriteLine("[Email] Done for " + to);
             return true;
         }
         catch (Exception ex)
         {
-            // Replace with ILogger if you prefer
-            Console.WriteLine($"[Email] Send failed to {to}: {ex.Message}");
+            Console.WriteLine($"[Email] FULL EXCEPTION for {to}: {ex}");
             return false;
         }
     }
