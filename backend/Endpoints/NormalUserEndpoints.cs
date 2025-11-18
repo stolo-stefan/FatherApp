@@ -19,8 +19,10 @@ public static class NormalUserEndpoints
             INormalUserService service,
             EntityContext db,
             IEmailSender email,
+            ILoggerFactory loggerFactory,
             CancellationToken ct) =>
         {
+            var logger = loggerFactory.CreateLogger("NewsletterSignup");
             // 1) Validate input
             if (dto == null || string.IsNullOrWhiteSpace(dto.Email))
                 return Results.BadRequest("An email must be provided");
@@ -42,23 +44,33 @@ public static class NormalUserEndpoints
             // 4) Send welcome email only once
             if (!user.WelcomeEmailSent)
             {
-                const string subject = "Welcome to Aspiring Managers";
-                var html = """
-                <div style='font-family:sans-serif'>
-                <h2>Welcome to Aspiring Managers!</h2>
-                <p>Thanks for subscribing. You’ll get new posts and updates from us.</p>
-                </div>
-                """;
-
-                var ok = await email.SendAsync(user.Email, subject, html, ct);
-                if (ok)
+                _ = Task.Run(async () =>
                 {
-                    user.WelcomeEmailSent = true;
+                    try
+                    {
+                        const string subject = "Welcome to Aspiring Managers";
+                        var html = """
+                        <div style='font-family:sans-serif'>
+                            <h2>Welcome to Aspiring Managers!</h2>
+                            <p>Thanks for subscribing. You’ll get new posts and updates from us.</p>
+                        </div>
+                        """;
 
-                    await db.SaveChangesAsync(ct);
-                }
-                // If send fails, we leave WelcomeEmailSent=false so you can retry later if needed
+                        var ok = await email.SendAsync(user.Email, subject, html, CancellationToken.None);
+
+                        if (ok)
+                        {
+                            user.WelcomeEmailSent = true;
+                            await db.SaveChangesAsync();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "Failed to send newsletter welcome email to {Email}", user.Email);
+                    }
+                });
             }
+
 
             return Results.Ok();
         });

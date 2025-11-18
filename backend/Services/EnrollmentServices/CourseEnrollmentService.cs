@@ -25,6 +25,7 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         FreeCourseFormDto form,
         CancellationToken ct = default)
     {
+        Console.WriteLine("DEBUG: EnrollFreeAsync was called");
         // 1) Basic validation
         if (string.IsNullOrWhiteSpace(form.Email) ||
             string.IsNullOrWhiteSpace(form.FirstName) ||
@@ -121,7 +122,10 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         }
         _ = Task.Run(async () =>
         {
+            Console.WriteLine("DEBUG: Task.Run started");
             try
+            {
+                try
             {
                 // Use CancellationToken.None so it still runs even if the HTTP request is aborted
                 await SendEnrollmentEmailAsync(user, course, CancellationToken.None);
@@ -146,6 +150,12 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
                     // Same here: log instead of crashing the process
                     Console.WriteLine($"[GetResponse] Failed to add contact {user.Email}: {ex}");
                 }
+            }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("OUTER TASK ERROR: " + ex);
             }
         });
         // 8) Send confirmation email after commit

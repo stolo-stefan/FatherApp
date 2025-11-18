@@ -25,7 +25,7 @@ builder.Services.AddSingleton<IEmailSender, MailKitEmailSender>();
 builder.Services.AddSingleton<IEmailQueue, ChannelEmailQueue>();
 builder.Services.AddHostedService(sp => (ChannelEmailQueue)sp.GetRequiredService<IEmailQueue>());
 builder.Services.AddHttpClient<IGetResponseClient, GetResponseClient>();
-
+builder.Logging.AddConsole();
 
 
 // Domain services + media policy + (optional) upload limits override
