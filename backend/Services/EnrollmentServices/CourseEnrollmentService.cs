@@ -50,8 +50,10 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
 
         // 3) Get or create user (don’t clobber existing values)
         var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email, ct);
+        bool isNewUser = false;
         if (user is null)
         {
+            isNewUser = true;
             user = new User
             {
                 Email = email,
@@ -117,10 +119,41 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         {
             return EnrollmentResult.Fail(EnrollmentOutcome.AlreadyEnrolled, "Enrollment already exists or email already registered.");
         }
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                // Use CancellationToken.None so it still runs even if the HTTP request is aborted
+                await SendEnrollmentEmailAsync(user, course, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                // TODO: inject ILogger<CourseEnrollmentService> and log this instead of Console
+                Console.WriteLine($"[Email] Failed to send enrollment email to {user.Email}: {ex}");
+            }
 
+            if (isNewUser)
+            {
+                try
+                {
+                    await grClient.AddContactAsync(
+                        user.Email,
+                        user.FirstName + user.LastName,
+                        CancellationToken.None);
+                }
+                catch (Exception ex)
+                {
+                    // Same here: log instead of crashing the process
+                    Console.WriteLine($"[GetResponse] Failed to add contact {user.Email}: {ex}");
+                }
+            }
+        });
         // 8) Send confirmation email after commit
-        await SendEnrollmentEmailAsync(user, course, ct);
-        await grClient.AddContactAsync(user.Email, user.FirstName + user.LastName, ct);
+        // await SendEnrollmentEmailAsync(user, course, ct);
+        // if (isNewUser)
+        // {
+        //     await grClient.AddContactAsync(user.Email, user.FirstName + user.LastName, ct);
+        // }        
         return EnrollmentResult.Ok(enrollment.Id);
     }
 
