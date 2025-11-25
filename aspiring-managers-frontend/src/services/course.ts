@@ -51,6 +51,11 @@ export interface ReadCourseDto {
   priceInCents: number;
 }
 
+interface ReadLatestCourseResponse {
+  hasCourse: boolean
+  course: ReadCourseDto | null
+}
+
 export async function listCourses(): Promise<ReadCourseDto[]> {
     const { data } = await http.get<ReadCourseDto[]>("/courses");
     return data;
@@ -86,6 +91,7 @@ export async function readCourse(id: number): Promise<ReadCourseDto> {
 }
 
 export async function readLatestCourse(): Promise<ReadCourseDto | null> {
-  const { data } = await http.get<ReadCourseDto>(`user/courses/latest`);
-  return data;
+  const { data } = await http.get<ReadLatestCourseResponse>("/user/courses/latest")
+  if (!data.hasCourse || !data.course) return null
+  return data.course
 }

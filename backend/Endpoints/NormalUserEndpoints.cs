@@ -3,6 +3,7 @@ using backend.Data;
 using backend.DTOs.BlogDtos;
 using backend.DTOs.NormalUserDtos;
 using backend.Services.Email;
+using backend.Services.GetResponse;
 using backend.Services.NormalUserServices;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ public static class NormalUserEndpoints
             IEmailSender email,
             IEmailQueue emailQueue,
             ILoggerFactory loggerFactory,
+            IGetResponseClient grClient,
             CancellationToken ct) =>
         {
             var logger = loggerFactory.CreateLogger("NewsletterSignup");
@@ -31,7 +33,7 @@ public static class NormalUserEndpoints
 
             // 2) Do your existing subscribe logic via your service
             //    Expected behavior (from your code): returns false if already subscribed.
-            var subscribed = await service.SubscribedToNewsLetter(dto);
+            var subscribed = await service.SubscribedToNewsLetter(dto, grClient);
             if (!subscribed)
                 return Results.BadRequest("Already applied to the news - letter");
 

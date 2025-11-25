@@ -3,6 +3,7 @@ using backend.Data;
 using backend.DTOs.BlogDtos;
 using backend.DTOs.NormalUserDtos;
 using backend.Entities;
+using backend.Services.GetResponse;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services.NormalUserServices;
@@ -11,7 +12,7 @@ public class NormalUserService : INormalUserService
 {
     private readonly EntityContext dbContext;
     public NormalUserService(EntityContext db) => dbContext = db;
-    public async Task<bool> SubscribedToNewsLetter(NewsLetterSignUpDto dto)
+    public async Task<bool> SubscribedToNewsLetter(NewsLetterSignUpDto dto, IGetResponseClient grClient)
     {
         if (await dbContext.Users.AnyAsync(u => u.Email == dto.Email && u.IsNewsLetterSub == true))
             return false;
@@ -36,6 +37,20 @@ public class NormalUserService : INormalUserService
             };
             await dbContext.Users.AddAsync(exists);
         }
+
+        try
+        {
+            await grClient.AddContactAsync(
+                exists.Email,
+                exists.FirstName == ""? exists.FirstName+" "+exists.LastName: "No name (from news-letter)",
+                CancellationToken.None);
+        }
+        catch (Exception ex)
+        {
+            // Same here: log instead of crashing the process
+            Console.WriteLine($"[GetResponse] Failed to add contact {exists.Email}: {ex}");
+        }
+            
 
         await dbContext.SaveChangesAsync();
         return true;

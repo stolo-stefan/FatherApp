@@ -102,9 +102,13 @@ public class CourseService : ICourseService
     {
         // Decide what “most recent” means:
         // here we pick the course with the latest StartDate.
+        var today = DateTime.UtcNow.Date;
+
         var course = await _db.Courses
-            .OrderByDescending(c => c.StartDate)
+            .Where(c => c.StartDate >= today)
+            .OrderBy(c => c.StartDate)
             .FirstOrDefaultAsync();
+
 
         if (course is null)
             return null;

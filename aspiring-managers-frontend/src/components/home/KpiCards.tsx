@@ -42,6 +42,11 @@ export default function KpiCards() {
       }
     }
   }
+  const enrollPath = hasCourse
+  ? course!.isFree
+    ? `/courses/${course!.id}/enroll-free`
+    : `/courses/${course!.id}/enroll/paid`
+  : "/enroll"
 
   return (
     <section
@@ -104,7 +109,7 @@ export default function KpiCards() {
               className="bg-white text-[#284B63] hover:bg-[#D9D9D9] font-medium text-sm md:text-base px-4 py-2"
               asChild
             >
-              <Link to="/enroll">
+              <Link to={enrollPath}>
                 {hasCourse ? "Enroll for the next cohort" : "Join the waiting list"}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
