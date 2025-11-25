@@ -1,6 +1,5 @@
 public record class FreeCourseFormDto(
-    string FirstName,
-    string LastName,
+    string Name,
     string Email,
     string PhoneNumber,
     string ParticipationChoice,

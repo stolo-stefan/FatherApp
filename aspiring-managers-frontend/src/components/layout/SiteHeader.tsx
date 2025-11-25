@@ -14,7 +14,7 @@ const nav = [
   //{ to: "/workshops-events", label: "Workshops & Events" },
   //{ to: "/products", label: "Products" },
   { to: "/blog", label: "Blog" },
-  { to :"/courses", label: "Courses & Webinars"}
+  { to :"/webinar", label: "Webinar"}
 ]
 
 export default function SiteHeader() {
@@ -71,12 +71,7 @@ export default function SiteHeader() {
                     {item.label}
                   </Link>
                 ))}
-                <Button
-                  className="mt-2 bg-[#3C6E71] hover:bg-[#284B63] text-white"
-                  asChild
-                >
-                  <Link to="/enroll">Enroll</Link>
-                </Button>
+                
               </div>
             </SheetContent>
           </Sheet>

@@ -20,18 +20,11 @@ public static class AdminEndpoints
                         message = "Email is required."
                     }
                 );
-            if (string.IsNullOrWhiteSpace(dto.FirstName))
+            if (string.IsNullOrWhiteSpace(dto.Name))
                 return Results.BadRequest(
                     new
                     {
-                        message = "FirstName is required."
-                    }
-                );
-            if (string.IsNullOrWhiteSpace(dto.LastName))
-                return Results.BadRequest(
-                    new
-                    {
-                        message = "LastName is required."
+                        message = "Name is required."
                     }
                 );
             if (string.IsNullOrWhiteSpace(dto.AdminPassword))

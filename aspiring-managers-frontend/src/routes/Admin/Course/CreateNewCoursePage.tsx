@@ -98,7 +98,7 @@ export default function AdminCreateCoursePage() {
                 <Label htmlFor="earlierDate">Earlier Date</Label>
                 <Input
                   id="earlierDate"
-                  type="date"
+                  type="datetime-local"
                   value={form.earlierDate}
                   onChange={(e) => updateField("earlierDate", e.target.value)}
                   required
@@ -108,7 +108,7 @@ export default function AdminCreateCoursePage() {
                 <Label htmlFor="startDate">Start Date</Label>
                 <Input
                   id="startDate"
-                  type="date"
+                  type="datetime-local"
                   value={form.startDate}
                   onChange={(e) => updateField("startDate", e.target.value)}
                   required

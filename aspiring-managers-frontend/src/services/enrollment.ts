@@ -1,8 +1,7 @@
 import { http } from "./http";
 
 export interface FreeCourseFormDto {
-    FirstName:string,
-    LastName:string,
+    Name:string,
     Email:string,
     PhoneNumber:string,
     ParticipationChoice:string,

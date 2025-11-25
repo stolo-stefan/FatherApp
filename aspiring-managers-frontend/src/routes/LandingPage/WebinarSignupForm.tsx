@@ -16,9 +16,13 @@ interface WebinarSignupFormProps {
   courseId: number | null
 }
 
+function isValidPhone(phone: string) {
+  // Accept +40 or 0040 followed by 7–10 digits
+  return /^(\+40|0040)\d{7,10}$/.test(phone)
+}
+
 export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) {
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [participationChoice, setParticipationChoice] = useState("")
@@ -40,11 +44,21 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
     if (!courseId) {
       problems.push("Deocamdată nu există un webinar activ pentru înscriere.")
     }
-    if (!firstName.trim()) problems.push("Te rog completează prenumele.")
-    if (!lastName.trim()) problems.push("Te rog completează numele.")
-    if (!isValidEmail(email)) problems.push("Te rog introdu o adresă de email validă.")
-    if (!phone.trim()) problems.push("Te rog introdu numărul de telefon.")
-    if (!gdpr) problems.push("Trebuie să îți dai acordul pentru GDPR și T&C.")
+
+    if (!name.trim()) {
+      problems.push("Te rog completează numele.")
+    }
+    if (!email.trim() || !isValidEmail(email)) {
+      problems.push("Te rog introdu o adresă de email validă.")
+    }
+    if (!phone.trim()) {
+      problems.push("Te rog introdu numărul de telefon.")
+    } else if (!isValidPhone(phone.trim())) {
+      problems.push("Telefonul trebuie să aibă prefix (e.g. +40).")
+    }
+    if (!gdpr) {
+      problems.push("Trebuie să îți dai acordul pentru GDPR și T&C.")
+    }
 
     if (problems.length) {
       setBanner({ type: "error", msg: problems.join(" ") })
@@ -52,8 +66,7 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
     }
 
     const payload: FreeCourseFormDto = {
-      FirstName: firstName.trim(),
-      LastName: lastName.trim(),
+      Name: name.trim(),
       Email: email.trim(),
       PhoneNumber: phone.trim(),
       ParticipationChoice: participationChoice.trim(),
@@ -66,7 +79,11 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
 
       const res = await enrollFreeCourse(courseId, payload)
 
-      if (res.Status && typeof res.Status === "string" && res.Status.toLowerCase().includes("already")) {
+      if (
+        res.Status &&
+        typeof res.Status === "string" &&
+        res.Status.toLowerCase().includes("already")
+      ) {
         setBanner({
           type: "info",
           msg: "Ești deja înscris pentru acest webinar. Verifică emailul pentru detalii.",
@@ -76,8 +93,7 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
           type: "success",
           msg: "Înscriere realizată cu succes! Vei primi detaliile webinarului pe email.",
         })
-        setFirstName("")
-        setLastName("")
+        setName("")
         setEmail("")
         setPhone("")
         setParticipationChoice("")
@@ -97,12 +113,18 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
   return (
     <form
       onSubmit={onSubmit}
-      className="bg-[var(--am-bg-light)] border border-[var(--am-border-gray)] rounded-xl p-4 space-y-4"
+      className="bg-[var(--am-bg-light)] border border-[var(--am-border-gray)] rounded-xl p-4 md:p-6 space-y-4"
     >
       {banner && (
         <Alert
           className="text-sm"
-          variant={banner.type === "error" ? "destructive" : banner.type === "info" ? "default" : undefined}
+          variant={
+            banner.type === "error"
+              ? "destructive"
+              : banner.type === "info"
+              ? "default"
+              : undefined
+          }
         >
           <AlertTitle>
             {banner.type === "error" && "Verifică formularul"}
@@ -113,73 +135,54 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
         </Alert>
       )}
 
-      <div className="grid gap-3 md:grid-cols-2">
-        <div className="space-y-1">
-          <label className="text-xs font-medium text-[var(--am-text-muted)]">Prenume</label>
-          <Input
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="Introdu prenumele"
-            disabled={loading}
-          />
-        </div>
-        <div className="space-y-1">
-          <label className="text-xs font-medium text-[var(--am-text-muted)]">Nume</label>
-          <Input
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Introdu numele"
-            disabled={loading}
-          />
-        </div>
-      </div>
-
-      <div className="space-y-1">
-        <label className="text-xs font-medium text-[var(--am-text-muted)]">Email</label>
+      {/* Nume + Email pe același rând (desktop) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Nume"
+          disabled={loading}
+          className="h-12 md:h-14 text-base rounded-lg bg-white"
+        />
         <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Introdu emailul"
+          placeholder="Email"
           disabled={loading}
+          className="h-12 md:h-14 text-base rounded-lg bg-white"
         />
       </div>
 
-      <div className="space-y-1">
-        <label className="text-xs font-medium text-[var(--am-text-muted)]">Telefon</label>
-        <Input
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="Introdu numărul de telefon"
-          disabled={loading}
-        />
-      </div>
+      {/* Telefon – rând separat, full width */}
+      <Input
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        placeholder="Telefon"
+        disabled={loading}
+        className="h-12 md:h-14 text-base rounded-lg bg-white"
+      />
 
-      {/* <div className="space-y-1">
-        <label className="text-xs font-medium text-[var(--am-text-muted)]">
-          De ce vrei să participi la webinar?
-        </label>
-        <Input
-          value={participationChoice}
-          onChange={(e) => setParticipationChoice(e.target.value)}
-          placeholder="Ex: vreau să fiu mai sigur pe mine ca manager"
-          disabled={loading}
-        />
-      </div>
+      {/* Câmpurile extra, dacă le re-activezi mai târziu */}
+      {/*
+      <Input
+        value={participationChoice}
+        onChange={(e) => setParticipationChoice(e.target.value)}
+        placeholder="De ce vrei să participi la webinar?"
+        disabled={loading}
+        className="h-12 md:h-14 text-base rounded-lg bg-white"
+      />
 
-      <div className="space-y-1">
-        <label className="text-xs font-medium text-[var(--am-text-muted)]">
-          De unde ai aflat de acest webinar?
-        </label>
-        <Input
-          value={courseSource}
-          onChange={(e) => setCourseSource(e.target.value)}
-          placeholder="LinkedIn, recomandare, Facebook etc."
-          disabled={loading}
-        />
-      </div> */}
+      <Input
+        value={courseSource}
+        onChange={(e) => setCourseSource(e.target.value)}
+        placeholder="De unde ai aflat de webinar? (LinkedIn, recomandare, Facebook etc.)"
+        disabled={loading}
+        className="h-12 md:h-14 text-base rounded-lg bg-white"
+      />
+      */}
 
-      <label className="flex items-start gap-2 text-xs text-[var(--am-text-muted)] leading-tight">
+      <label className="flex items-start gap-2 text-xs md:text-sm text-[var(--am-text-muted)] leading-tight">
         <Checkbox
           checked={gdpr}
           onCheckedChange={(v) => setGdpr(Boolean(v))}
@@ -193,7 +196,7 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
 
       <Button
         type="submit"
-        className="w-full bg-[var(--am-primary-teal)] hover:bg-[var(--am-navbar-dark)] text-white font-semibold mt-2"
+        className="w-full h-12 md:h-14 text-sm md:text-lg bg-[var(--am-primary-teal)] hover:bg-[var(--am-navbar-dark)] text-white font-semibold rounded-lg mt-2"
         disabled={loading}
       >
         {loading ? "Se procesează…" : "ÎNSCRIE-TE LA WEBINAR"}

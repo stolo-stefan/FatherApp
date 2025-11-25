@@ -30,19 +30,17 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         Console.WriteLine("DEBUG: EnrollFreeAsync was called");
         // 1) Basic validation
         if (string.IsNullOrWhiteSpace(form.Email) ||
-            string.IsNullOrWhiteSpace(form.FirstName) ||
-            string.IsNullOrWhiteSpace(form.LastName))
+            string.IsNullOrWhiteSpace(form.Name))
         {
             return EnrollmentResult.Fail(EnrollmentOutcome.InvalidInput, "Missing required fields.");
         }
 
         // Normalize required fields
         var email = form.Email.Trim().ToLowerInvariant();
-        var firstName = form.FirstName.Trim();
-        var lastName  = form.LastName.Trim();
+        var name = form.Name.Trim();
 
         // Normalize optional fields (no nulls)
-        var phoneNumber         = NormalizeOptional(form.PhoneNumber);
+        var phoneNumber = NormalizePhone(NormalizeOptional(form.PhoneNumber));
         var participationChoice = NormalizeOptional(form.ParticipationChoice);
         var courseSource        = NormalizeOptional(form.CourseSource);
 
@@ -60,18 +58,16 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
             user = new User
             {
                 Email = email,
-                FirstName = firstName,
-                LastName  = lastName,
+                Name = name
             };
 
             await _db.Users.AddAsync(user, ct);
         }
         else
         {
-            if (string.IsNullOrWhiteSpace(user.FirstName) && !string.IsNullOrWhiteSpace(firstName))
-                user.FirstName = firstName;
-            if (string.IsNullOrWhiteSpace(user.LastName) && !string.IsNullOrWhiteSpace(lastName))
-                user.LastName = lastName;
+            if (string.IsNullOrWhiteSpace(user.Name) && !string.IsNullOrWhiteSpace(name))
+                user.Name = name;
+            
         }
 
         // 4) Capacity check (non-cancelled)
@@ -92,8 +88,7 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         // 6) Build JSON form answers (no nulls except the 3 required fields, which are non-null anyway)
         var answers = new Dictionary<string, object?>
         {
-            ["firstName"]          = firstName,     // non-null
-            ["lastName"]           = lastName,      // non-null
+            ["name"]          = name,          // non-null
             ["email"]              = email,         // non-null
             ["phoneNumber"]        = phoneNumber,   // "" instead of null
             ["participationChoice"]= participationChoice,
@@ -131,7 +126,8 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
                 {
                     await grClient.AddContactAsync(
                         user.Email,
-                        user.FirstName + user.LastName,
+                        user.Name,
+                        phoneNumber,
                         CancellationToken.None);
                 }
                 catch (Exception ex)
@@ -183,8 +179,7 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         {
             // 1) Basic validation
             if (string.IsNullOrWhiteSpace(form.Email) ||
-                string.IsNullOrWhiteSpace(form.FirstName) ||
-                string.IsNullOrWhiteSpace(form.LastName))
+                string.IsNullOrWhiteSpace(form.Name))
             {
                 return EnrollmentResult.Fail(EnrollmentOutcome.InvalidInput, "Missing required fields.");
             }
@@ -215,17 +210,15 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
                 user = new User
                 {
                     Email = email,
-                    FirstName = form.FirstName?.Trim(),
-                    LastName = form.LastName?.Trim()
+                    Name = form.Name?.Trim()
                 };
                 await _db.Users.AddAsync(user, ct);
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(user.FirstName) && !string.IsNullOrWhiteSpace(form.FirstName))
-                    user.FirstName = form.FirstName.Trim();
-                if (string.IsNullOrWhiteSpace(user.LastName) && !string.IsNullOrWhiteSpace(form.LastName))
-                    user.LastName = form.LastName.Trim();
+                if (string.IsNullOrWhiteSpace(user.Name) && !string.IsNullOrWhiteSpace(form.Name))
+                    user.Name = form.Name.Trim();
+                
             }
 
             // 5) Capacity check (reserve a seat for pending/enrolled; exclude cancelled)
@@ -246,10 +239,9 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
             // 7) Build JSON form answers
             var answers = new Dictionary<string, object?>
             {
-                ["firstName"] = form.FirstName,
-                ["lastName"] = form.LastName,
+                ["name"] = form.Name,
                 ["email"] = email,
-                ["phoneNumber"] = form.PhoneNumber,
+                ["phoneNumber"] = NormalizePhone(form.PhoneNumber),
                 ["participationChoice"] = form.ParticipationChoice,
                 ["courseSource"] = form.CourseSource,
                 ["paymentChoice"] = form.PaymentChoice
@@ -296,7 +288,7 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         };
 
         var body = $@"
-Salut {user.FirstName ?? "acolo"},
+Salut {user.Name ?? "acolo"},
 
 Ti-am inregistrat inscrierea la ""{course.Title}"". Statusul tau este: PENDING (in asteptarea confirmarii platii).
 {paymentNote}
@@ -314,7 +306,7 @@ Echipa Aspiring Managers
     {
         var subject = $"Felicitari! Te-ai inscris la {course.Title}";
         var body = $@"
-Salut {user.FirstName ?? "acolo"},
+Salut {user.Name ?? "acolo"},
 
 Felicitari! Esti inscris cu succes la cursul ""{course.Title}"".
 Data de start: {course.StartDate:yyyy-MM-dd}
@@ -333,13 +325,24 @@ Echipa Aspiring Managers
 
         var html = $"""
             <div style='font-family:sans-serif'>
-                <h2>Welcome, {user.FirstName}!</h2>
+                <h2>Welcome, {user.Name}!</h2>
                 <p>You have been successfully enrolled in <strong>{course.Title}</strong>.</p>
                 <p>We will send you more details soon.</p>
             </div>
             """;
 
         _emailQueue.Enqueue(user.Email, subject, html);
+    }
+
+    private string NormalizePhone(string phone)
+    {
+        phone = phone?.Trim() ?? "";
+
+        if (phone.StartsWith("+")) return phone;
+        if (phone.StartsWith("00")) return "+" + phone.Substring(2);
+        if (phone.StartsWith("0")) return "+4" + phone.Substring(1);
+
+        return "+40" + phone;
     }
 }
 

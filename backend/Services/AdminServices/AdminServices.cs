@@ -68,10 +68,9 @@ public class AdminService : IAdminService
 
         if (!string.IsNullOrWhiteSpace(dto.Email))
             foundAdmin.Email = dto.Email;
-        if (!string.IsNullOrWhiteSpace(dto.FirstName))
-            foundAdmin.FirstName = dto.FirstName;
-        if (!string.IsNullOrWhiteSpace(dto.LastName))
-            foundAdmin.LastName = dto.LastName;
+        if (!string.IsNullOrWhiteSpace(dto.Name))
+            foundAdmin.Name = dto.Name;
+        
 
         await dbContext.SaveChangesAsync();
         return true;
@@ -117,8 +116,7 @@ public class AdminService : IAdminService
         form.TryGetValue("courseSource", out var source);
 
         return new(
-            FirstName: enrollment.User.FirstName ?? "",
-            LastName: enrollment.User.LastName ?? "",
+            Name: enrollment.User.Name ?? "",
             Email: enrollment.User.Email ?? "",
             PhoneNumber: phone?.ToString() ?? "",
             ParticipationChoice: participation?.ToString() ?? "",
@@ -177,7 +175,7 @@ public class AdminService : IAdminService
 
         var subject = $"Confirmare inscriere — {course.Title}";
         var body = $@"
-Salut {user.FirstName ?? "acolo"},
+Salut {user.Name ?? "acolo"},
 
 Plata a fost confirmata. Statusul tau este acum: ENROLLED.
 

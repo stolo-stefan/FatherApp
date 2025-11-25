@@ -35,27 +35,45 @@ public class GetResponseClient : IGetResponseClient
         _http.DefaultRequestHeaders.Add("X-Auth-Token", $"api-key {_apiKey}");
     }
 
-    public async Task AddContactAsync(string email, string? name, CancellationToken ct = default)
+    public async Task AddContactAsync(string email, string? name, string? phone, CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(email))
             return;
+
+        var customFields = new List<object>();
+
+        if (!string.IsNullOrWhiteSpace(phone))
+        {
+            customFields.Add(new
+            {
+                customFieldId = "nKnL1A",
+                value = new[] { phone }
+            });
+        }
 
         var payload = new
         {
             email,
             name,
-            campaign = new { campaignId = _campaignId }
+            campaign = new { campaignId = _campaignId },
+            customFieldValues = customFields.Count == 0 ? null : customFields
         };
+
 
         var url = $"{_baseUrl}/contacts";
 
-        _logger.LogInformation("GetResponse: POST {Url} with email {Email}", url, email);
+        var json = System.Text.Json.JsonSerializer.Serialize(payload);
+        _logger.LogInformation("[GR DEBUG] Payload: {Json}", json);
 
         using var response = await _http.PostAsJsonAsync(url, payload, ct);
         var body = await response.Content.ReadAsStringAsync(ct);
 
-        _logger.LogInformation("GetResponse: status {Status} body: {Body}",
-            (int)response.StatusCode, body);
+        // log headers too
+        var headersJoined = string.Join(" | ",
+            response.Headers.Select(h => $"{h.Key}={string.Join(",", h.Value)}"));
+
+        _logger.LogInformation("[GR DEBUG] Status {Status}, Headers: {Headers}, Body: {Body}",
+            (int)response.StatusCode, headersJoined, body);
 
         if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.Accepted)
         {

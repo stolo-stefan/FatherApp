@@ -42,7 +42,8 @@ public class NormalUserService : INormalUserService
         {
             await grClient.AddContactAsync(
                 exists.Email,
-                exists.FirstName == ""? exists.FirstName+" "+exists.LastName: "No name (from news-letter)",
+                exists.Name == ""? exists.Name: "No name (from news-letter)",
+                null,
                 CancellationToken.None);
         }
         catch (Exception ex)

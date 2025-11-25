@@ -1,6 +1,5 @@
 public record class EnrolledUserDto(
-    string FirstName,
-    string LastName,
+    string Name,
     string Email,
     string PhoneNumber,
     string ParticipationChoice,

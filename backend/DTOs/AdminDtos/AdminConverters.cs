@@ -17,8 +17,7 @@ public class AdminConverters
         var newUser = new User()
         {
             AdminPassword = dto.AdminPassword,
-            FirstName = dto.FirstName,
-            LastName = dto.LastName
+            Name = dto.Name
         };
         if (!string.IsNullOrWhiteSpace(dto.Email))
             newUser.Email = dto.Email;
@@ -31,8 +30,7 @@ public class AdminConverters
         ReadAdminDto readAdminDto = new(
             user.Id,
             user.Email,
-            user.FirstName,
-            user.LastName
+            user.Name
         );
         return readAdminDto;
     }

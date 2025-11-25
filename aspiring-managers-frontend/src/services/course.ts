@@ -29,8 +29,7 @@ export interface EnrolledSummaryPerCourseDto{
 }
 
 export interface EnrolledUserDto {
-    firstName: string;
-    lastName: string;
+    name: string;
     email: string;
     phoneNumber: string;
     participationChoice: string;

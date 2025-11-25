@@ -42,11 +42,11 @@ export default function KpiCards() {
       }
     }
   }
-  const enrollPath = hasCourse
-  ? course!.isFree
-    ? `/courses/${course!.id}/enroll-free`
-    : `/courses/${course!.id}/enroll/paid`
-  : "/enroll"
+  const enrollPath = "/webinar"
+  // hasCourse ? course!.isFree
+  //   ? `/courses/${course!.id}/enroll-free`
+  //   : `/courses/${course!.id}/enroll/paid`
+  // : "/enroll"
 
   return (
     <section

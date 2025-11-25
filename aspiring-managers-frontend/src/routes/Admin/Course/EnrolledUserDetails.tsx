@@ -69,11 +69,8 @@ export default function EnrolledUserDetails({ courseId, userId, open, onClose }:
             <div className="text-[var(--am-text-muted)] py-10 text-center">No data.</div>
           ) : (
             <div className="grid grid-cols-3 gap-3">
-              <span className="text-sm text-[var(--am-text-muted)]">First name</span>
-              <span className="col-span-2 text-[var(--am-text-dark)]">{details.firstName || "—"}</span>
-
-              <span className="text-sm text-[var(--am-text-muted)]">Last name</span>
-              <span className="col-span-2 text-[var(--am-text-dark)]">{details.lastName || "—"}</span>
+              <span className="text-sm text-[var(--am-text-muted)]">Name</span>
+              <span className="col-span-2 text-[var(--am-text-dark)]">{details.name || "—"}</span>
 
               <span className="text-sm text-[var(--am-text-muted)]">Email</span>
               <span className="col-span-2 text-[var(--am-text-dark)]">{details.email || "—"}</span>

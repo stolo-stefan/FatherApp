@@ -7,8 +7,7 @@ import { enrollFreeCourse } from "@/services/enrollment";
 import SiteHeader from "@/components/layout/SiteHeader";
 
 type EnrollForm = {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phoneNumber: string;
   heardFrom: string;       // select value
@@ -24,8 +23,7 @@ export default function FreeCourseEnrollPage() {
   const [loadError, setLoadError] = useState<string | null>(null);
 
   const [form, setForm] = useState<EnrollForm>({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     phoneNumber: "",
     heardFrom: "",
@@ -79,8 +77,7 @@ export default function FreeCourseEnrollPage() {
   }
 
   function validate(): string | null {
-    if (!form.firstName.trim()) return "Please enter your first name.";
-    if (!form.lastName.trim()) return "Please enter your last name.";
+    if (!form.name.trim()) return "Please enter your first name.";
     if (!form.email.trim()) return "Please enter your email.";
 
     const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -118,8 +115,7 @@ export default function FreeCourseEnrollPage() {
     }
 
     const payload = {
-      FirstName: form.firstName.trim(),
-      LastName: form.lastName.trim(),
+      Name: form.name.trim(),
       Email: form.email.trim(),
       PhoneNumber: form.phoneNumber.trim(),
       ParticipationChoice: "",
@@ -200,32 +196,15 @@ export default function FreeCourseEnrollPage() {
                           className="text-sm font-medium text-[var(--am-text-dark)]"
                           htmlFor="firstName"
                         >
-                          First name<span className="text-red-500">*</span>
+                          Full Name<span className="text-red-500">*</span>
                         </label>
                         <input
                           id="firstName"
                           name="firstName"
-                          value={form.firstName}
+                          value={form.name}
                           onChange={handleChange}
                           className="w-full rounded-lg border border-[var(--am-border-gray)] px-3 py-2 text-sm text-[var(--am-text-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--am-primary-teal)]"
                           placeholder="Alex"
-                        />
-                      </div>
-
-                      <div className="space-y-1">
-                        <label
-                          className="text-sm font-medium text-[var(--am-text-dark)]"
-                          htmlFor="lastName"
-                        >
-                          Last name<span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          id="lastName"
-                          name="lastName"
-                          value={form.lastName}
-                          onChange={handleChange}
-                          className="w-full rounded-lg border border-[var(--am-border-gray)] px-3 py-2 text-sm text-[var(--am-text-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--am-primary-teal)]"
-                          placeholder="Popescu"
                         />
                       </div>
                     </div>

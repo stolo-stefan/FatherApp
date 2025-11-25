@@ -32,11 +32,15 @@ export default function WebinarHero({
       />
 
       <div className="mt-6 grid gap-8 md:grid-cols-[3fr,2fr] items-start">
-        <div className="space-y-4">
-          <h1 className="text-3xl md:text-4xl font-bold leading-snug text-[var(--am-text-dark)]">
+        <h1 className="text-3xl md:text-4xl font-bold leading-snug text-[var(--am-text-dark)]">
             Te învăț în primele 2 luni de mandat să conduci echipa cu încredere,
             fără teama de eșec.
           </h1>
+        <aside aria-label="Formular de înscriere la webinar">
+          <WebinarSignupForm courseId={courseId} />
+        </aside>
+        <div className="space-y-4">
+          
           <p className="text-lg leading-relaxed">
             O să-ți dau toți pașii pe care eu i-am aplicat de 25 de ani, cu
             rezultate reale.
@@ -51,9 +55,7 @@ export default function WebinarHero({
           </p>
         </div>
 
-        <aside aria-label="Formular de înscriere la webinar">
-          <WebinarSignupForm courseId={courseId} />
-        </aside>
+        
       </div>
     </section>
   )
