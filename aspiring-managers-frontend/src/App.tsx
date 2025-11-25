@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 
 // admin pages
-import HomePage from "./routes/HomePage";
+// import HomePage from "./routes/HomePage";
 import LoginPage from "./routes/LoginPage";
 import AdminPage from "./routes/Admin/AdminPage";
 import MainBlogPage from "./routes/Admin/Blog/MainBlogPage";

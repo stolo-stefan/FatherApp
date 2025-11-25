@@ -1,7 +1,7 @@
 // src/features/webinar/WebinarHero.tsx
 import type { ReadCourseDto } from "@/services/course"
 import WebinarCountdownBar from "./WebinarCountdownBar"
-import WebinarSignupForm from "./WebinarSignUpForm"
+import WebinarSignupForm from "./WebinarSignupForm"
 
 interface WebinarHeroProps {
   course: ReadCourseDto | null
