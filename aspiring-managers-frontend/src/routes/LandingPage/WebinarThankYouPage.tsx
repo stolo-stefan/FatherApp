@@ -1,13 +1,11 @@
 // src/routes/NormalUser/Enrollment/WebinarThankYouPage.tsx
 import { useEffect, useState } from "react"
 import { readLatestCourse, type ReadCourseDto } from "@/services/course"
-import { Navigate, useLocation } from "react-router-dom"
-// import ThankYouImg from "@/assets/thankyou-webinar.png" // schimbă cu ce imagine vrei
+import { Button } from "@/components/ui/button"
 
-type ThankYouLocationState = {
-  courseId?: number
-  enrollmentId?: number
-}
+// CHANGE the path/name to your actual QR image file
+import WebinarWhatsappQr from "@/assets/QRWhatsappGroup.PNG"
+
 
 function formatDateRo(dateIso?: string | null) {
   if (!dateIso) return null
@@ -31,13 +29,7 @@ function formatDateRo(dateIso?: string | null) {
 }
 
 export default function WebinarThankYouPage() {
-  const location = useLocation()
-  const state = (location.state ?? {}) as ThankYouLocationState
 
-  // nu permitem acces direct
-  if (!state.enrollmentId || !state.courseId) {
-    return <Navigate to="/webinar" replace />
-  }
 
   const [course, setCourse] = useState<ReadCourseDto | null>(null)
   const [loading, setLoading] = useState(true)
@@ -97,21 +89,38 @@ export default function WebinarThankYouPage() {
             Până atunci:
           </p>
 
-          <ul className="space-y-2 text-[var(--am-text-dark)] mb-4">
+          <ul className="space-y-2 text-[var(--am-text-dark)] mb-6">
             <li>• Verifică-ți inboxul (și folderul Spam/Promoții).</li>
             <li>• Adaugă evenimentul în calendar – să nu uiți!</li>
           </ul>
 
-          {/* <p className="text-base text-[var(--am-text-dark)] mb-4">
-            <span className="font-semibold cursor-pointer">Google Calendar</span> |{" "}
-            <span className="font-semibold cursor-pointer">Apple Calendar</span>
-          </p>
+          {/* QR + BUTTON WHATSAPP GROUP */}
+          <div className="mt-6 flex flex-col items-center text-center gap-4">
 
-          <p className="text-sm md:text-base text-[var(--am-text-muted)] leading-relaxed">
-            Dacă îți dorești să nu ratezi acest webinar și să vezi exact ce ai de
-            făcut ca să poți lansa cursul în 30 de zile, cel mai simplu este să
-            adaugi evenimentul în calendar.
-          </p> */}
+  <img
+    src={WebinarWhatsappQr}
+    alt="Cod QR grup WhatsApp"
+    className="w-40 h-40 rounded-md border border-[var(--am-border-gray)]"
+  />
+
+  <p className="text-sm md:text-base text-[var(--am-text-dark)] max-w-md">
+    Scanează codul sau folosește butonul de mai jos ca să intri în grupul de WhatsApp
+    al participanților la webinar.
+  </p>
+
+  <a
+    href="https://chat.whatsapp.com/Ilv37mExphsB4WbYMITjUR"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <Button
+      className="bg-[var(--am-accent-green)] hover:bg-[var(--am-primary-teal)] text-[var(--am-white)] px-6 py-5 text-base font-semibold rounded-xl"
+    >
+      Intră în grupul de WhatsApp
+    </Button>
+  </a>
+
+</div>
         </section>
 
         {/* POZĂ ÎN DREAPTA, FĂRĂ CARD */}

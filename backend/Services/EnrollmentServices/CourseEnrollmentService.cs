@@ -51,10 +51,10 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
 
         // 3) Get or create user (don’t clobber existing values)
         var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email, ct);
-        bool isNewUser = false;
+        //bool isNewUser = false;
         if (user is null)
         {
-            isNewUser = true;
+            //isNewUser = true;
             user = new User
             {
                 Email = email,
@@ -120,22 +120,21 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         _ = Task.Run(async () =>
         {
             Console.WriteLine("DEBUG: Task.Run started");
-            if (isNewUser)
+            
+            try
             {
-                try
-                {
-                    await grClient.AddContactAsync(
-                        user.Email,
-                        user.Name,
-                        phoneNumber,
-                        CancellationToken.None);
-                }
-                catch (Exception ex)
-                {
-                    // Same here: log instead of crashing the process
-                    Console.WriteLine($"[GetResponse] Failed to add contact {user.Email}: {ex}");
-                }
+                await grClient.AddContactAsync(
+                    user.Email,
+                    user.Name,
+                    phoneNumber,
+                    CancellationToken.None);
             }
+            catch (Exception ex)
+            {
+                // Same here: log instead of crashing the process
+                   Console.WriteLine($"[GetResponse] Failed to add contact {user.Email}: {ex}");
+            }
+            
             try
             {
                 // try
