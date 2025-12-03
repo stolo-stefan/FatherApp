@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import WebinarWhatsappQr from "@/assets/QRWhatsappCode.jpg"
 
 
+
 function formatDateRo(dateIso?: string | null) {
   if (!dateIso) return null
   const d = new Date(dateIso)
