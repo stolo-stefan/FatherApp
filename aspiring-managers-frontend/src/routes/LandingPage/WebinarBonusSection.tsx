@@ -41,9 +41,16 @@ export default function WebinarBonusSection({
       </h2>
 
       <p className="text-lg md:text-xl mb-3">
-        BONUS SPECIAL PENTRU PRIMII 3 ÎNSCRIȘI LA DISCUȚIA 1-LA-1:{" "}
-        <strong>2 ore consultanță gratuită live.</strong>
+        Bonus pentru primii 3 înscriși la webinar:{" "}
+        <strong>1 ora consultanță live gratuită cu mine</strong>
       </p>
+      <p className="text-base md:text-lg mb-6">
+        În 60 de minute primești o hartă și instrumentele necesare să conduci cu claritate echipa.
+      </p>
+      <p className="text-base md:text-lg mb-6">
+        Daca vrei să afli cum sa conduci o echipa performanta, fără să simtă presiunea constantă că trebuie să știi totul, completeaza acum formularul de inscriere.
+      </p>
+      <hr className="border-t border-[var(--am-border-gray)] my-4" />
 
       {/* Counter funcțional */}
       <div className="flex flex-col gap-2 mb-6">
@@ -59,11 +66,8 @@ export default function WebinarBonusSection({
         )}
       </div>
 
-      <p className="text-base md:text-lg mb-6">
-        În 60 de minute primești o hartă și instrumentele necesare să conduci cu claritate echipa.
-      </p>
+      
 
-      <hr className="border-t border-[var(--am-border-gray)] my-4" />
 
       <h3 className="text-2xl font-semibold mb-1">Înscrie-te la webinar</h3>
 

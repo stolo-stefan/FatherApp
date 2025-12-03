@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 
 // admin pages
-import HomePage from "./routes/HomePage";
+// import HomePage from "./routes/HomePage";
 import LoginPage from "./routes/LoginPage";
 import AdminPage from "./routes/Admin/AdminPage";
 import MainBlogPage from "./routes/Admin/Blog/MainBlogPage";
@@ -16,6 +16,7 @@ import AdminCreateCoursePage from "./routes/Admin/Course/CreateNewCoursePage";
 import AdminCourseEnrolledPage from "./routes/Admin/Course/AdminCourseEnrolledPage";
 import FreeCourseEnrollPage from "./routes/NormalUser/Enrollment/FreeCourseEnrollPage";
 import WebinarPage from "./routes/LandingPage/WebinarPage";
+import WebinarThankYouPage from "./routes/LandingPage/WebinarThankYouPage";
 
 
 export default function App() {
@@ -23,11 +24,12 @@ export default function App() {
     <Routes>
       {/* public */}
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<HomePage />} />
-      <Route path="/webinar" element={<WebinarPage />} />
+      {/* <Route path="/" element={<HomePage />} /> */}
+      <Route path="/" element={<WebinarPage />} />
       <Route path="/blog/:id" element={<BlogReadPage />} />
       <Route path="/courses/:id/enroll-free" element={<FreeCourseEnrollPage  />} />
       <Route path="*" element={<NotFoundPage />} />
+      <Route path="/thank-you" element={<WebinarThankYouPage/>}></Route>
 
       {/* admin (protected) */}
       <Route

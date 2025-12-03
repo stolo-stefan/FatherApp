@@ -8,7 +8,7 @@ import IonutImg from "@/assets/Ailenei Ionut - Sales Manager.jpeg"
 // src/features/webinar/WebinarTestimonials.tsx
 import TestimonialFace from "./TestimonialFace"
 
-export default function WebinarTestimonials() {
+export default function WebinarScreenshotTestimonials() {
   return (
     <section
       id="testimoniale"

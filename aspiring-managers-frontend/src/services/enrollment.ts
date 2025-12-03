@@ -10,7 +10,7 @@ export interface FreeCourseFormDto {
 
 export interface EnrollmentCreatedDto {
     enrollmentId: number | null;
-    Status: String
+    status: "enrolled" | "pending" | "rejected"
 }
 
 export async function enrollFreeCourse(courseId: number, form: FreeCourseFormDto): Promise<EnrollmentCreatedDto> {

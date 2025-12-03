@@ -1,13 +1,12 @@
 // src/routes/Webinar/WebinarPage.tsx
 import { useEffect, useState } from "react"
-import SiteHeader from "@/components/layout/SiteHeader"
-import SiteFooter from "@/components/layout/SiteFooter"
 import { readLatestCourse, type ReadCourseDto } from "@/services/course"
 import WebinarHero from "./WebinarHero"
 import WebinarBenefits from "./WebinarBenefits"
 import WebinarTrainer from "./WebinarTrainer"
-import WebinarTestimonials from "./WebinarTestimonials"
 import WebinarBonusSection from "./WebinarBonusSection"
+import WebinarTextTestimonials from "./WebinarTextTestimonials"
+// import WebinarScreenshotTestimonials from "./WebinarScreenshotTestimonials"
 
 export default function WebinarPage() {
   const [course, setCourse] = useState<ReadCourseDto | null>(null)
@@ -41,7 +40,7 @@ export default function WebinarPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--am-bg-light)] text-[var(--am-text-dark)]">
-      <SiteHeader />
+      
       <main className="flex-1">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 space-y-8">
           <WebinarHero
@@ -52,14 +51,15 @@ export default function WebinarPage() {
           />
           <WebinarBenefits />
           <WebinarTrainer />
-          <WebinarTestimonials />
+          <WebinarTextTestimonials />
+          {/* <WebinarScreenshotTestimonials /> */}
           <WebinarBonusSection
             course={course}
             targetDate={targetDate}
           />
         </div>
       </main>
-      <SiteFooter />
+      
     </div>
   )
 }

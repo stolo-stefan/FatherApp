@@ -1,5 +1,6 @@
 // src/features/webinar/WebinarSignupForm.tsx
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -30,6 +31,7 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
   const [gdpr, setGdpr] = useState(false)
   const [banner, setBanner] = useState<Banner>(null)
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   function isValidEmail(val: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
@@ -80,9 +82,9 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
       const res = await enrollFreeCourse(courseId, payload)
 
       if (
-        res.Status &&
-        typeof res.Status === "string" &&
-        res.Status.toLowerCase().includes("already")
+        res.status &&
+        typeof res.status === "string" &&
+        (res.status.toLowerCase() == "pending"|| res.status.toLowerCase() == "rejected")
       ) {
         setBanner({
           type: "info",
@@ -100,6 +102,14 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
         setCourseSource("")
         setGdpr(false)
       }
+      if (res.status === "enrolled") {
+        navigate("/thank-you", {
+          state: {
+            courseId,
+            enrollmentId: res.enrollmentId,
+          },
+      })
+    }
     } catch (err) {
       setBanner({
         type: "error",
