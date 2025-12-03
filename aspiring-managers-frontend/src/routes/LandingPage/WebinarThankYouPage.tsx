@@ -4,7 +4,7 @@ import { readLatestCourse, type ReadCourseDto } from "@/services/course"
 import { Button } from "@/components/ui/button"
 
 // CHANGE the path/name to your actual QR image file
-import WebinarWhatsappQr from "@/assets/QRWhatsappCode.jpg"
+import WebinarWhatsappQr from "@/assets/qr-whatsapp-code.jpg"
 
 
 
