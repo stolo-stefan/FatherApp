@@ -55,6 +55,7 @@ public class GetResponseClient : IGetResponseClient
         {
             email,
             name,
+            dayOfCycle = 0,
             campaign = new { campaignId = _campaignId },
             customFieldValues = customFields.Count == 0 ? null : customFields
         };
