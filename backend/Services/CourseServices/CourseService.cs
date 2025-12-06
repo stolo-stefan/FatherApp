@@ -113,6 +113,9 @@ public class CourseService : ICourseService
         if (course is null)
             return null;
 
+        int nrEnrolledUsers = await _db.EnrollmentLists.Where(e => e.CourseId == course.Id).CountAsync();
+        int nrOfAvailableSeats = course.NrOfSeats - nrEnrolledUsers;
+
         // Map entity -> DTO (adapt to your actual DTO)
         return new ReadCourseDto(
             course.Id,
@@ -120,7 +123,7 @@ public class CourseService : ICourseService
             course.Description,
             course.StartDate,
             course.EarlierDate,
-            course.NrOfSeats,
+            nrOfAvailableSeats, //course.NrOfSeats
             course.IsFree,
             course.Currency,
             course.PriceInCents

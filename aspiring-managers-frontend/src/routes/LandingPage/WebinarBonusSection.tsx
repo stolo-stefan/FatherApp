@@ -82,7 +82,7 @@ export default function WebinarBonusSection({
         )}
       </p>
 
-      <WebinarSignupForm courseId={courseId} />
+      <WebinarSignupForm courseId={courseId} numberOfSeats={course?.nrOfSeats} />
     </section>
   )
 }

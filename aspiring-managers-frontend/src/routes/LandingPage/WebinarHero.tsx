@@ -50,7 +50,7 @@ export default function WebinarHero({
           </p> */}
         </div>
         <aside aria-label="Formular de înscriere la webinar">
-          <WebinarSignupForm courseId={courseId} />
+          <WebinarSignupForm courseId={courseId} numberOfSeats={course?.nrOfSeats} />
         </aside>
         
       </div>

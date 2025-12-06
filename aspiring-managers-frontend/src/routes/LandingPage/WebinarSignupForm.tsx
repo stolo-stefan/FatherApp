@@ -14,7 +14,8 @@ type Banner =
   | null
 
 interface WebinarSignupFormProps {
-  courseId: number | null
+  courseId: number | null,
+  numberOfSeats?: number | null
 }
 
 function isValidPhone(phone: string) {
@@ -22,7 +23,7 @@ function isValidPhone(phone: string) {
   return /^(\+40|0040)\d{7,10}$/.test(phone)
 }
 
-export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) {
+export default function WebinarSignupForm({ courseId, numberOfSeats }: WebinarSignupFormProps) {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
@@ -110,14 +111,29 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
           },
       })
     }
-    } catch (err) {
-      setBanner({
-        type: "error",
-        msg: "Nu am putut finaliza înscrierea. Te rugăm să încerci din nou.",
-      })
-    } finally {
-      setLoading(false)
-    }
+    } catch (err: any) {
+  // vezi toată eroarea, doar pentru debugging
+  console.log("Enroll error:", err);
+
+  // 1) Dacă e Axios error și status 409 => deja înscris
+  const status = err?.response?.status;
+
+  if (status === 409) {
+    setBanner({
+      type: "info",
+      msg: "Ești deja înscris la acest webinar. Verifică emailul pentru detalii.",
+    });
+    return;
+  }
+
+  // 2) Fallback – alte erori
+  setBanner({
+    type: "error",
+    msg: "Nu am putut finaliza înscrierea. Te rugăm să încerci din nou.",
+  });
+} finally {
+  setLoading(false);
+}
   }
 
   return (
@@ -209,7 +225,7 @@ export default function WebinarSignupForm({ courseId }: WebinarSignupFormProps) 
         className="w-full h-12 md:h-14 text-sm md:text-lg bg-[var(--am-primary-teal)] hover:bg-[var(--am-navbar-dark)] text-white font-semibold rounded-lg mt-2"
         disabled={loading}
       >
-        {loading ? "Se procesează…" : "ÎNSCRIE-TE LA WEBINAR"}
+        {loading ? "Se procesează…" : `ÎNSCRIE-TE LA WEBINAR \n Au mai ramas - ${numberOfSeats} locuri`}
       </Button>
     </form>
   )
