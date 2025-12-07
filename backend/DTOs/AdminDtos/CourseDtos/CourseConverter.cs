@@ -21,7 +21,9 @@ public static class CourseConverter
             EarlierDate = DateTime.SpecifyKind(dto.EarlierDate, DateTimeKind.Utc),
             NrOfSeats = dto.NrOfSeats,
             IsFree = dto.IsFree,
-            Currency = "EUR",            // defaulted by your entity; explicit here for clarity
+            Currency = "EUR",  // defaulted by your entity; explicit here for clarity
+            GetResponseToken = dto.GetResponseToken,          
+            WhatsappLink = dto.WhatsappLink,          
             PriceInCents = dto.PriceInCents
         };
     }

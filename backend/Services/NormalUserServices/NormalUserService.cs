@@ -44,6 +44,7 @@ public class NormalUserService : INormalUserService
                 exists.Email,
                 exists.Name == ""? exists.Name: "No name (from news-letter)",
                 null,
+                null,
                 CancellationToken.None);
         }
         catch (Exception ex)

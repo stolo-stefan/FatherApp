@@ -23,5 +23,7 @@ public class Course
     public required string Currency { get; set; } = "EUR";
 
     public required int PriceInCents { get; set; }
+    public string? GetResponseToken {get; set;}
+    public string? WhatsappLink {get; set;}
     public List<EnrollmentList> Enrollments { get; set; } = new();
 }

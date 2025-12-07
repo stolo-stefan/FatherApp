@@ -19,7 +19,9 @@ export interface CreateCourseDto {
     earlierDate: string,
     nrOfSeats: number,
     isFree: boolean,
-    priceInCents: number
+    priceInCents: number,
+    getResponseToken: string,
+    whatsappLink: string
 }
 
 export interface EnrolledSummaryPerCourseDto{
@@ -50,9 +52,27 @@ export interface ReadCourseDto {
   priceInCents: number;
 }
 
+export interface ReadCourseWhatsappDto{
+  id: number;
+  title: string;
+  description: string;
+  startDate: string;
+  earlierDate: string;
+  nrOfSeats: number;
+  isFree: boolean;
+  currency: string;
+  priceInCents: number;
+  whatsappLink: string
+}
+
 interface ReadLatestCourseResponse {
   hasCourse: boolean
   course: ReadCourseDto | null
+}
+
+interface ReadCourseWhatsappResponse {
+  hasCourse: boolean
+  course: ReadCourseWhatsappDto | null
 }
 
 export async function listCourses(): Promise<ReadCourseDto[]> {
@@ -91,6 +111,12 @@ export async function readCourse(id: number): Promise<ReadCourseDto> {
 
 export async function readLatestCourse(): Promise<ReadCourseDto | null> {
   const { data } = await http.get<ReadLatestCourseResponse>("/user/courses/latest")
+  if (!data.hasCourse || !data.course) return null
+  return data.course
+}
+
+export async function readLatestThankYouCourse(): Promise<ReadCourseWhatsappDto | null> {
+  const { data } = await http.get<ReadCourseWhatsappResponse>("/user/courses/thank-you")
   if (!data.hasCourse || !data.course) return null
   return data.course
 }

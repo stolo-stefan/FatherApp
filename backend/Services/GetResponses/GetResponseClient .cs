@@ -35,7 +35,7 @@ public class GetResponseClient : IGetResponseClient
         _http.DefaultRequestHeaders.Add("X-Auth-Token", $"api-key {_apiKey}");
     }
 
-    public async Task AddContactAsync(string email, string? name, string? phone, CancellationToken ct = default)
+    public async Task AddContactAsync(string email, string? name, string? phone,string? GetResponseToken, CancellationToken ct = default)
     {
         if (string.IsNullOrWhiteSpace(email))
             return;
@@ -56,7 +56,7 @@ public class GetResponseClient : IGetResponseClient
             email,
             name,
             dayOfCycle = 0,
-            campaign = new { campaignId = _campaignId },
+            campaign = new { campaignId = GetResponseToken },
             customFieldValues = customFields.Count == 0 ? null : customFields
         };
 

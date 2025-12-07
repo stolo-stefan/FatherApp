@@ -8,4 +8,5 @@ public interface ICourseService
     Task<bool> UpdateCourse(int id, UpdateCourseDto dto);
     Task<bool> DeleteCourse(int id);
     Task<ReadCourseDto?> ReadMostRecentCourse();
+    Task<ReadCourseWhatsappDto?> ReadThankYouCourse();
 }

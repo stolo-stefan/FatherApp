@@ -129,4 +129,37 @@ public class CourseService : ICourseService
             course.PriceInCents
         );
     }
+
+    public async Task<ReadCourseWhatsappDto?> ReadThankYouCourse()
+    {
+        // Decide what “most recent” means:
+        // here we pick the course with the latest StartDate.
+        var today = DateTime.UtcNow.Date;
+
+        var course = await _db.Courses
+            .Where(c => c.StartDate >= today)
+            .OrderBy(c => c.StartDate)
+            .FirstOrDefaultAsync();
+
+
+        if (course is null)
+            return null;
+
+        int nrEnrolledUsers = await _db.EnrollmentLists.Where(e => e.CourseId == course.Id).CountAsync();
+        int nrOfAvailableSeats = course.NrOfSeats - nrEnrolledUsers;
+
+        // Map entity -> DTO (adapt to your actual DTO)
+        return new ReadCourseWhatsappDto(
+            course.Id,
+            course.Title,
+            course.Description,
+            course.StartDate,
+            course.EarlierDate,
+            nrOfAvailableSeats, //course.NrOfSeats
+            course.IsFree,
+            course.Currency,
+            course.PriceInCents,
+            course.WhatsappLink
+        );
+    }
 }

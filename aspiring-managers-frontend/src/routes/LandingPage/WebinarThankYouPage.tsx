@@ -1,10 +1,11 @@
 // src/routes/NormalUser/Enrollment/WebinarThankYouPage.tsx
 import { useEffect, useState } from "react"
-import { readLatestCourse, type ReadCourseDto } from "@/services/course"
+import {
+  readLatestThankYouCourse,
+  type ReadCourseWhatsappDto,
+} from "@/services/course"
 import { Button } from "@/components/ui/button"
-
-// CHANGE the path/name to your actual QR image file
-import WebinarWhatsappQr from "@/assets/qr-whatsapp-code.jpg"
+import QRCode from "react-qr-code"
 
 function formatDateRo(dateIso?: string | null) {
   if (!dateIso) return null
@@ -46,7 +47,7 @@ function formatDateRo(dateIso?: string | null) {
 }
 
 export default function WebinarThankYouPage() {
-  const [course, setCourse] = useState<ReadCourseDto | null>(null)
+  const [course, setCourse] = useState<ReadCourseWhatsappDto | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -55,7 +56,7 @@ export default function WebinarThankYouPage() {
       try {
         setLoading(true)
         setError(null)
-        const dto = await readLatestCourse()
+        const dto = await readLatestThankYouCourse()
         setCourse(dto ?? null)
       } catch {
         setError("Nu am putut încărca detaliile webinarului.")
@@ -69,6 +70,9 @@ export default function WebinarThankYouPage() {
   const formatted = course
     ? formatDateRo((course.startDate ?? undefined) as unknown as string)
     : null
+
+  console.log("Whatsapp link value:", course?.whatsappLink)
+  console.log("Type:", typeof course?.whatsappLink)
 
   return (
     // BG PE TOATĂ PAGINA + CARD CENTRAT
@@ -94,15 +98,12 @@ export default function WebinarThankYouPage() {
 
         {/* Bloc text „Fă și ultimul pas” + QR în dreapta */}
         <div className="mt-4 flex flex-col gap-6">
+          {/* TEXT ÎN STÂNGA + QR ÎN DREAPTA (PE DESKTOP) */}
           <div className="flex flex-col md:flex-row gap-8 items-start">
             {/* TEXT ÎN STÂNGA */}
             <div className="flex-1">
               <h2 className="font-semibold text-lg text-[var(--am-text-dark)] mb-3">
-                Fă și ultimul pas: Intră în grupul de WhatsApp{" "}
-                <span className="whitespace-nowrap">
-                  AspiringManagers WEB17DEC
-                </span>
-                , unde vei primi:
+                Fă și ultimul pas: Intră în grupul de WhatsApp, unde vei primi:
               </h2>
 
               <ul className="list-disc pl-5 space-y-1 text-[var(--am-text-dark)] text-sm md:text-base">
@@ -119,27 +120,46 @@ export default function WebinarThankYouPage() {
                 <span className="text-sm font-semibold text-[var(--am-text-dark)] mb-2">
                   Cod QR WhatsApp
                 </span>
-                <img
-                  src={WebinarWhatsappQr}
-                  alt="Cod QR grup WhatsApp"
-                  className="w-40 h-40 rounded-md border border-[var(--am-border-gray)] object-contain"
-                />
+
+                {course?.whatsappLink ? (
+                  <div className="w-40 h-40 rounded-md border border-[var(--am-border-gray)] p-2 bg-white flex items-center justify-center">
+                    <QRCode
+                      value={course.whatsappLink}
+                      size={150}
+                      bgColor="transparent"
+                      fgColor="#2B6A70"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-40 h-40 rounded-md border border-[var(--am-border-gray)] bg-gray-100 flex items-center justify-center">
+                    <span className="text-xs text-gray-500 text-center px-2">
+                      Nu există încă un link WhatsApp
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
           {/* BUTON WHATSAPP – SUB TEXT, CENTRAT */}
-          <div className="flex justify-center">
-            <a
-              href="https://chat.whatsapp.com/Ilv37mExphsB4WbYMITjUR"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Button className="bg-[var(--am-accent-green)] hover:bg-[var(--am-primary-teal)] text-[var(--am-white)] px-6 py-5 text-base font-semibold rounded-xl">
-                Intră în grupul de WhatsApp
+          {course?.whatsappLink ? (
+            <div className="flex justify-center">
+              <Button
+                asChild
+                className="bg-[var(--am-accent-green)] hover:bg-[var(--am-primary-teal)] text-[var(--am-white)] px-6 py-5 text-base font-semibold rounded-xl"
+              >
+                <a
+                  href={course.whatsappLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Intră în grupul de WhatsApp
+                </a>
               </Button>
-            </a>
-          </div>
+            </div>
+          ) : (
+            <p>Te-ai inscris asa devreme, incat nici nu exista grup de whatsapp! :)</p>
+          )}
         </div>
 
         {/* Ce vei descoperi în webinar? */}
@@ -155,8 +175,8 @@ export default function WebinarThankYouPage() {
                 <li>✔️ Cum să transformi nesiguranța de început în curaj</li>
                 <li>✔️ Cum să gestionezi presiunea primelor zile ca manager</li>
                 <li>
-                  ✔️ Care sunt și cum să eviți greșelile pe care le fac majoritatea
-                  managerilor la început
+                  ✔️ Care sunt și cum să eviți greșelile pe care le fac
+                  majoritatea managerilor la început
                 </li>
                 <li>✔️ Ce așteaptă organizația de la tine</li>
                 <li>✔️ Cum să dai feedback constructiv</li>

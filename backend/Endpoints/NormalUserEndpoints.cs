@@ -128,6 +128,27 @@ public static class NormalUserEndpoints
             });
         });
 
+        group.MapGet("/courses/thank-you", async (ICourseService svc) =>
+        {
+            var dto = await svc.ReadThankYouCourse();
+
+            if (dto is null)
+            {
+                // 200 OK with a friendly message, not 404
+                return Results.Ok(new
+                {
+                    hasCourse = false,
+                    message   = "Sorry, there is no course posted yet."
+                });
+            }
+
+            return Results.Ok(new
+            {
+                hasCourse = true,
+                course    = dto
+            });
+        });
+
 
         return group;
 

@@ -5,5 +5,5 @@ namespace backend.Services.GetResponse;
 
 public interface IGetResponseClient
 {
-    Task AddContactAsync(string email, string? name,string? phone,  CancellationToken ct = default);
+    Task AddContactAsync(string email, string? name,string? phone, string? GetResponseToken,  CancellationToken ct = default);
 }

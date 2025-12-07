@@ -19,6 +19,8 @@ export default function AdminCreateCoursePage() {
     nrOfSeats: 0,
     isFree: false,
     priceInCents: 0,
+    getResponseToken: "",
+    whatsappLink:""
   });
 
   const [loading, setLoading] = useState(false);
@@ -154,6 +156,29 @@ export default function AdminCreateCoursePage() {
                 />
               </div>
             )}
+            <div>
+            <div>
+                <Label htmlFor="getResponseToken">Get Response List Token</Label>
+                <Input
+                  id="getResponseToken"
+                  type="text"
+                  value={form.getResponseToken}
+                  onChange={(e) => updateField("getResponseToken", e.target.value)}
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="whatsappLink">Whatsapp Group Link</Label>
+                <Input
+                  id="whatsappLink"
+                  type="text"
+                  value={form.whatsappLink}
+                  onChange={(e) => updateField("whatsappLink", e.target.value)}
+                  required
+                />
+              </div>
+            </div>
 
             {/* Submit */}
             <div className="pt-4 flex justify-end gap-3">

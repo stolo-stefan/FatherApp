@@ -127,6 +127,7 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
                     user.Email,
                     user.Name,
                     phoneNumber,
+                    course.GetResponseToken,
                     CancellationToken.None);
             }
             catch (Exception ex)
