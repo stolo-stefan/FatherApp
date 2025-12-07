@@ -4,14 +4,11 @@ services:
     image: mysql:8.0
     container_name: am-mysql
     environment:
-      # Use your DB name and root credentials from your secrets
       MYSQL_DATABASE: Aspiring_managers
       MYSQL_ROOT_PASSWORD: root
-      # Allow root connections from other containers (needed when backend connects from its own container)
       MYSQL_ROOT_HOST: '%'
-    # Expose to host on 3308 so you can use Workbench/DBeaver without port conflicts
     ports:
-      - "3308:3306"   # host:container
+      - "3308:3306"
     command:
       [
         "--default-authentication-plugin=mysql_native_password",
@@ -55,8 +52,10 @@ services:
       - "8080:8080"
     volumes:
       - dp_keys:/root/.aspnet/DataProtection-Keys
+      - media-data:/data   # <-- volume mounted here
 
 volumes:
   mysql_data:
   azurite_data:
   dp_keys:
+  media-data:              # <-- definition added

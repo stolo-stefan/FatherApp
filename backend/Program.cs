@@ -9,6 +9,8 @@ using backend.Data;
 using Microsoft.EntityFrameworkCore;
 using backend.Entities;
 using backend.Services.GetResponse;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,9 +80,22 @@ builder.Services.AddCors(opt =>
 // builder.Services.AddSingleton<IStorageServices>(
 //     _ => new AzureBlobStorageServices(blobConn, container, useSasLinks: useSas, sasTtl: TimeSpan.FromHours(sasHours))
 // );
-builder.Services.AddSingleton<IStorageServices, NullStorageServices>();
+builder.Services.AddSingleton<IStorageServices, FileSystemStorageServices>();
 
 var app = builder.Build();
+
+var mediaRoot = builder.Configuration["Storage:RootPath"]
+                ?? Path.Combine(builder.Environment.ContentRootPath, "media");
+
+// Ensure directory exists (works both locally and on Railway)
+Directory.CreateDirectory(mediaRoot);
+
+// Serve files from mediaRoot under /media
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(mediaRoot),
+    RequestPath = "/media"
+});
 
 using (var scope = app.Services.CreateScope())
 {
