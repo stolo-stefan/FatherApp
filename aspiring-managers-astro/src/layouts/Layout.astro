@@ -1,0 +1,17 @@
+---
+import "../styles/global.css";
+const { title = "Aspiring Managers", description = "" } = Astro.props;
+---
+
+<html lang="ro">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+  </head>
+  <body class="bg-[#F9F9F6] text-[#2A3A4E]">
+    <main class="min-h-screen">
+      <slot />
+    </main>
+  </body>
+</html>

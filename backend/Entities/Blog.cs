@@ -17,4 +17,5 @@ public class Blog
     public List<Media> Media { get; set; } = new();
     public DateTime DatePosted { get; set; }
     public bool IsVisible { get; set; } = false;
+    public required string Slug {get; set;}
 }

@@ -6,5 +6,6 @@ public record class ReadSummaryBlogDto(
     string Content,
     DateTime DatePosted,
     string Summary,
-    bool IsVisible
+    bool IsVisible,
+    string Slug
 );

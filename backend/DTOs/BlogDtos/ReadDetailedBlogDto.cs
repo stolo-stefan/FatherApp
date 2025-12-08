@@ -7,5 +7,6 @@ public record class ReadDetailedBlogDto(
     string Title,
     string Content,
     List<Media> Media,
-    DateTime DatePosted
+    DateTime DatePosted,
+    string Slug
 );

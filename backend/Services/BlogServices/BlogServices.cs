@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using backend.Data;
 using backend.DTOs.BlogDtos;
 using backend.DTOs.MediaDtos;
@@ -74,7 +75,7 @@ public class BlogService : IBlogService
 
         return new BlogDetailDto(
             blog.Id, blog.Title, blog.Content,
-            blog.DatePosted, blog.IsVisible, mediaDtos
+            blog.DatePosted, blog.IsVisible, mediaDtos, blog.Slug
         );
     }
 
@@ -92,7 +93,8 @@ public class BlogService : IBlogService
                 blog.Content,
                 blog.DatePosted,
                 blog.Summary,
-                blog.IsVisible
+                blog.IsVisible,
+                blog.Slug
             );
     }
 
@@ -101,7 +103,7 @@ public class BlogService : IBlogService
         return await _db.Blogs
             .Where(b => b.IsVisible)
             .OrderByDescending(b => b.DatePosted)
-            .Select(b => new ReadSummaryBlogDto(b.Id, b.Title, b.Content, b.DatePosted, b.Summary, b.IsVisible))
+            .Select(b => new ReadSummaryBlogDto(b.Id, b.Title, b.Content, b.DatePosted, b.Summary, b.IsVisible, b.Slug))
             .ToListAsync();
     }
 
@@ -109,7 +111,7 @@ public class BlogService : IBlogService
     {
         return await _db.Blogs
             .OrderByDescending(b => b.DatePosted)
-            .Select(b => new ReadSummaryBlogDto(b.Id, b.Title, b.Content, b.DatePosted, b.Summary, b.IsVisible))
+            .Select(b => new ReadSummaryBlogDto(b.Id, b.Title, b.Content, b.DatePosted, b.Summary, b.IsVisible, b.Slug))
             .ToListAsync();
     }
 
@@ -119,7 +121,12 @@ public class BlogService : IBlogService
         if (blog is null) return false;
 
         if (dto.Title is not null)
+        {
             blog.Title = dto.Title;
+            string cleaned = Regex.Replace(dto.Title, @"[^A-Za-z0-9\u00C0-\u017F\s]", "");
+            blog.Slug = cleaned.Trim().Replace(" ", "-").ToLower();
+            
+        }
 
         if (dto.Content is not null)
             blog.Content = dto.Content;

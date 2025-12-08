@@ -8,5 +8,6 @@ public record class BlogDetailDto(
     string Content,
     DateTime DatePosted,
     bool IsVisible,
-    List<ReadMediaDto> Media
+    List<ReadMediaDto> Media,
+    string Slug
 );

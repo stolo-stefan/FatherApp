@@ -69,7 +69,8 @@ public class NormalUserService : INormalUserService
             b.Content,
             b.DatePosted,
             b.Summary,
-            b.IsVisible
+            b.IsVisible,
+            b.Slug
         ))
         .ToListAsync();
 
