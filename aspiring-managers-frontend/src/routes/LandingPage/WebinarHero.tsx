@@ -1,7 +1,7 @@
 // src/features/webinar/WebinarHero.tsx
 import type { ReadCourseDto } from "@/services/course"
 //import WebinarCountdownBar from "./WebinarCountdownBar"
-import WebinarSignupForm from "./WebinarSignupForm"
+// import WebinarSignupForm from "./WebinarSignupForm"
 
 interface WebinarHeroProps {
   course: ReadCourseDto | null
@@ -11,12 +11,12 @@ interface WebinarHeroProps {
 }
 
 export default function WebinarHero({
-  course,
+  // course,
   // targetDate,
   // loading,
   // error,
 }: WebinarHeroProps) {
-  const courseId = course?.id ?? null
+  //const courseId = course?.id ?? null
 
   return (
     <section
