@@ -15,7 +15,8 @@ import AdminCoursesPage from "./routes/Admin/Course/MainCoursesPage";
 import AdminCreateCoursePage from "./routes/Admin/Course/CreateNewCoursePage";
 import AdminCourseEnrolledPage from "./routes/Admin/Course/AdminCourseEnrolledPage";
 import FreeCourseEnrollPage from "./routes/NormalUser/Enrollment/FreeCourseEnrollPage";
-import WebinarPage from "./routes/LandingPage/WebinarPage";
+//mport WebinarPage from "./routes/LandingPage/WebinarPage";
+import NewLandingPage from "./routes/LandingPage/new/NewLandingPage";
 import WebinarThankYouPage from "./routes/LandingPage/WebinarThankYouPage";
 
 
@@ -25,7 +26,7 @@ export default function App() {
       {/* public */}
       <Route path="/login" element={<LoginPage />} />
       {/* <Route path="/" element={<HomePage />} /> */}
-      <Route path="/" element={<WebinarPage />} />
+      <Route path="/" element={<NewLandingPage />} />
       <Route path="/blog/:id" element={<BlogReadPage />} />
       <Route path="/courses/:id/enroll-free" element={<FreeCourseEnrollPage  />} />
       <Route path="*" element={<NotFoundPage />} />

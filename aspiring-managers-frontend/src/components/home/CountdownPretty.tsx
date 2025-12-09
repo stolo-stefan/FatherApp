@@ -45,8 +45,8 @@ export function CountdownPretty({ targetDate }: { targetDate: Date }) {
 
   return (
     <div className="flex items-center justify-center gap-4 md:gap-6">
-      <Cell value={pad(days)} label="Days" />
-      <Cell value={pad(hours)} label="Hours" />
+      <Cell value={pad(days)} label="Zile" />
+      <Cell value={pad(hours)} label="Ore" />
       <Cell value={pad(minutes)} label="Min" />
       <Cell value={pad(seconds)} label="Sec" />
     </div>
