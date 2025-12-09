@@ -53,7 +53,7 @@ export default function NewLandingPage() {
         />
         <AboutSection course={course}/>
         <AboutSupportSection course={course} />
-        <Testimonials course={course} />
+        <Testimonials/>
         <LearningsSection course={course} />
         <QASessionSection course={course} />
         <BonusesSection />

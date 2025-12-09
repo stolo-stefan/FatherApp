@@ -1,6 +1,4 @@
 // src/features/webinar/WebinarTestimonialsCarouselSection.tsx
-import NewButon from "@/components/home/NewButton"
-import type { ReadCourseDto } from "@/services/course"
 import { useEffect, useRef } from "react"
 
 type Testimonial = {
@@ -35,13 +33,8 @@ const testimonials: Testimonial[] = [
 // 3x list to fake infinite loop
 const extendedTestimonials = [...testimonials, ...testimonials, ...testimonials]
 
-interface WebinarHeroProps{
-    course: ReadCourseDto | null
-}
 
-export default function Testimonials({
-  course
-}: WebinarHeroProps) {
+export default function Testimonials() {
   const trackRef = useRef<HTMLDivElement | null>(null)
 
   const isDragging = useRef(false)
