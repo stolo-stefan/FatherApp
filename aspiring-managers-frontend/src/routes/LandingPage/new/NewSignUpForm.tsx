@@ -25,6 +25,33 @@ function isValidPhone(phone: string) {
   return /^(\+40|0040)\d{7,10}$/.test(phone)
 }
 
+function formatDateRo(dateIso?: string | null) {
+  if (!dateIso) return null
+  const d = new Date(dateIso)
+  
+  const luni = [
+    "ianuarie",
+    "februarie",
+    "martie",
+    "aprilie",
+    "mai",
+    "iunie",
+    "iulie",
+    "august",
+    "septembrie",
+    "octombrie",
+    "noiembrie",
+    "decembrie",
+  ]
+
+  const zi = d.getDate()
+  const luna = luni[d.getMonth()]
+  const ora = d.getHours().toString().padStart(2, "0")
+  const min = d.getMinutes().toString().padStart(2, "0")
+
+  return `${zi} ${luna} la ora ${ora}:${min}`
+}
+
 export default function NewSignUpForm({
   courseId,
   numberOfSeats,
@@ -150,8 +177,8 @@ export default function NewSignUpForm({
     >
       {/* Top text like in screenshot */}
       <p className="text-sm md:text-base font-semibold text-[var(--am-text-dark)]">
-        Webinar live,{" "}
-        <span className="text-[#FF8A3D] font-semibold">gratuit</span>, pentru
+        Webinar live și{" "}
+        <span className="text-[#e47f3a] font-semibold">gratuit</span>, în data de {formatDateRo(targetDate?.toISOString())}, pentru
         cei care vor să învețe cum să treacă rapid de la nesiguranță la
         încredere în noul rol de manager.
       </p>
@@ -224,7 +251,7 @@ export default function NewSignUpForm({
       {/* Buton mare portocaliu, cu 2 linii de text */}
       <Button
         type="submit"
-        className="w-full h-12 md:h-14 bg-[#FF8A3D] hover:bg-[#E6772D] text-white font-semibold rounded-xl mt-1 shadow-md"
+        className="w-full h-12 md:h-14 bg-[#e47f3a] hover:bg-[#E6772D] text-white font-semibold rounded-xl mt-1 shadow-md"
         disabled={loading}
       >
         {loading ? (
@@ -235,9 +262,7 @@ export default function NewSignUpForm({
               Înscrie-te la webinarul gratuit
             </span>
             <span className="text-[11px] md:text-xs font-normal">
-              {numberOfSeats != null
-                ? `${numberOfSeats} locuri disponibile`
-                : "Locuri disponibile"}
+              {numberOfSeats}{numberOfSeats == 1? " loc disponibil":" locuri disponibile"}
             </span>
           </div>
         )}

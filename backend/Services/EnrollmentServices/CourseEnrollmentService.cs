@@ -71,10 +71,10 @@ public sealed class CourseEnrollmentService : ICourseEnrollmentService
         }
 
         // 4) Capacity check (non-cancelled)
-        var enrolledCount = await _db.EnrollmentLists
-            .CountAsync(e => e.CourseId == courseId && e.Status != "cancelled", ct);
-        if (enrolledCount >= course.NrOfSeats)
-            return EnrollmentResult.Fail(EnrollmentOutcome.CourseFull, "No seats available.");
+        // var enrolledCount = await _db.EnrollmentLists
+        //     .CountAsync(e => e.CourseId == courseId && e.Status != "cancelled", ct);
+        // if (enrolledCount >= course.NrOfSeats)
+        //     return EnrollmentResult.Fail(EnrollmentOutcome.CourseFull, "No seats available.");
 
         // 5) Duplicate enrollment check
         var alreadyEnrolled = await _db.EnrollmentLists

@@ -32,12 +32,10 @@ export default function NewWebinarHero({
           </h1>
 
           <ul className="list-none p-0 m-0 space-y-3 text-[var(--am-text-dark)]">
-            <li>❌ Ești manager la început și <span className="font-semibold">simți presiune din toate direcțiile,</span> mai ales de la top management?</li>
-            <li>✅ În acest webinar gratuit înveți <span className="font-semibold">cum să relaționezi cu top managementul</span> fără să simți presiunea apăsătoare.</li>
-            <li>❌ Te surprinzi controlând tot, verificând tot și simțind că, <span className="font-semibold">dacă nu ești tu peste tot, lucrurile o iau razna?</span></li>
-            <li>✅ <span className="font-semibold">Te ajut să eviți micro-managementul</span>, fără să pierzi controlul asupra echipei și rezultatelor.</li>
-            <li>❌ <span className="font-semibold">Te temi de conflicte și de discuții tensionate,</span> mai ales când trebuie să dai feedback direct?</li>
-            <li>✅ <span className="font-semibold">Te învăț cum să gestionezi conflictele și să oferi feedback</span> clar și constructiv, fără să-ți strici relația cu oamenii.</li>
+            <li>❌ Ești la început ca manager, simți presiune de sus și de jos, iar <span className="font-semibold"> relația cu top managementul te apasă?</span></li>
+            <li>✅ În webinar înveți cum să comunici cu top managementul<span className="font-semibold"> relaxat și sigur pe tine, fără frică și fără stres.</span></li>
+            <li>❌<span className="font-semibold">Te surprinzi controlând tot, eviți conflictele</span> și îți e teamă să dai feedback ca să nu strici relațiile?</li>
+            <li className="font-semibold">✅ Te învăț cum să gestionezi conflictele, să eviți micro-managementul și să oferi feedback clar, fără tensiuni.</li>
           </ul>
         </div>
 

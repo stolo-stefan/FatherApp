@@ -115,7 +115,7 @@ export default function WebinarThankYouPage() {
             </div>
 
             {/* QR ÎN DREAPTA TEXTULUI */}
-            <div className="w-full md:w-auto flex justify-center md:justify-end">
+            <div className="hidden md:flex md:w-auto md:justify-end">
               <div className="flex flex-col items-center">
                 <span className="text-sm font-semibold text-[var(--am-text-dark)] mb-2">
                   Cod QR WhatsApp
@@ -146,7 +146,7 @@ export default function WebinarThankYouPage() {
             <div className="flex justify-center">
               <Button
                 asChild
-                className="bg-[var(--am-accent-green)] hover:bg-[var(--am-primary-teal)] text-[var(--am-white)] px-6 py-5 text-base font-semibold rounded-xl"
+                className="bg-[#e47f3a] hover:bg-[var(--am-primary-teal)] text-[var(--am-white)] px-6 py-5 text-base font-semibold rounded-xl"
               >
                 <a
                   href={course.whatsappLink}

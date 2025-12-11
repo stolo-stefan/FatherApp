@@ -1,6 +1,6 @@
 // src/features/webinar/WebinarAboutSection.tsx
 import type { ReadCourseDto } from "@/services/course"
-import florinImg from "../../../assets/Florin-Stoleriu-Fondator.jpg"
+import florinImg from "../../../assets/Florin-Stoleriu-Fondator.svg"
 import abInBec from "../../../assets/ABInBec-logo.png"
 import bergenbier from "../../../assets/Bergenbier-logo.png"
 import mogyi from "../../../assets/Mogyi-logo.png"
@@ -9,6 +9,11 @@ import policolor from "../../../assets/Policolor-logo.png"
 import savana from "../../../assets/Savana-logo-hd.png"
 import { LogoCarousel } from "@/components/home/LogoCarousel"
 import NewButon from "@/components/home/NewButton"
+import bussinessDays from "../../../assets/publicatii/business-days-logo.jpg"
+import bussinessMagazin from "../../../assets/publicatii/business-magazin-logo.png"
+import dailyBusiness from "../../../assets/publicatii/daily-business-logo.png"
+import wallStreet from "../../../assets/publicatii/wall-street-logo.svg"
+import ziarulFinanciar from "../../../assets/publicatii/ziarul-financiar-logo.png"
 
 interface WebinarHeroProps{
     course: ReadCourseDto | null
@@ -51,7 +56,7 @@ export default function AboutSection({
             </div>
 
             {/* CTA */}
-            <div className="mt-6">
+            <div className="mt-6 text-center md:text-left">
               <NewButon course={course} />
             </div>
           </div>
@@ -81,9 +86,7 @@ export default function AboutSection({
                 <h3 className="text-xl md:text-2xl font-bold text-[var(--am-text-dark)] mb-2">
                 Publicații în care am apărut
                 </h3>
-                <p className="text-[var(--am-text-dark)]">
-                Wall-Street.ro • Business Magazin • Daily Business • Business Days • ZF Top 100 tineri manageri
-                </p>
+                <LogoCarousel logos={[bussinessDays,bussinessMagazin,dailyBusiness,wallStreet,ziarulFinanciar]}/>
             </div>
             </div>
       </div>

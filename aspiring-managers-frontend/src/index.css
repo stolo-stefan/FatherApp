@@ -1,3 +1,4 @@
+@import "./styles/fonts.css";
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -67,7 +68,10 @@ button:focus-visible {
   }
 } */
 
-html, body { height: 100%; font-size: 18px; }
+html, body { 
+  height: 100%; font-size: 18px; 
+  font-family: "Montserrat", ui-sans-serif, system-ui;
+}
 body { overflow-x: hidden; overflow-y: auto; }
 
 body {
@@ -127,7 +131,7 @@ body {
   /* Brand / Theme Core */
   --am-primary-teal: #2B6A70;          /* Primary teal – used for CTAs, buttons */
   --am-accent-green: #89b80a;          /* Accent lime green – highlight color */
-  --am-text-dark: #2A3A4E;             /* Main heading / text color */
+  --am-text-dark: #14233c;            /* Main heading / text color */
   --am-bg-light: #F9F9F6;              /* Page background */
   --am-gray-light: #E6E6E6;            /* Light gray for cards, sections */
   --am-navbar-dark: #333333;           /* Navbar / sidebar background */

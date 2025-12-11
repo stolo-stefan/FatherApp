@@ -6,14 +6,14 @@ services:
     environment:
       MYSQL_DATABASE: Aspiring_managers
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_HOST: "%"
     ports:
       - "3308:3306"
     command:
       [
         "--default-authentication-plugin=mysql_native_password",
         "--character-set-server=utf8mb4",
-        "--collation-server=utf8mb4_unicode_ci"
+        "--collation-server=utf8mb4_unicode_ci",
       ]
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
@@ -52,10 +52,10 @@ services:
       - "8080:8080"
     volumes:
       - dp_keys:/root/.aspnet/DataProtection-Keys
-      - media-data:/data   # <-- volume mounted here
+      - media-data:/data # <-- volume mounted here
 
 volumes:
   mysql_data:
   azurite_data:
   dp_keys:
-  media-data:              # <-- definition added
+  media-data: # <-- definition added
