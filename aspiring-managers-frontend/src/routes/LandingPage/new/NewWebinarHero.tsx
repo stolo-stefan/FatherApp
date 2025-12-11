@@ -27,7 +27,7 @@ export default function NewWebinarHero({
         {/* LEFT: TITLE + BULLETS */}
         <div className="space-y-6">
           <h1 className="text-3xl md:text-4xl font-bold leading-snug text-[var(--am-text-dark)]">
-            Te învăț cum să conduci echipa cu încredere fără să te simți
+            Te învăț cum să-ți conduci echipa cu încredere fără să te simți
             copleșit, chiar dacă ești la început
           </h1>
 
