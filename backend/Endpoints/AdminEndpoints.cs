@@ -114,6 +114,13 @@ public static class AdminEndpoints
             return Results.Ok("Status updated");
         });
 
+        adminGroup.MapDelete("{courseId:int}/enrolled/{userId:int}", async (int courseId, int userId, IAdminService service) =>
+        {
+            var ok = await service.DeleteEnrolledUser(courseId, userId);
+            if (!ok) return Results.BadRequest("An error occured");
+            return Results.Ok("Deleted user from course");
+        });
+
         return adminGroup;
     }
 }

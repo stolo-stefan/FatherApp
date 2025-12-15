@@ -5,5 +5,7 @@ public record class UpdateCourseDto(
     int? NrOfSeats,
     bool? IsFree,
     string? Currency,
-    int? PriceInCents
+    int? PriceInCents,
+    string? GetResponseToken,
+    string? WhatsappLink
 );

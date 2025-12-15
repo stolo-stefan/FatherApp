@@ -134,6 +134,18 @@ public class AdminService : IAdminService
             .ToListAsync();
         return enrolledList;
     }
+
+    public async Task<bool> DeleteEnrolledUser(int courseId, int userId)
+    {
+        var user = await dbContext.EnrollmentLists.FirstOrDefaultAsync(e => e.CourseId == courseId && e.UserId == userId);
+        if (user is null)
+            return false;
+        dbContext.EnrollmentLists.Remove(user);
+        await dbContext.SaveChangesAsync();
+
+        return true;
+    }
+
     public async Task<bool> UpdatePaymentStatus(EnrolledPaymentUpdate dto, CancellationToken ct = default)
     {
     // Load enrollment + navigations for email content

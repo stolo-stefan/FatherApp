@@ -29,4 +29,6 @@ public interface IAdminService
     //Update payment status and other
     Task<bool> UpdatePaymentStatus(EnrolledPaymentUpdate dto, CancellationToken ct = default);
     //Delete users
+
+    Task<bool> DeleteEnrolledUser(int courseId, int userId);
 }
