@@ -63,7 +63,8 @@ builder.Services.AddCors(opt =>
                 || host.EndsWith(".vercel.app") // previews (optional)
                 || host == "localhost"
                 || host == "127.0.0.1"
-                || host == "www.aspiringmanagers.ro";
+                || host == "www.aspiringmanagers.ro"
+                || host == "webinar.aspiringmanagers.ro";
         
         })
         .AllowAnyHeader()
