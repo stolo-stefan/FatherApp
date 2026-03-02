@@ -18,6 +18,7 @@ import FreeCourseEnrollPage from "./routes/NormalUser/Enrollment/FreeCourseEnrol
 //mport WebinarPage from "./routes/LandingPage/WebinarPage";
 import NewLandingPage from "./routes/LandingPage/new/NewLandingPage";
 import WebinarThankYouPage from "./routes/LandingPage/WebinarThankYouPage";
+import AdminCourseEditPage from "./routes/Admin/Course/AdminCourseEditPage";
 
 
 export default function App() {
@@ -85,6 +86,13 @@ export default function App() {
         element = {
         <ProtectedRoute>
           <AdminCreateCoursePage />
+        </ProtectedRoute>
+        }/>
+      <Route 
+      path="/admin/courses/:id/edit" 
+      element={
+        <ProtectedRoute>
+          <AdminCourseEditPage />
         </ProtectedRoute>
         }/>
         <Route 

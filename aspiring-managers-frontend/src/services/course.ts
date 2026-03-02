@@ -52,6 +52,18 @@ export interface ReadCourseDto {
   priceInCents: number;
 }
 
+export interface UpdateCourseDto{
+  title: string | null;
+  description: string | null;
+  startDate: string | null;
+  nrOfSeats: number | null;
+  isFree: boolean | null;
+  currency: string | null;
+  priceInCents: number | null;
+  getResponseToken: string | null;
+  whatsappLink: string | null;
+}
+
 export interface ReadCourseWhatsappDto{
   id: number;
   title: string;
@@ -85,6 +97,11 @@ export async function createCourse(dto: CreateCourseDto): Promise<ReadCourseDto>
   return data;
 }
 
+export async function updateCourse(courseId: number, dto: UpdateCourseDto): Promise<UpdateCourseDto> {
+  const { data } = await http.patch<UpdateCourseDto>(`/courses/${courseId}`, dto);
+  return data;
+}
+
 export async function readEnrolledUsers(courseId: number): Promise<EnrolledSummaryPerCourseDto[]> {
     const {data} = await http.get(`/admin/${courseId}/enrolled`);
     return data;
@@ -93,6 +110,15 @@ export async function readEnrolledUsers(courseId: number): Promise<EnrolledSumma
 export async function readUserDetails(courseId: number, userId: number): Promise<EnrolledUserDto> {
     const {data} = await http.get(`/admin/${courseId}/enrolled/${userId}`);
     return data;
+}
+
+export async function deleteEnrolledUser(courseId: number, userId: number): Promise<boolean> {
+  try {
+    await http.delete(`/admin/${courseId}/enrolled/${userId}`)
+    return true
+  } catch {
+    return false
+  }
 }
 
 export async function deleteCourse(id: number): Promise<boolean> {

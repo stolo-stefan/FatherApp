@@ -82,6 +82,8 @@ public class CourseService : ICourseService
         if (dto.IsFree.HasValue) course.IsFree = dto.IsFree.Value;
         if (dto.Currency is not null) course.Currency = dto.Currency.Trim().ToUpperInvariant();
         if (dto.PriceInCents.HasValue) course.PriceInCents = dto.PriceInCents.Value;
+        if (dto.GetResponseToken is not null) course.GetResponseToken = dto.GetResponseToken;
+        if (dto.WhatsappLink is not null) course.WhatsappLink = dto.WhatsappLink;
 
         // Cross-field validation after applying updates
         if (course.NrOfSeats < 0) return false;
