@@ -36,7 +36,7 @@ function toDateTimeLocalValue(iso: string) {
 }
 
 function toIsoFromLocal(local: string) {
-  return local ? new Date(local).toISOString() : ""
+  return local ? local : ""
 }
 
 export default function AdminUpdateCoursePage() {
