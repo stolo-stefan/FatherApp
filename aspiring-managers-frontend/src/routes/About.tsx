@@ -4,7 +4,6 @@ import {
   PageShell,
   QuoteBlock,
   Section,
-  SectionBadge,
   SectionIntro,
   SplitStory,
 } from "@/components/MarketingSite";
