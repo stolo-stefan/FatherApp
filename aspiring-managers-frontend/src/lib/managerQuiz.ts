@@ -40,7 +40,7 @@ export type QuizResult = {
 };
 
 const contactEmail = "mailto:contact@aspiringmanagers.ro";
-const schedulerUrl = "https://scheduler.zoom.us/florin-stoleriu";
+const schedulerUrl = "https://scheduler.zoom.us/florin-stoleriu/invitatie-la-discutie-1-la-1";
 const programUrl = "/program-mentorat";
 const mentorshipHourUrl = "/ora-de-mentorat";
 const aboutUrl = "/despre-mine";

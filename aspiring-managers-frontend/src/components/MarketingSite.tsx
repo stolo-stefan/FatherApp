@@ -128,7 +128,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden lg:block">
-          <SiteButton item={{ label: "Stabileste o discutie gratuita", href: "https://scheduler.zoom.us/florin-stoleriu", variant: "primary" }} />
+          <SiteButton item={{ label: "Stabileste o discutie gratuita", href: "https://scheduler.zoom.us/florin-stoleriu/invitatie-la-discutie-1-la-1", variant: "primary" }} />
         </div>
 
         <Drawer direction="right">
@@ -142,9 +142,6 @@ export function SiteHeader() {
             </Button>
           </DrawerTrigger>
           <DrawerContent className="bg-[#fffaf4] text-[#14213c]">
-            <DrawerHeader className="border-b border-[#d8dee9] px-5 py-5 text-left">
-              <DrawerTitle className="text-lg font-semibold">Navigație</DrawerTitle>
-            </DrawerHeader>
             <div className="flex flex-1 flex-col px-5 py-4">
               <div className="flex flex-col gap-2">
                 {navItems.map((item) => {
@@ -168,14 +165,13 @@ export function SiteHeader() {
                 })}
               </div>
               <div className="mt-6 rounded-[28px] bg-[#14213c] p-5 text-white shadow-[0_30px_70px_-40px_rgba(20,33,60,0.8)]">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#f6b27c]">Start rapid</p>
                 <h3 className="mt-2 text-2xl font-semibold leading-tight">Începe cu o conversație clară.</h3>
                 <p className="mt-3 text-sm leading-6 text-white/80">
                   Dacă ești în primele luni de management sau pregătești o echipă de manageri, primul pas este o discuție scurtă.
                 </p>
                 <DrawerClose asChild>
                   <SiteButton
-                    item={{ label: "Stabileste o discutie gratuita", href: "https://scheduler.zoom.us/florin-stoleriu", variant: "primary" }}
+                    item={{ label: "Stabileste o discutie gratuita", href: "https://scheduler.zoom.us/florin-stoleriu/invitatie-la-discutie-1-la-1", variant: "primary" }}
                     fullWidth
                     className="mt-5"
                   />
@@ -196,7 +192,7 @@ export function SiteFooter() {
         <div>
           <div>
             <p className="text-lg font-semibold">{siteFooter.title}</p>
-            <p className="mt-1 text-sm text-white/60">Mentorat aplicat pentru manageri în tranziție.</p>
+            <p className="mt-1 text-sm text-white/60"></p>
           </div>
           <p className="mt-5 max-w-xl text-sm leading-7 text-white/72">{siteFooter.description}</p>
           <p className="mt-5 max-w-xl text-xs leading-6 text-white/50">{siteFooter.note}</p>

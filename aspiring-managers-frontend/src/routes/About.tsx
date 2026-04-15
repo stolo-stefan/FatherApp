@@ -16,7 +16,6 @@ export default function About() {
       <Section tone="navy">
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            <SectionBadge>Despre mine</SectionBadge>
             <h1 className="mt-4 max-w-4xl font-serif text-[2.3rem] leading-[0.97] sm:text-[3rem] lg:text-[4.4rem]">
               {aboutPageContent.hero.title}
             </h1>
@@ -58,7 +57,6 @@ export default function About() {
       <Section>
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div>
-            <SectionBadge>De ce există Aspiring Managers</SectionBadge>
             <SectionIntro title={aboutPageContent.mission.title} />
           </div>
           <p className="text-base leading-8 text-[#52627a] sm:text-lg">{aboutPageContent.mission.description}</p>
@@ -67,7 +65,7 @@ export default function About() {
 
       <Section tone="navy">
         <SectionIntro
-          eyebrow="Convingeri"
+          eyebrow=""
           title={aboutPageContent.beliefs.title}
           description="Aceste principii nu vin din citate motivaționale, ci din ani de management real, în roluri, companii și contexte foarte diferite."
         />
@@ -79,7 +77,6 @@ export default function About() {
       <Section>
         <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-start">
           <div className="space-y-5">
-            <SectionBadge>Ce vreau pentru tine</SectionBadge>
             <SectionIntro title={aboutPageContent.future.title} />
             <div className="space-y-5 text-base leading-8 text-[#52627a] sm:text-lg">
               {aboutPageContent.future.paragraphs.map((paragraph) => (

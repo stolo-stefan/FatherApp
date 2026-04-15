@@ -32,7 +32,7 @@ export default function Home() {
               imageBackgroundClass="bg-[#eef2f8]"
               label="Leadership aplicat"
               title="Claritate, structură și decizii mai bune"
-              description="Un format construit pentru managerii care trebuie să livreze prin oameni, nu doar prin propriul efort. Designul rămâne curat pe mobil, iar mesajul principal rămâne mereu vizibil."
+              description="Un format construit pentru managerii care trebuie să livreze prin oameni, nu doar prin propriul efort."
               dark
             />
             <div className="grid gap-3 sm:grid-cols-2">
@@ -114,7 +114,7 @@ export default function Home() {
         <SectionIntro
           eyebrow="Proces"
           title={homepageContent.process.title}
-          description="Nu vindem tuturor același lucru. Mai întâi clarificăm unde ești, apoi alegem formatul potrivit pentru tine."
+          description="Mai întâi clarificăm unde ești, apoi alegem formatul potrivit pentru tine."
         />
         <div className="mt-10">
           <StepCards items={homepageContent.process.steps} dark />
@@ -128,12 +128,11 @@ export default function Home() {
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <AmbientPanel
             imageUrl={brandAssets.mentorshipAbstract}
-            label="Pentru cine este"
+            label=""
             title="Primii ani de management sunt decisivi"
             description="Dacă vii dintr-un rol de specialist și acum conduci oameni pentru prima dată, ai nevoie de mai mult decât informație. Ai nevoie de orientare, structură și repere clare."
           />
           <div>
-            <SectionBadge>Potrivire</SectionBadge>
             <SectionIntro title={homepageContent.audience.title} />
             <p className="mt-6 text-base leading-8 text-[#52627a] sm:text-lg">{homepageContent.audience.description}</p>
           </div>
@@ -142,7 +141,7 @@ export default function Home() {
 
       <Section tone="muted">
         <SectionIntro
-          eyebrow="Încredere socială"
+          eyebrow=""
           title={homepageContent.testimonials.title}
           description="Rezultatele nu se văd doar în starea de spirit, ci în conversații dificile gestionate mai bine, în structură de lucru și în senzația că ziua nu te mai conduce ea pe tine."
         />
@@ -153,9 +152,9 @@ export default function Home() {
 
       <Section>
         <SectionIntro
-          eyebrow="Întrebări frecvente"
-          title="Întrebări pe care le au managerii înainte să înceapă"
-          description="Am păstrat răspunsurile concise și clare, astfel încât experiența pe mobil să rămână ușor de parcurs și de scanat."
+          eyebrow=""
+          title="Întrebări frecvente"
+          description=""
         />
         <div className="mt-10">
           <FAQBlock items={homepageContent.faqs} />

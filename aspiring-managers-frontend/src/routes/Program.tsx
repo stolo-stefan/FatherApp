@@ -62,7 +62,6 @@ export default function Program() {
       <Section>
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div>
-            <SectionBadge>Provocarea</SectionBadge>
             <SectionIntro title={programPageContent.problem.title} />
           </div>
           <div className="space-y-5 text-base leading-8 text-[#52627a] sm:text-lg">
@@ -102,7 +101,6 @@ export default function Program() {
       <Section tone="muted">
         <div className="grid gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
           <div>
-            <SectionBadge>După program</SectionBadge>
             <SectionIntro title={programPageContent.outcome.title} />
             <div className="mt-6 space-y-5 text-base leading-8 text-[#52627a] sm:text-lg">
               {programPageContent.outcome.paragraphs.map((paragraph) => (
@@ -120,7 +118,6 @@ export default function Program() {
       <Section>
         <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
           <div className="rounded-[32px] border border-[#d8dee9] bg-white p-7 shadow-[0_26px_70px_-50px_rgba(20,33,60,0.35)] sm:p-9">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#e8711a]">De ce 1 la 1</p>
             <h2 className="mt-4 font-serif text-[2rem] leading-[1.05] text-[#14213c]">{programPageContent.oneToOne.title}</h2>
             <p className="mt-5 text-base leading-8 text-[#52627a] sm:text-lg">{programPageContent.oneToOne.description}</p>
           </div>
@@ -134,7 +131,6 @@ export default function Program() {
               }}
             />
             <div className="p-7 sm:p-9">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#f5b37e]">De ce Florin</p>
               <h2 className="mt-4 font-serif text-[2rem] leading-[1.05]">{programPageContent.florin.title}</h2>
               <p className="mt-5 text-base leading-8 text-white/76 sm:text-lg">{programPageContent.florin.description}</p>
             </div>
@@ -144,7 +140,6 @@ export default function Program() {
 
       <Section tone="muted">
         <SectionIntro
-          eyebrow="Potrivire"
           title={programPageContent.audience.title}
           description={programPageContent.audience.description}
         />
@@ -152,7 +147,7 @@ export default function Program() {
 
       <Section>
         <SectionIntro
-          eyebrow="Participanți"
+          eyebrow=""
           title="Ce spun participanții"
           description="Am selectat exemple care evidențiază exact tipul de transformare pe care programul îl urmărește: mai multă claritate, delegare reală și mai puțină oboseală mentală."
         />
@@ -163,7 +158,7 @@ export default function Program() {
 
       <Section tone="muted">
         <SectionIntro
-          eyebrow="FAQ"
+          eyebrow=""
           title="Întrebări frecvente despre program"
           description="Aici am păstrat răspunsurile cele mai utile înainte de decizia de înscriere, cu aceeași claritate pe desktop și pe mobil."
         />

@@ -33,7 +33,7 @@ export const brandAssets = {
 } as const;
 export const contactLinks = {
   quiz: "#quiz",
-  discoveryCall: "https://scheduler.zoom.us/florin-stoleriu",
+  discoveryCall: "https://scheduler.zoom.us/florin-stoleriu/invitatie-la-discutie-1-la-1",
   mentorshipHour: "/ora-de-mentorat",
   mentorshipProgram: "/program-mentorat",
   b2bOffer: "/cursuri-management-b2b",
@@ -63,7 +63,7 @@ export const siteFooter = {
       links: [
         { label: "Tu ce fel de manager esti? Fa quizul de 2 minute", href: contactLinks.quiz },
         { label: "Stabileste o discutie gratuita", href: contactLinks.discoveryCall },
-        { label: "Scrie-ne", href: contactLinks.contact },
+        { label: "Contact", href: contactLinks.contact },
       ],
     },
   ],
@@ -105,7 +105,7 @@ export const homepageContent = {
     ],
   },
   aboutFlorin: {
-    title: "De ce te poate ajuta Florin Stoleriu",
+    title: "Cum te pot ajuta?",
     paragraphs: [
       "Am început ca specialist în vânzări și am descoperit foarte repede cât de diferit este să faci tu treaba față de a obține rezultate prin alții. Am făcut greșeli, am pierdut oameni buni, am avut conversații dificile și am învățat, de cele mai multe ori, direct din teren.",
       "În 25 de ani de management, am condus echipe de peste 220 de oameni la Bergenbier, am fost Commercial Director la Policolor, am lucrat în AB InBev România în roluri de Area Sales Manager, Trade Marketing Manager și Modern Trade Director și am ocupat funcții de General Manager și Senior Consultant în companii precum Martens și Mogyi.",
@@ -181,25 +181,25 @@ export const homepageContent = {
       "Ești manager de mai puțin de 3 ani sau ești în primele luni după o promovare recentă. Ai venit dintr-un rol de specialist și acum conduci oameni pentru prima dată. Vrei să fii un manager bun, nu doar să supraviețuiești în rol, și ai nevoie de cineva care a mai trecut pe acolo și îți poate spune direct ce să faci.",
   },
   testimonials: {
-    title: "Ce spun managerii care au trecut prin program",
+    title: "Ce spun managerii cu care am lucrat",
     items: [
       {
         quote:
-          "După prima lună cu Florin, am înțeles cum să prioritizez, am avut primele ședințe structurate și am rezolvat un conflict între doi oameni din echipă pe care îl tot amânam. A fost prima dată când am simțit că am control.",
-        author: "Andrei M.",
-        role: "Team Leader, companie de logistică, București",
+        "Cu Florin am învățat ceva ce nu îți spune nimeni la promovare: cum să gestionezi oamenii dificili fără să intri în conflict. M-a ghidat cu exemple reale și soluții simple. Datorită lui, primele luni ca manager au fost o lecție de creștere, nu un haos.",
+        author: "Darius Drăghiceanu",
+        role: "Regional Sales Manager",
       },
       {
         quote:
-          "Am schimbat complet modul în care țin one-on-one-urile și rezultatele s-au văzut în trei săptămâni. Mi-am dat seama că evitam subiectul real și spuneam doar ce credeam că vrea să audă colegul meu.",
-        author: "Raluca D.",
-        role: "Sales Manager, retail FMCG, Cluj-Napoca",
+          "Credeam că trebuie să știu totul ca să fiu un lider bun. Florin Stoleriu mi-a schimbat complet perspectiva. M-a ajutat să-mi găsesc stilul de conducere, să dau feedback fără teamă și să câștig respectul echipei. A contat enorm.",
+        author: "Irinel Ilie",
+        role: "Regional Sales Manager",
       },
       {
         quote:
-          "Florin a vorbit despre situații reale, nu despre modele din articole. Am aplicat două lucruri din acea seară chiar a doua zi dimineață. După o lună m-am înscris și în program.",
-        author: "Mihai C.",
-        role: "Operations Manager, companie de producție, Timișoara",
+          "Lucrul cu Florin mi-a accelerat evoluția ca manager. De la delegare, la structură și la gestionarea momentelor tensionate, totul a devenit mai clar. M-a ajutat să trec pragul acesta cu calm, nu cu panică.",
+        author: "Valentin Sasu",
+        role: "Sales Manager",
       },
     ] satisfies Testimonial[],
   },
@@ -213,7 +213,7 @@ export const homepageContent = {
     {
       question: "Cât timp îmi ia pe săptămână?",
       answer:
-        "Programul de mentorat presupune aproximativ 3-4 ore pe săptămână, iar sesiunile 1 la 1 sunt la cerere. Webinarul lunar durează aproximativ o oră și jumătate.",
+        "Programul de mentorat presupune aproximativ 2-3 ore pe săptămână, iar sesiunile 1 la 1 sunt la cerere. Webinarul lunar durează aproximativ o oră și jumătate.",
     },
     {
       question: "Este diferit de un curs online obișnuit?",
@@ -228,7 +228,7 @@ export const homepageContent = {
     {
       question: "Cum știu dacă programul mi se potrivește înainte să cumpăr?",
       answer:
-        "Poți începe cu quizul de 2 minute, iar dacă vrei să vorbești direct, poți stabili o discuție gratuită de 30 de minute cu Florin înainte de orice decizie.",
+        "Poți începe cu quizul de 2 minute, iar dacă vrei să vorbești direct, poți stabili o discuție gratuită de 30 de minute cu mine înainte de orice decizie.",
     },
   ] satisfies FaqItem[],
   finalCta: {
@@ -247,13 +247,13 @@ export const homepageContent = {
         variant: "secondary",
       },
     ] satisfies CtaLink[],
-    note: "Quiz gratuit, 2 minute, fără date de contact.",
+    note: "Quiz gratuit de 2 minute",
   },
 };
 
 export const aboutPageContent = {
   hero: {
-    title: "Sunt Florin Stoleriu. Și nu m-am născut manager.",
+    title: `Sunt Florin Stoleriu și nu m-am născut manager.`,
     description:
       "25 de ani în top management, 30 de ani în vânzări și o lecție pe care nimeni nu mi-a predat-o la timp: tranziția de la execuție la leadership nu vine cu manual de utilizare.",
   },
