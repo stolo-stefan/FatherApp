@@ -6,7 +6,7 @@ import {
   scoreManagerQuiz,
 } from "@/lib/managerQuiz";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Check, ChevronLeft, X } from "lucide-react";
+import { ArrowRight, Check, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 type Answers = Record<string, string>;

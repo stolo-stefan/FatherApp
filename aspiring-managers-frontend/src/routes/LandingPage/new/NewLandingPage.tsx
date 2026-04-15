@@ -10,7 +10,6 @@ import QASessionSection from "./QASessionSection"
 import BonusesSection from "./BonusesSection"
 import StorySection from "./StorySection"
 import FAQSection from "./FAQSection"
-import Navbar from "@/components/layout/Navbar"
 import { PageShell } from "@/components/MarketingSite"
 // import WebinarScreenshotTestimonials from "./WebinarScreenshotTestimonials"
 
