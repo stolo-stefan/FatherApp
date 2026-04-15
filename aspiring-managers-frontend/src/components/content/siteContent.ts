@@ -68,7 +68,7 @@ export const siteFooter = {
     },
   ],
   note:
-    "Repo-ul este pregătit pentru integrare ulterioară cu Stripe, SmartBill, Zoom și GetResponse prin backend securizat.",
+    "",
 };
 
 export const homepageContent = {
