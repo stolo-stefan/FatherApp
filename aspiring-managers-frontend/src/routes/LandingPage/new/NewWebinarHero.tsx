@@ -22,11 +22,11 @@ export default function NewWebinarHero({
       className="w-full"
     >
       {/* TRUE TWO-COLUMN LAYOUT */}
-      <div className="grid gap-12 md:grid-cols-2 items-start">
+      <div className="grid gap-8 md:gap-12 lg:grid-cols-2 items-start">
         
         {/* LEFT: TITLE + BULLETS */}
-        <div className="space-y-6">
-          <h1 className="text-3xl md:text-4xl font-bold leading-snug text-[var(--am-text-dark)]">
+        <div className="space-y-6 min-w-0">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-[var(--am-text-dark)]">
             Te învăț cum să-ți conduci echipa cu încredere fără să te simți
             copleșit, chiar dacă ești la început
           </h1>
@@ -40,7 +40,7 @@ export default function NewWebinarHero({
         </div>
 
         {/* RIGHT: FORM PLACEHOLDER */}
-        <aside id="hero-form" aria-label="Formular de înscriere la webinar" className="w-full">
+        <aside id="hero-form" aria-label="Formular de înscriere la webinar" className="w-full min-w-0">
           
             <NewSignUpForm courseId={courseId} numberOfSeats={course?.nrOfSeats} targetDate={targetDate}/>
           

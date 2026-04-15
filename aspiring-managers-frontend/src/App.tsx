@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 
 // admin pages
-// import HomePage from "./routes/HomePage";
 import LoginPage from "./routes/LoginPage";
 import AdminPage from "./routes/Admin/AdminPage";
 import MainBlogPage from "./routes/Admin/Blog/MainBlogPage";
@@ -19,19 +18,32 @@ import FreeCourseEnrollPage from "./routes/NormalUser/Enrollment/FreeCourseEnrol
 import NewLandingPage from "./routes/LandingPage/new/NewLandingPage";
 import WebinarThankYouPage from "./routes/LandingPage/WebinarThankYouPage";
 import AdminCourseEditPage from "./routes/Admin/Course/AdminCourseEditPage";
+import Home from "./routes/Home";
+import ScrollToTop from "./components/ScrollToTop";
+import About from "./routes/About";
+import B2B from "./routes/B2B";
+import Program from "./routes/Program";
+import MentorshipHour from "./routes/MentorshipHour";
 
 
 export default function App() {
   return (
+    <>
+    <ScrollToTop />
     <Routes>
       {/* public */}
       <Route path="/login" element={<LoginPage />} />
-      {/* <Route path="/" element={<HomePage />} /> */}
-      <Route path="/" element={<NewLandingPage />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/webinar" element={<NewLandingPage />} />
       <Route path="/blog/:id" element={<BlogReadPage />} />
       <Route path="/courses/:id/enroll-free" element={<FreeCourseEnrollPage  />} />
       <Route path="*" element={<NotFoundPage />} />
       <Route path="/thank-you" element={<WebinarThankYouPage/>}></Route>
+
+      <Route path="/despre-mine" element={<About />} />
+      <Route path="/cursuri-management-b2b" element={<B2B />} />
+      <Route path="/program-mentorat" element={<Program />} />
+      <Route path="/ora-de-mentorat" element={<MentorshipHour />} />
 
       {/* admin (protected) */}
       <Route
@@ -103,5 +115,6 @@ export default function App() {
           </ProtectedRoute>
         }/>
     </Routes>
+    </>
   );
 }

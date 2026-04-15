@@ -176,7 +176,7 @@ export default function NewSignUpForm({
       className="bg-[var(--am-white)] border border-[var(--am-border-gray)] rounded-2xl px-5 py-6 md:px-7 md:py-7 space-y-4 shadow-sm"
     >
       {/* Top text like in screenshot */}
-      <p className="text-sm md:text-base font-semibold text-[var(--am-text-dark)]">
+      <p className="text-sm md:text-base font-semibold text-[var(--am-text-dark)] break-words">
         Webinar live și{" "}
         <span className="text-[#e47f3a] font-semibold">gratuit</span>, în data de {formatDateRo(targetDate?.toISOString())}, pentru
         cei care vor să învețe cum să treacă rapid de la nesiguranță la

@@ -11,6 +11,7 @@ import BonusesSection from "./BonusesSection"
 import StorySection from "./StorySection"
 import FAQSection from "./FAQSection"
 import Navbar from "@/components/layout/Navbar"
+import { PageShell } from "@/components/MarketingSite"
 // import WebinarScreenshotTestimonials from "./WebinarScreenshotTestimonials"
 
 export default function NewLandingPage() {
@@ -45,7 +46,8 @@ export default function NewLandingPage() {
 
   return (
     <>
-    <Navbar />
+    <PageShell>
+    {/* <Navbar /> */}
     <main className="pt-4 md:pt-6 pb-10 md:pb-14">
       
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,6 +69,7 @@ export default function NewLandingPage() {
         {/* <WebinarScreenshotTestimonials /> */}
       </div>
     </main>
+    </PageShell>
     </>
   )
 }
