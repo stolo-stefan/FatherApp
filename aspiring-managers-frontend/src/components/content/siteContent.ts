@@ -21,16 +21,21 @@ export type FaqItem = {
   answer: string;
 };
 
+import headerLogo from "@/assets/logoNoBackground.png";
+import heroBackground from "@/assets/heroBackground.png";
+import managementCrossroads from "@/assets/managementCrossroads.png";
+import florinPortrait from "@/assets/fondatorPortrait.png";
+
 export const brandAssets = {
-  headerLogo: "src/assets/logoNoBackground.png",
+  headerLogo,
   fullLogo: "https://d2xsxph8kpxj0f.cloudfront.net/310519663526355932/EeuJFgS4qYFE93HezKFf8g/Asset15@20x_fde0f2f9.webp",
   iconLogo: "https://d2xsxph8kpxj0f.cloudfront.net/310519663526355932/EeuJFgS4qYFE93HezKFf8g/Asset12@20x_ad8713ea.png",
   wordmarkLogo: "https://d2xsxph8kpxj0f.cloudfront.net/310519663526355932/EeuJFgS4qYFE93HezKFf8g/Asset14@20x_3906a473.webp",
   monogramLogo: "https://d2xsxph8kpxj0f.cloudfront.net/310519663526355932/EeuJFgS4qYFE93HezKFf8g/Asset13@20x_80cf0861.png",
-  heroBackground: "src/assets/heroBackground.png",
-  managementCrossroadsAbstract: "src/assets/managementCrossroads.png",
+  heroBackground,
+  managementCrossroads,
   mentorshipAbstract: "https://d2xsxph8kpxj0f.cloudfront.net/310519663526355932/EeuJFgS4qYFE93HezKFf8g/aspiring-mentorship-abstract-cards_eca28131.png",
-  florinPortrait: "src/assets/fondatorPortrait.png",
+  florinPortrait,
   b2bBackground: "https://d2xsxph8kpxj0f.cloudfront.net/310519663526355932/EeuJFgS4qYFE93HezKFf8g/aspiring-b2b-geometric-wave_0f985448.png",
 } as const;
 export const contactLinks = {
