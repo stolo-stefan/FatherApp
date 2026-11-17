@@ -18,6 +18,6 @@ public class Media
     public string? OriginalFileName { get; set; }
     public long SizeBytes { get; set; }
     public string? ContentType { get; set; }
-    public string StorageProvider { get; set; } = "Local";       // "Local" | "S3" | "Azure"
+    public string StorageProvider { get; set; } = "Local";
     public MediaKind Kind { get; set; } = MediaKind.Image;
 }

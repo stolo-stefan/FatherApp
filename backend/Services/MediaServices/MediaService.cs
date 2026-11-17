@@ -42,7 +42,7 @@ public class MediaService : IMediaService
                 m.Id,
                 m.Url,                                // path-only stored in DB
                 m.Kind,                               // enum
-                _storage.GetReadUri(m.Url).ToString(),// SAS link for <img>/<video>
+                _storage.GetReadUri(m.Url).ToString(),// read URL for <img>/<video>
                 m.OriginalFileName,
                 m.ContentType,
                 m.SizeBytes
@@ -84,7 +84,7 @@ public class MediaService : IMediaService
                 OriginalFileName = f.FileName,
                 SizeBytes = f.Length,
                 ContentType = f.ContentType,
-                StorageProvider = "AzureBlob",
+                StorageProvider = "Local",
                 Kind = kind
             };
 

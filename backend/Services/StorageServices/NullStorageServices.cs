@@ -10,7 +10,7 @@ namespace backend.Services.StorageServices
     /// Dummy implementation of IStorageServices.
     /// It does NOT actually save or delete any files.
     /// It just returns fake paths so the rest of the app can run
-    /// without Azure / any real storage.
+    /// without real storage.
     /// </summary>
     public sealed class NullStorageServices : IStorageServices
     {

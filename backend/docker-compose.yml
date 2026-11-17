@@ -23,15 +23,6 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  azurite:
-    image: mcr.microsoft.com/azure-storage/azurite
-    container_name: am-azurite
-    command: "azurite --blobHost 0.0.0.0 --location /data"
-    ports:
-      - "10000:10000"
-    volumes:
-      - azurite_data:/data
-
   backend:
     build:
       context: .
@@ -40,8 +31,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      azurite:
-        condition: service_started
     env_file:
       - ./.env.local
     environment:
@@ -56,6 +45,5 @@ services:
 
 volumes:
   mysql_data:
-  azurite_data:
   dp_keys:
   media-data: # <-- definition added

@@ -53,8 +53,6 @@ secrets.json
 # Docker / Containers      #
 ###########################
 # Ignore local Docker volumes, cache, and data
-**/azurite_data/
-**/.azurite
 **/mysql_data/
 **/dp_keys/
 **/DataProtection-Keys/
@@ -84,15 +82,15 @@ Thumbs.db
 ###########################
 # Uploaded media (local)   #
 ###########################
-# Azure-hosted blobs are remote — only local dev uploads need ignoring
+# Local uploads
 wwwroot/uploads/
 wwwroot/media/
 wwwroot/files/
 wwwroot/blogs/
 wwwroot/storage/
 
-# ignore all local Azurite files
-__azurite_db*__.json
+# Legacy local storage data
+__*db*__.json
 __blobstorage__/
 __queuestorage__/
 

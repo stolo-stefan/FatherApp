@@ -73,14 +73,6 @@ builder.Services.AddCors(opt =>
     );
 });
 
-// var blobConn   = builder.Configuration.GetConnectionString("AzureBlob") ?? throw new InvalidOperationException("ConnectionStrings:AzureBlob is missing.");
-// var container  = builder.Configuration.GetValue<string>("Storage:Container") ?? "media";
-// var useSas     = builder.Configuration.GetValue<bool>("Storage:UseSasLinks", true);
-// var sasHours   = builder.Configuration.GetValue<int?>("Storage:SasTtlHours") ?? 6;
-
-// builder.Services.AddSingleton<IStorageServices>(
-//     _ => new AzureBlobStorageServices(blobConn, container, useSasLinks: useSas, sasTtl: TimeSpan.FromHours(sasHours))
-// );
 builder.Services.AddSingleton<IStorageServices, FileSystemStorageServices>();
 
 var app = builder.Build();

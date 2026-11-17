@@ -29,7 +29,7 @@ export default function Home() {
               imageUrl={brandAssets.florinPortrait}
               imageSize="contain"
               imagePosition="center top"
-              imageBackgroundClass="bg-[#eef2f8]"
+              imageBackgroundClass="bg-[#E9EFF8]"
               label="Leadership aplicat"
               title="Claritate, structură și decizii mai bune"
               description="Un format construit pentru managerii care trebuie să livreze prin oameni, nu doar prin propriul efort."
@@ -127,7 +127,7 @@ export default function Home() {
       <Section>
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <AmbientPanel
-            imageUrl={brandAssets.mentorshipAbstract}
+            imageUrl={brandAssets.managementCrossroadsAbstract}
             label=""
             title="Primii ani de management sunt decisivi"
             description="Dacă vii dintr-un rol de specialist și acum conduci oameni pentru prima dată, ai nevoie de mai mult decât informație. Ai nevoie de orientare, structură și repere clare."

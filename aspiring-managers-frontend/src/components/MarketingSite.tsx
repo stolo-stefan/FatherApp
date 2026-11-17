@@ -21,6 +21,7 @@ import {
 import type { PropsWithChildren, ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+
 function isExternal(href: string) {
   return href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("#");
 }
@@ -101,7 +102,7 @@ export function SiteHeader() {
       <div className="container flex min-h-18 items-center justify-between gap-4 py-3">
         <SiteLink href="/" className="inline-flex items-center" aria-label="Aspiring Managers">
           <img
-            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663526355932/EeuJFgS4qYFE93HezKFf8g/nav-logo_57c28d9c.webp"
+            src={brandAssets.headerLogo}
             alt="Aspiring Managers"
             className="h-10 w-auto object-contain sm:h-12"
           />
