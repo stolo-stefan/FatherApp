@@ -1,3 +1,8 @@
+import headerLogo from "@/assets/logoNoBackground.png";
+import heroBackground from "@/assets/heroBackground.png";
+import managementCrossroads from "@/assets/managementCrossroads.png";
+import florinPortrait from "@/assets/fondatorPortrait.png";
+
 export type NavItem = {
   label: string;
   href: string;
@@ -20,11 +25,6 @@ export type FaqItem = {
   question: string;
   answer: string;
 };
-
-import headerLogo from "@/assets/logoNoBackground.png";
-import heroBackground from "@/assets/heroBackground.png";
-import managementCrossroads from "@/assets/managementCrossroads.png";
-import florinPortrait from "@/assets/fondatorPortrait.png";
 
 export const brandAssets = {
   headerLogo,

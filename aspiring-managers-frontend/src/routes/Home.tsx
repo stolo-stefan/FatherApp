@@ -127,7 +127,7 @@ export default function Home() {
       <Section>
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <AmbientPanel
-            imageUrl={brandAssets.managementCrossroadsAbstract}
+            imageUrl={brandAssets.managementCrossroads}
             label=""
             title="Primii ani de management sunt decisivi"
             description="Dacă vii dintr-un rol de specialist și acum conduci oameni pentru prima dată, ai nevoie de mai mult decât informație. Ai nevoie de orientare, structură și repere clare."
