@@ -1,4 +1,6 @@
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog } from "@/components/manus/ui/Dialog";
+import { DialogContent } from "@/components/manus/ui/DialogContent";
+import { DialogTrigger } from "@/components/manus/ui/DialogTrigger";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

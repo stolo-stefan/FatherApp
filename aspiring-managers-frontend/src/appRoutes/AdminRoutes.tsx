@@ -1,7 +1,7 @@
 import { Route } from "react-router-dom";
-import ProtectedRoute from "@/routes/ProtectedRoute";
+import ProtectedRoute from "@/routes/Admin/ProtectedRoute";
 
-import LoginPage from "../routes/LoginPage"; // admin login
+import LoginPage from "../routes/Admin/LoginPage"; // admin login
 import AdminPage from "../routes/Admin/AdminPage"; // admin dashboard
 import MainBlogPage from "../routes/Admin/Blog/MainBlogPage"; // admin toate blogurile create
 import AdminBlogCreatePage from "../routes/Admin/Blog/CreateNewBlogPage"; // admin create blog

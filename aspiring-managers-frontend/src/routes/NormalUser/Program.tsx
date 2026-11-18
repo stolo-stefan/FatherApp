@@ -1,15 +1,13 @@
-import {
-  FAQBlock,
-  FinalBanner,
-  NumberedModuleGrid,
-  PageShell,
-  Section,
-  SectionBadge,
-  SectionIntro,
-  SiteButton,
-  StepCards,
-  TestimonialGrid,
-} from "@/components/MarketingSite";
+import { FAQBlock } from "@/components/manus/FAQBlock";
+import { FinalBanner } from "@/components/manus/FinalBanner";
+import { NumberedModuleGrid } from "@/components/manus/NumberedModuleGrid";
+import { PageShell } from "@/components/manus/PageShell";
+import { Section } from "@/components/manus/Section";
+import { SectionBadge } from "@/components/manus/SectionBadge";
+import { SectionIntro } from "@/components/manus/SectionIntro";
+import { SiteButton } from "@/components/manus/SiteButton";
+import { StepCards } from "@/components/manus/StepCards";
+import { TestimonialGrid } from "@/components/manus/TestimonialGrid";
 import { brandAssets, programPageContent } from "@/components/content/siteContent";
 
 export default function Program() {

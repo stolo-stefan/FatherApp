@@ -1,10 +1,10 @@
 import { Route } from "react-router-dom";
 
-import Home from "../routes/Home";
-import About from "../routes/About";
-import B2B from "../routes/B2B";
-import Program from "../routes/Program";
-import MentorshipHour from "../routes/MentorshipHour";
+import Home from "../routes/NormalUser/Home";
+import About from "../routes/NormalUser/About";
+import B2B from "../routes/NormalUser/B2B";
+import Program from "../routes/NormalUser/Program";
+import MentorshipHour from "../routes/NormalUser/MentorshipHour";
 
 const manusRoutes = (
         <>

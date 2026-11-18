@@ -1,12 +1,10 @@
-import {
-  BulletBeliefs,
-  FinalBanner,
-  PageShell,
-  QuoteBlock,
-  Section,
-  SectionIntro,
-  SplitStory,
-} from "@/components/MarketingSite";
+import { BulletBeliefs } from "@/components/manus/BulletBeliefs";
+import { FinalBanner } from "@/components/manus/FinalBanner";
+import { PageShell } from "@/components/manus/PageShell";
+import { QuoteBlock } from "@/components/manus/QuoteBlock";
+import { Section } from "@/components/manus/Section";
+import { SectionIntro } from "@/components/manus/SectionIntro";
+import { SplitStory } from "@/components/manus/SplitStory";
 import { aboutPageContent, brandAssets } from "@/components/content/siteContent";
 
 export default function About() {

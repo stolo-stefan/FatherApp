@@ -10,7 +10,7 @@ import QASessionSection from "./QASessionSection"
 import BonusesSection from "./BonusesSection"
 import StorySection from "./StorySection"
 import FAQSection from "./FAQSection"
-import { PageShell } from "@/components/MarketingSite"
+import { PageShell } from "@/components/manus/PageShell";
 // import WebinarScreenshotTestimonials from "./WebinarScreenshotTestimonials"
 
 export default function NewLandingPage() {

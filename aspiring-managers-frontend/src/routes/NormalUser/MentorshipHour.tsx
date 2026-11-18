@@ -1,13 +1,11 @@
-import {
-  FAQBlock,
-  FinalBanner,
-  PageShell,
-  Section,
-  SectionBadge,
-  SectionIntro,
-  SiteButton,
-  StepCards,
-} from "@/components/MarketingSite";
+import { FAQBlock } from "@/components/manus/FAQBlock";
+import { FinalBanner } from "@/components/manus/FinalBanner";
+import { PageShell } from "@/components/manus/PageShell";
+import { Section } from "@/components/manus/Section";
+import { SectionBadge } from "@/components/manus/SectionBadge";
+import { SectionIntro } from "@/components/manus/SectionIntro";
+import { SiteButton } from "@/components/manus/SiteButton";
+import { StepCards } from "@/components/manus/StepCards";
 import { brandAssets, hourPageContent } from "@/components/content/siteContent";
 
 export default function MentorshipHour() {

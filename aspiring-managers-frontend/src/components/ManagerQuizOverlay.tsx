@@ -1,45 +1,14 @@
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import {
-  QUIZ_OPEN_EVENT,
-  closeManagerQuizAndRedirect,
-  managerQuizQuestions,
-  scoreManagerQuiz,
-} from "@/lib/managerQuiz";
+import { Dialog } from "./manus/ui/Dialog";
+import { DialogContent } from "./manus/ui/DialogContent";
+import { DialogDescription } from "./manus/ui/DialogDescription";
+import { DialogTitle } from "./manus/ui/DialogTitle";
+import { QUIZ_OPEN_EVENT, closeManagerQuizAndRedirect, managerQuizQuestions, scoreManagerQuiz } from "@/lib/managerQuiz";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { QuizActionButton } from "./manus/QuizActionButton";
 
 type Answers = Record<string, string>;
-
-function QuizActionButton({
-  label,
-  variant = "primary",
-  onClick,
-  disabled = false,
-}: {
-  label: string;
-  variant?: "primary" | "secondary";
-  onClick: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition-all duration-200",
-        variant === "primary"
-          ? "bg-[#e47f3a] text-white hover:bg-[#d66f29] disabled:bg-[#e47f3a]/45"
-          : "border border-white/18 bg-white/8 text-white hover:bg-white/12 disabled:border-white/10 disabled:text-white/45",
-        disabled && "cursor-not-allowed shadow-none hover:translate-y-0"
-      )}
-    >
-      <span>{label}</span>
-      {variant === "primary" ? <ArrowRight className="size-4" /> : null}
-    </button>
-  );
-}
 
 export function ManagerQuizOverlay() {
   const [open, setOpen] = useState(false);
