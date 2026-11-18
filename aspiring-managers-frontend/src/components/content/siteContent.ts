@@ -1,7 +1,7 @@
-import headerLogo from "@/assets/logoNoBackground.png";
-import heroBackground from "@/assets/heroBackground.png";
-import managementCrossroads from "@/assets/managementCrossroads.png";
-import florinPortrait from "@/assets/fondatorPortrait.png";
+import headerLogo from "@/assets/logoNoBackground.png?url";
+import heroBackground from "@/assets/heroBackground.png?url";
+import managementCrossroads from "@/assets/managementCrossroads.png?url";
+import florinPortrait from "@/assets/fondatorPortrait.png?url";
 
 export type NavItem = {
   label: string;

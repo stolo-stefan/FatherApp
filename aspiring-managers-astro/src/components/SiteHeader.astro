@@ -1,0 +1,45 @@
+---
+import { brandAssets, navItems, contactLinks } from "@/components/content/siteContent";
+import { cn } from "@/lib/utils";
+import { SiteButton } from "@/components/manus/SiteButton";
+import { MobileNav } from "./MobileNav";
+
+interface Props { pathname: string }
+const { pathname } = Astro.props;
+---
+
+<header class="sticky top-0 z-50 border-b border-[#d8dee9]/70 bg-[rgba(255,252,247,0.92)] backdrop-blur-xl">
+  <div class="container flex min-h-18 items-center justify-between gap-4 py-3">
+    <a href="/" class="inline-flex items-center" aria-label="Aspiring Managers">
+      <img
+        src={brandAssets.headerLogo}
+        alt="Aspiring Managers"
+        class="h-10 w-auto object-contain sm:h-12"
+      />
+    </a>
+
+    <nav class="hidden items-center gap-1 lg:flex">
+      {navItems.map((item) => {
+        const active = pathname === item.href;
+        return (
+          <a
+            aria-current={active ? "page" : undefined}
+            href={item.href}
+            class={cn(
+              "rounded-full px-4 py-2 text-sm font-medium text-[#42526b] transition-colors hover:bg-[#eef2f8] hover:text-[#14213c]",
+              active && "bg-[#14213c] text-white hover:bg-[#14213c] hover:text-white"
+            )}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <div class="hidden lg:block">
+      <SiteButton item={{ label: "Stabileste o discutie gratuita", href: contactLinks.discoveryCall, variant: "primary" }} />
+    </div>
+
+    <MobileNav client:media="(width < 64rem)" pathname={pathname} items={navItems} scheduler={contactLinks.discoveryCall} />
+  </div>
+</header>

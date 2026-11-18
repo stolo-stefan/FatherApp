@@ -5,22 +5,35 @@ import { DialogTitle } from "./manus/ui/DialogTitle";
 import { QUIZ_OPEN_EVENT, closeManagerQuizAndRedirect, managerQuizQuestions, scoreManagerQuiz } from "@/lib/managerQuiz";
 import { cn } from "@/lib/utils";
 import { Check, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { QuizActionButton } from "./manus/QuizActionButton";
 
 type Answers = Record<string, string>;
 
-export function ManagerQuizOverlay() {
+export function ManagerQuizOverlay({ signalHydration = false }: { signalHydration?: boolean }) {
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [showResult, setShowResult] = useState(false);
 
+  const trigger = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => {
+      trigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      setOpen(true);
+    };
     window.addEventListener(QUIZ_OPEN_EVENT, handleOpen);
-    return () => window.removeEventListener(QUIZ_OPEN_EVENT, handleOpen);
-  }, []);
+    if (signalHydration && document.documentElement.hasAttribute("data-quiz-requested")) {
+      document.documentElement.removeAttribute("data-quiz-requested");
+      handleOpen();
+    }
+    if (signalHydration) document.documentElement.setAttribute("data-quiz-ready", "");
+    return () => {
+      if (signalHydration) document.documentElement.removeAttribute("data-quiz-ready");
+      window.removeEventListener(QUIZ_OPEN_EVENT, handleOpen);
+    };
+  }, [signalHydration]);
 
   const currentQuestion = managerQuizQuestions[currentIndex];
   const currentAnswer = answers[currentQuestion.id];
@@ -74,6 +87,10 @@ export function ManagerQuizOverlay() {
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         showCloseButton={false}
+        onCloseAutoFocus={(event) => {
+          event.preventDefault();
+          trigger.current?.focus();
+        }}
         className="max-h-[92vh] max-w-[640px] overflow-hidden rounded-[16px] border border-white/10 bg-[#14213C] p-0 text-white shadow-[0_40px_120px_-48px_rgba(0,0,0,0.65)]"
       >
         <DialogTitle className="sr-only">Afla ce tip de manager esti</DialogTitle>

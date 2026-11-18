@@ -1,8 +1,7 @@
 import { type CtaLink } from "@/components/content/siteContent";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import { getQuizTriggerProps, isExternal } from "./linkHelpers";
+import { SiteLink } from "./SiteLink";
 
 export function SiteButton({ item, className, fullWidth = false }: { item: CtaLink; className?: string; fullWidth?: boolean }) {
   const baseClass = cn(
@@ -15,25 +14,10 @@ export function SiteButton({ item, className, fullWidth = false }: { item: CtaLi
         : "bg-[#e8711a] text-white hover:bg-[#d86a17]"
   );
 
-  if (isExternal(item.href)) {
-    return (
-      <a
-        href={item.href}
-        className={cn("inline-flex items-center gap-2", baseClass, className)}
-        target={item.href.startsWith("http") ? "_blank" : undefined}
-        rel={item.href.startsWith("http") ? "noreferrer" : undefined}
-        {...getQuizTriggerProps(item.href)}
-      >
-        <span>{item.label}</span>
-        <ArrowRight className="size-4" />
-      </a>
-    );
-  }
-
   return (
-    <Link to={item.href} className={cn("inline-flex items-center gap-2", baseClass, className)}>
+    <SiteLink href={item.href} className={cn("inline-flex items-center gap-2", baseClass, className)}>
       <span>{item.label}</span>
       <ArrowRight className="size-4" />
-    </Link>
+    </SiteLink>
   );
 }

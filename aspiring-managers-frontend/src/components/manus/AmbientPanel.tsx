@@ -1,4 +1,3 @@
-import { brandAssets } from "@/components/content/siteContent";
 import { cn } from "@/lib/utils";
 
 export function AmbientPanel({
@@ -20,7 +19,6 @@ export function AmbientPanel({
   imagePosition?: string;
   imageBackgroundClass?: string;
 }) {
-  console.log("Hero background:", brandAssets.heroBackground);
   return (
     <div className={cn("overflow-hidden rounded-[32px] border", dark ? "border-white/12 bg-white/8" : "border-[#d8dee9] bg-white") }>
       <div

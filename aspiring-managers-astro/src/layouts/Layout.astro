@@ -1,17 +1,63 @@
 ---
 import "../styles/global.css";
-const { title = "Aspiring Managers", description = "" } = Astro.props;
+import SiteHeader from "../components/SiteHeader.astro";
+import { SiteFooter } from "@/components/manus/SiteFooter";
+import { ManagerQuizOverlay } from "@/components/ManagerQuizOverlay";
+import { brandAssets } from "@/components/content/siteContent";
+import { QUIZ_OPEN_EVENT, QUIZ_TRIGGER_HREF } from "@/lib/managerQuiz";
+
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const canonical = new URL(pathname, Astro.site);
+const image = new URL(brandAssets.heroBackground, Astro.site);
+// A static noscript iframe can only be enabled at build time.
+const productionBuild = process.env.VERCEL_ENV === "production";
 ---
 
+<!doctype html>
 <html lang="ro">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    {description && <meta name="description" content={description} />}
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ro_RO" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <script is:inline>
+      if (["aspiringmanagers.ro", "www.aspiringmanagers.ro"].includes(location.hostname)) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtm.js?id=GTM-TJNDP8DG";
+        document.head.append(script);
+      }
+    </script>
+    <script define:vars={{ QUIZ_TRIGGER_HREF, QUIZ_OPEN_EVENT }}>
+      document.addEventListener("click", (event) => {
+        const link = event.target.closest?.("a");
+        if (link?.getAttribute("href") !== QUIZ_TRIGGER_HREF) return;
+        event.preventDefault();
+        link.focus();
+        if (document.documentElement.hasAttribute("data-quiz-ready")) {
+          window.dispatchEvent(new CustomEvent(QUIZ_OPEN_EVENT));
+        } else {
+          document.documentElement.setAttribute("data-quiz-requested", "");
+        }
+      });
+    </script>
   </head>
-  <body class="bg-[#F9F9F6] text-[#2A3A4E]">
-    <main class="min-h-screen">
-      <slot />
-    </main>
+  <body class="min-h-screen bg-[#fffaf4] text-[#14213c]">
+    {productionBuild && <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJNDP8DG" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>}
+    <SiteHeader pathname={pathname} />
+    <main><slot /></main>
+    <SiteFooter />
+    <ManagerQuizOverlay signalHydration client:load />
   </body>
 </html>

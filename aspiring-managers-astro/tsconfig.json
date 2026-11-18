@@ -1,5 +1,24 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "include": [
+    ".astro/types.d.ts",
+    "**/*",
+    "../aspiring-managers-frontend/src/components/manus/HomeContent.tsx",
+    "../aspiring-managers-frontend/src/components/manus/AboutContent.tsx",
+    "../aspiring-managers-frontend/src/components/ManagerQuizOverlay.tsx"
+  ],
+  "exclude": [
+    "dist"
+  ],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "paths": {
+      "@/*": [
+        "../aspiring-managers-frontend/src/*"
+      ],
+      // Resolve types for shared source even when only Astro dependencies are installed.
+      "*": ["./node_modules/@types/*", "./node_modules/*"]
+    }
+  }
 }

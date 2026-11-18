@@ -1,9 +1,10 @@
-import type { PropsWithChildren } from "react";
-import { Link } from "react-router-dom";
+import { useContext, type PropsWithChildren } from "react";
+import { InternalLinkContext } from "@/lib/internalLink";
 import { getQuizTriggerProps, isExternal } from "./linkHelpers";
 
 export function SiteLink({ href, className, children }: PropsWithChildren<{ href: string; className?: string }>) {
-  if (isExternal(href)) {
+  const Link = useContext(InternalLinkContext);
+  if (!Link || isExternal(href)) {
     return (
       <a
         href={href}

@@ -1,0 +1,9 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { AboutContent } from "@/components/manus/AboutContent";
+import { aboutPageContent } from "@/components/content/siteContent";
+---
+
+<Layout title="Despre Florin Stoleriu | Aspiring Managers" description={aboutPageContent.hero.description}>
+  <AboutContent />
+</Layout>
